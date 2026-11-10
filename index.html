@@ -224,6 +224,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
       const del=document.createElement('button');del.className='delete-btn';del.type='button';del.textContent='×';del.setAttribute('aria-label','Delete entry');del.title='Delete this entry';del.addEventListener('click',()=>{if(confirm('Delete this study entry?')){entries=entries.filter(x=>x.id!==e.id);persist();render();}});
       item.append(info,del);$('historyList').appendChild(item);
     });
+    if(typeof renderHabits==='function')renderHabits();
   }
   $('entryForm').addEventListener('submit',ev=>{
     ev.preventDefault();const date=$('studyDate').value,h=Number($('hours').value),m=Number($('minutes').value);
