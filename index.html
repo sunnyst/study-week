@@ -678,7 +678,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         actions.append(colorBtn,edit,del);row.append(check,name,actions);$('habitTodayList').appendChild(row);
       });
     }
-    const base=new Date();base.setHours(12,0,0,0);const dates=Array.from({length:30},(_,i)=>addDays(base,i-29));
+    const base=new Date();base.setHours(12,0,0,0);const dates=Array.from({length:30},(_,i)=>addDays(base,i));
     $('habitWeekHead').innerHTML='';$('habitWeekBody').innerHTML='';
     const headRow=document.createElement('tr');const habitTh=document.createElement('th');habitTh.textContent='Habit';headRow.appendChild(habitTh);
     dates.forEach(d=>{const th=document.createElement('th');th.className='month-day-label';const label=document.createElement('span');label.className='month-day-label-text';label.textContent=(d.getMonth()+1)+'/'+d.getDate();th.appendChild(label);if(dateKey(d)===todayKey)th.className+=' month-today';headRow.appendChild(th);});
