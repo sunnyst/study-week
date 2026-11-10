@@ -235,6 +235,14 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .water-circle.is-filled svg{stroke:#247f9b}
 .water-circle:active{transform:scale(.94)}
 .water-circle:focus-visible{outline:2px solid #6558e8;outline-offset:2px}
+.drink-tracker{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.drink-circles .water-circle{border-color:var(--drink-border)}
+.drink-circles .water-circle svg{stroke:var(--drink-icon)}
+.drink-circles .water-circle.is-filled{background:var(--drink-fill);border-color:var(--drink-border)}
+.drink-circles .water-circle.is-filled svg{stroke:var(--drink-strong)}
+.coffee-tracker{--drink-border:#c9a27e;--drink-icon:#b1845c;--drink-fill:#f0d5b8;--drink-strong:#80502e}
+.beer-tracker{--drink-border:#e3bd55;--drink-icon:#c69b26;--drink-fill:#f9e6a4;--drink-strong:#946a08}
+.wine-tracker{--drink-border:#c78ca4;--drink-icon:#b66b8a;--drink-fill:#e9b8cd;--drink-strong:#873d5c}
 .meal-fields textarea{width:100%;min-width:0;min-height:100px;resize:vertical;border:1px solid #e2e5ee;border-radius:7px;padding:9px 8px;font:12px/1.45 inherit;color:var(--ink);background:#fff;outline:none}
 .meal-fields textarea:focus{border-color:#a9a1ff;box-shadow:0 0 0 2px #6558e81a}
 .meal-save-status{margin:8px 0 0}
@@ -370,7 +378,10 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     <div class="habit-summary" id="habitTodaySummary">0 / 0 done today</div>
   </div>
   <section class="calendar-card card" aria-labelledby="calendarTitle"><div class="calendar-head"><div><h2 id="calendarTitle">Daily calendar</h2><p class="sub">Choose a date to open that day’s saved records.</p></div><div class="calendar-nav"><button type="button" class="icon-btn" id="calendarPrev" aria-label="Previous month">‹</button><strong id="calendarMonth"></strong><button type="button" class="icon-btn" id="calendarNext" aria-label="Next month">›</button><button type="button" class="small-btn" id="calendarToday">Today</button></div></div><div class="calendar-weekdays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div class="calendar-grid" id="calendarGrid"></div><p class="calendar-selected">Selected date: <strong id="calendarSelectedDate"></strong><span id="calendarSavedHint">Records save automatically in this browser.</span></p><div class="calendar-event-editor"><label>Weather</label><div class="calendar-weather-picker" id="calendarWeatherPicker" role="group" aria-label="Choose weather"><button type="button" data-weather="sun" aria-label="Sunny" title="Sunny">☀</button><button type="button" data-weather="cloud" aria-label="Cloudy" title="Cloudy">☁</button><button type="button" data-weather="rain" aria-label="Rainy" title="Rainy">☂</button><button type="button" data-weather="snow" aria-label="Snowy" title="Snowy">❄</button><button type="button" data-weather="wind" aria-label="Windy" title="Windy">≋</button><button type="button" data-weather="" aria-label="Clear weather" title="Clear">×</button></div><label for="calendarEventText">Important schedule</label><div class="calendar-event-input-row"><textarea id="calendarEventText" rows="2" placeholder="Write an important event for the selected date..."></textarea><button type="button" id="calendarEventSave" class="btn">Save</button></div><p class="sub" id="calendarEventStatus"></p></div></section>
-  <div class="daily-planner"><div class="planner-memo"><h2 style="font-size:15px;margin-bottom:10px">Memo</h2><textarea id="dailyMemo" class="daily-memo-input" placeholder="Write a note..." aria-label="Daily memo"></textarea><section class="meal-log" aria-labelledby="mealLogTitle"><div class="meal-log-head"><h2 id="mealLogTitle">Daily food log</h2><span id="mealLogDate"></span></div><div class="meal-fields"><label>Breakfast<textarea id="mealBreakfast" rows="2" placeholder="What did you eat?"></textarea></label><label>Lunch<textarea id="mealLunch" rows="2" placeholder="What did you eat?"></textarea></label><label>Dinner<textarea id="mealDinner" rows="2" placeholder="What did you eat?"></textarea></label><label class="meal-snacks-field">Snacks / drinks<textarea id="mealSnacks" rows="2" placeholder="Snacks, coffee, water..."></textarea></label></div><div class="water-tracker"><div class="water-tracker-head"><span>Water</span><span id="waterCount">0 / 8 glasses</span></div><div class="water-circles" id="waterCircles" aria-label="Track 8 glasses of water"></div></div><p class="meal-save-status" id="mealSaveStatus" aria-live="polite">Saved automatically in this browser.</p></section></div><div class="planner-checklist"><h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2><div class="habit-today-list" id="habitTodayList"></div></div><div class="card" style="padding:16px;box-shadow:none;border-radius:16px"><h2 style="font-size:15px">Daily timetable</h2><p class="sub">24 hours · 6 blocks per hour</p><div class="timetable-palette" id="timetablePalette" aria-label="12 pastel colors"></div><p class="timetable-help">Choose a pastel color, then tap any square to color it. Tap a colored square again to clear it.</p><div class="timetable-wrap"><table class="timetable" aria-label="24-hour daily timetable"><thead><tr><th class="time-label">Time</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody id="timetableBody"></tbody></table></div></div></div>
+  <div class="daily-planner"><div class="planner-memo"><h2 style="font-size:15px;margin-bottom:10px">Memo</h2><textarea id="dailyMemo" class="daily-memo-input" placeholder="Write a note..." aria-label="Daily memo"></textarea><section class="meal-log" aria-labelledby="mealLogTitle"><div class="meal-log-head"><h2 id="mealLogTitle">Daily food log</h2><span id="mealLogDate"></span></div><div class="meal-fields"><label>Breakfast<textarea id="mealBreakfast" rows="2" placeholder="What did you eat?"></textarea></label><label>Lunch<textarea id="mealLunch" rows="2" placeholder="What did you eat?"></textarea></label><label>Dinner<textarea id="mealDinner" rows="2" placeholder="What did you eat?"></textarea></label><label class="meal-snacks-field">Snacks / drinks<textarea id="mealSnacks" rows="2" placeholder="Snacks, coffee, water..."></textarea></label></div><div class="water-tracker"><div class="water-tracker-head"><span>Water</span><span id="waterCount">0 / 8 glasses</span></div><div class="water-circles" id="waterCircles" aria-label="Track 8 glasses of water"></div></div>
+<div class="drink-tracker coffee-tracker" data-drink="coffee"><div class="water-tracker-head"><span>Coffee</span><span id="coffeeCount">0 / 8 cups</span></div><div class="water-circles drink-circles" id="coffeeCircles" aria-label="Track 8 cups of coffee"></div></div>
+<div class="drink-tracker beer-tracker" data-drink="beer"><div class="water-tracker-head"><span>Beer</span><span id="beerCount">0 / 8 glasses</span></div><div class="water-circles drink-circles" id="beerCircles" aria-label="Track 8 glasses of beer"></div></div>
+<div class="drink-tracker wine-tracker" data-drink="wine"><div class="water-tracker-head"><span>Wine</span><span id="wineCount">0 / 8 glasses</span></div><div class="water-circles drink-circles" id="wineCircles" aria-label="Track 8 glasses of wine"></div></div><p class="meal-save-status" id="mealSaveStatus" aria-live="polite">Saved automatically in this browser.</p></section></div><div class="planner-checklist"><h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2><div class="habit-today-list" id="habitTodayList"></div></div><div class="card" style="padding:16px;box-shadow:none;border-radius:16px"><h2 style="font-size:15px">Daily timetable</h2><p class="sub">24 hours · 6 blocks per hour</p><div class="timetable-palette" id="timetablePalette" aria-label="12 pastel colors"></div><p class="timetable-help">Choose a pastel color, then tap any square to color it. Tap a colored square again to clear it.</p><div class="timetable-wrap"><table class="timetable" aria-label="24-hour daily timetable"><thead><tr><th class="time-label">Time</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody id="timetableBody"></tbody></table></div></div></div>
   <div class="chart-head habit-history-head" style="margin:25px 0 12px"><div class="habit-history-title"><h2 style="font-size:15px">30-day habit history</h2><p class="sub">Track each habit for the last 30 days.</p></div>  <form class="habit-add-form" id="habitAddForm">
     <input id="habitNewName" type="text" maxlength="80" placeholder="Add a habit (e.g. English practice)" aria-label="New habit name" required>
     <button type="submit">＋ Add habit</button>
@@ -841,6 +852,31 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     if($('waterCount'))$('waterCount').textContent=`${current} / 8 glasses`;
   }
   renderWater();
+  function renderDrinkTracker(kind,label,icon,unit){
+    const container=$(kind+'Circles');if(!container)return;
+    container.innerHTML='';
+    const count=Number((mealLog[mealToday]||{})[kind]||0);
+    for(let i=1;i<=8;i++){
+      const button=document.createElement('button');
+      button.type='button';button.className='water-circle'+(i<=count?' is-filled':'');
+      button.setAttribute('aria-label',label+' '+i);button.setAttribute('aria-pressed',String(i<=count));
+      button.innerHTML=icon;
+      button.addEventListener('click',()=>{
+        if(!mealLog[mealToday])mealLog[mealToday]={};
+        mealLog[mealToday][kind]=(i===Number((mealLog[mealToday]||{})[kind]||0)?i-1:i);
+        saveMealLog();renderDrinkTracker(kind,label,icon,unit);
+      });
+      container.appendChild(button);
+    }
+    const current=Number((mealLog[mealToday]||{})[kind]||0);
+    if($(kind+'Count'))$(kind+'Count').textContent=current+' / 8 '+unit;
+  }
+  const coffeeIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13v7a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4Z"/><path d="M17 10h2a2 2 0 0 1 0 4h-2M7 3v2M11 3v2M15 3v2"/></svg>';
+  const beerIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11l-1 16H6Z"/><path d="M16 8h2a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M5 7h11"/></svg>';
+  const wineIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l-1 6a5 5 0 0 1-10 0Z"/><path d="M12 14v6M8 21h8"/></svg>';
+  renderDrinkTracker('coffee','Coffee cup',coffeeIcon,'cups');
+  renderDrinkTracker('beer','Beer glass',beerIcon,'glasses');
+  renderDrinkTracker('wine','Wine glass',wineIcon,'glasses');
 
   const CALENDAR_EVENTS_KEY='study-week-calendar-events-v1';
   const CALENDAR_WEATHER_KEY='study-week-calendar-weather-v1';
