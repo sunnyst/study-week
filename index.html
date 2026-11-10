@@ -180,6 +180,21 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   box-shadow:none!important;
 }
 
+
+/* Force palette to seven columns and two rows, even inside narrow cards */
+#timetablePalette.timetable-palette{
+ display:grid!important;
+ grid-template-columns:repeat(7,22px)!important;
+ grid-template-rows:repeat(2,22px)!important;
+ grid-auto-flow:row!important;
+ width:max-content!important;
+ max-width:none!important;
+ gap:6px!important;
+ justify-content:start!important;
+}
+#timetablePalette .palette-color{width:22px!important;height:22px!important;min-width:22px!important;max-width:22px!important;box-sizing:border-box!important}
+#timetablePalette .palette-color.selected{outline:2px solid #888!important;outline-offset:2px!important;box-shadow:none!important}
+
 </style>
 </head>
 <body>
@@ -534,7 +549,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   window.addEventListener('pointerup',stopTimetablePainting);
   window.addEventListener('pointercancel',stopTimetablePainting);
   function renderTimetable(){
-    const palette=$('timetablePalette');palette.innerHTML='';
+    const palette=$('timetablePalette');palette.innerHTML='';palette.style.setProperty('display','grid','important');palette.style.setProperty('grid-template-columns','repeat(7, 22px)','important');palette.style.setProperty('grid-template-rows','repeat(2, 22px)','important');palette.style.setProperty('grid-auto-flow','row','important');palette.style.setProperty('width','max-content','important');palette.style.setProperty('max-width','none','important');palette.style.setProperty('gap','6px','important');palette.style.setProperty('justify-content','start','important');
     PASTELS.forEach(color=>{const btn=document.createElement('button');btn.type='button';btn.className='palette-color'+(selectedPastel===color?' selected':'');btn.style.background=color;btn.title=color;btn.setAttribute('aria-label','Select pastel color '+color);btn.setAttribute('aria-pressed',String(selectedPastel===color));btn.addEventListener('click',()=>{selectedPastel=color;renderTimetable();});palette.appendChild(btn);});
     const body=$('timetableBody');body.innerHTML='';
     for(let hour=5;hour<29;hour++){const rowIndex=hour-5;const hourSequence=[4,5,6,7,8,9,10,11,12,1,2,3];const displayHour=hourSequence[rowIndex%12];const tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(displayHour);tr.appendChild(th);
