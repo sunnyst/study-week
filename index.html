@@ -275,6 +275,8 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .reading-count{font-size:12px;font-weight:750;color:var(--accent);background:var(--soft);padding:7px 10px;border-radius:999px;white-space:nowrap}
 .reading-add-form{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.2fr) auto;gap:8px;margin-bottom:12px}
 .reading-add-form input{min-width:0;width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-size:13px;color:var(--ink);background:#fff}
+.reading-date-field{display:grid;gap:5px;min-width:0;font-size:11px;font-weight:650;color:var(--muted)}
+.reading-date-field input{min-width:0;width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 9px;font:inherit;font-size:12px;color:var(--ink);background:#fff}
 .reading-add-form button{border:0;border-radius:10px;padding:10px 14px;background:var(--accent);color:#fff;font:inherit;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}
 .reading-list{display:grid;gap:7px}
 .reading-book{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;min-width:0}
@@ -370,7 +372,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 
 <section class="card reading-list-section" id="readingListSection" aria-labelledby="readingListHeading">
   <div class="reading-list-head"><div><div class="eyebrow">Reading tracker</div><h2 id="readingListHeading" style="font-size:20px;margin-top:5px">Reading list</h2><p class="sub">Keep the books you want to read in one place.</p></div><span class="reading-count" id="readingListCount">0 books</span></div>
-  <form class="reading-add-form" id="readingListForm"><input id="readingBookTitle" type="text" maxlength="160" placeholder="Enter a book title..." aria-label="Book title" required><input id="readingBookAuthor" type="text" maxlength="120" placeholder="Author (optional)" aria-label="Author (optional)"><button type="submit">＋ Add book</button></form>
+  <form class="reading-add-form" id="readingListForm"><input id="readingBookTitle" type="text" maxlength="160" placeholder="Enter a book title..." aria-label="Book title" required><input id="readingBookAuthor" type="text" maxlength="120" placeholder="Author (optional)" aria-label="Author (optional)"><label class="reading-date-field"><span>Start date</span><input id="readingStartDate" type="date" aria-label="Reading start date"></label><label class="reading-date-field"><span>Finish date</span><input id="readingEndDate" type="date" aria-label="Reading finish date"></label><button type="submit">＋ Add book</button></form>
   <div class="reading-list" id="readingListItems" aria-live="polite"></div>
   <p class="sub reading-list-status" id="readingListStatus">Your list is saved in this browser.</p>
 </section>
@@ -831,6 +833,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
       const info=document.createElement('div');info.className='reading-book-info';
       const title=document.createElement('div');title.className='reading-book-title';title.textContent=book.title;info.appendChild(title);
       if(book.author){const author=document.createElement('div');author.className='reading-book-author';author.textContent=book.author;info.appendChild(author);}
+      if(book.startDate||book.endDate){const dates=document.createElement('div');dates.className='reading-book-author';const fmtDate=value=>value?new Date(value+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not set';dates.textContent='Reading: '+fmtDate(book.startDate)+' – '+fmtDate(book.endDate);info.appendChild(dates);}
       const del=document.createElement('button');del.type='button';del.className='reading-book-delete';del.textContent='×';del.setAttribute('aria-label','Remove '+book.title);del.title='Remove book';
       del.addEventListener('click',()=>{readingBooks=readingBooks.filter(item=>item.id!==book.id);saveReadingBooks();renderReadingList();});
       row.append(check,info,del);list.appendChild(row);
@@ -839,9 +842,10 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   const readingListForm=$('readingListForm');
   if(readingListForm)readingListForm.addEventListener('submit',event=>{
     event.preventDefault();
-    const title=$('readingBookTitle').value.trim(),author=$('readingBookAuthor').value.trim();
+    const title=$('readingBookTitle').value.trim(),author=$('readingBookAuthor').value.trim(),startDate=$('readingStartDate').value,endDate=$('readingEndDate').value;
     if(!title)return;
-    readingBooks.push({id:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),title,author,done:false});
+    if(startDate&&endDate&&endDate<startDate){$('readingListStatus').textContent='Finish date must be on or after the start date.';return;}
+    readingBooks.push({id:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),title,author,startDate,endDate,done:false});
     saveReadingBooks();renderReadingList();readingListForm.reset();$('readingBookTitle').focus();
   });
   renderReadingList();
