@@ -72,6 +72,9 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .habit-empty{padding:18px;text-align:center;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:12px}
 @media(max-width:720px){.habit-head{align-items:flex-start}.habit-add-form{flex-wrap:wrap}.habit-add-form input{flex-basis:100%}.habit-add-form button{width:100%;padding:12px}.habit-today-row{padding:11px 10px}.habit-actions{gap:4px}.habit-action{padding:5px 6px}.habit-summary{font-size:11px}}
 
+
+/* Daily planner timetable */
+.daily-planner{display:grid;grid-template-columns:minmax(240px,.85fr) minmax(0,1.4fr);gap:20px;align-items:start;margin:0 0 24px}.planner-checklist{min-width:0}.timetable-palette{display:grid;grid-template-columns:repeat(6,minmax(24px,1fr));gap:7px;margin:12px 0 14px}.palette-color{width:100%;aspect-ratio:1;border:2px solid #fff;border-radius:9px;box-shadow:0 0 0 1px #dfe2eb;cursor:pointer;min-width:0}.palette-color.selected{box-shadow:0 0 0 2px var(--ink),inset 0 0 0 2px white}.timetable-wrap{overflow:auto;max-height:760px;border:1px solid var(--line);border-radius:12px}.timetable{border-collapse:separate;border-spacing:4px;width:100%;min-width:330px;table-layout:fixed}.timetable th{font-size:10px;color:var(--muted);font-weight:700;text-align:center;padding:4px 1px}.timetable .time-label{width:48px;white-space:nowrap;text-align:right;padding-right:5px;font-size:10px;color:var(--muted);font-weight:650}.timetable-cell{padding:0;width:calc((100% - 55px)/6)}.timetable-cell button{display:block;width:100%;aspect-ratio:1;border:1px solid #e7e9f0;border-radius:5px;background:#fff;padding:0;cursor:pointer;min-width:0}.timetable-cell button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}.timetable-help{font-size:11px;color:var(--muted);margin:0}.habit-month-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:13px}.habit-month-table{border-collapse:collapse;min-width:1050px;width:100%;font-size:11px}.habit-month-table th,.habit-month-table td{padding:8px 5px;text-align:center;border-bottom:1px solid var(--line)}.habit-month-table th{background:#f8f9fb;color:var(--muted);font-weight:700}.habit-month-table th:first-child,.habit-month-table td:first-child{position:sticky;left:0;background:#fff;text-align:left;min-width:145px;padding-left:12px;z-index:1}.habit-month-table th:first-child{background:#f8f9fb;z-index:2}.habit-month-table tr:last-child td{border-bottom:0}.habit-month-table .month-check{width:16px;height:16px;accent-color:#249b78;cursor:pointer}.habit-month-table .month-today{background:#eef8f0}.habit-month-table .month-day-label{font-size:10px;white-space:nowrap}@media(max-width:720px){.daily-planner{grid-template-columns:1fr;gap:16px}.timetable-wrap{max-height:650px}.timetable{min-width:350px}.habit-month-table{min-width:1050px}}
 </style>
 </head>
 <body>
@@ -145,11 +148,8 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     <input id="habitNewName" type="text" maxlength="80" placeholder="Add a habit (e.g. English practice)" aria-label="New habit name" required>
     <button type="submit">＋ Add habit</button>
   </form>
-  <h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2>
-  <div class="habit-today-list" id="habitTodayList"></div>
-  <div class="chart-head" style="margin:25px 0 12px"><div><h2 style="font-size:15px">Weekly completion</h2><p class="sub">Tap a day’s checkbox to update its record.</p></div><div class="week-total" id="habitWeekSummary">0% complete</div></div>
-  <div class="habit-week-wrap"><table class="habit-week-table" aria-label="Weekly habit completion"><thead id="habitWeekHead"></thead><tbody id="habitWeekBody"></tbody></table></div>
-  <div class="habit-week-footer"><span id="habitWeekRange">This week</span><span>Saved automatically in this browser</span></div>
+  <div class="daily-planner"><div class="planner-checklist"><h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2><div class="habit-today-list" id="habitTodayList"></div></div><div class="card" style="padding:16px;box-shadow:none;border-radius:16px"><h2 style="font-size:15px">Daily timetable</h2><p class="sub">24 hours · 6 blocks per hour</p><div class="timetable-palette" id="timetablePalette" aria-label="12 pastel colors"></div><p class="timetable-help">Choose a pastel color, then tap any square to color it. Tap a colored square again to clear it.</p><div class="timetable-wrap"><table class="timetable" aria-label="24-hour daily timetable"><thead><tr><th class="time-label">Time</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody id="timetableBody"></tbody></table></div></div></div>
+  <div class="chart-head" style="margin:25px 0 12px"><div><h2 style="font-size:15px">30-day habit history</h2><p class="sub">Track each habit for the last 30 days.</p></div><div class="week-total" id="habitWeekSummary">0% complete</div></div><div class="habit-month-wrap"><table class="habit-month-table" aria-label="30-day habit completion"><thead id="habitWeekHead"></thead><tbody id="habitWeekBody"></tbody></table></div><div class="habit-week-footer"><span id="habitWeekRange">Last 30 days</span><span>Saved automatically in this browser</span></div>
 </section>
 
 <section class="main-grid">
@@ -392,6 +392,18 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   renderTimer();
 
 
+  const TIMETABLE_KEY='study-week-timetable-v1';
+  const PASTELS=['#FADADD','#F8C8DC','#E6D6F5','#D9D2FF','#CFE2FF','#C9F0F0','#CDEFD6','#E4F0C8','#FFF1B8','#FFE0C2','#F5D5C8','#DDE1E8'];
+  let timetableColors=read(TIMETABLE_KEY,{}), selectedPastel=PASTELS[0];
+  function saveTimetable(){try{localStorage.setItem(TIMETABLE_KEY,JSON.stringify(timetableColors));}catch(e){console.warn('Could not save timetable.',e);}}
+  function renderTimetable(){
+    const palette=$('timetablePalette');palette.innerHTML='';
+    PASTELS.forEach(color=>{const btn=document.createElement('button');btn.type='button';btn.className='palette-color'+(selectedPastel===color?' selected':'');btn.style.background=color;btn.title=color;btn.setAttribute('aria-label','Select pastel color '+color);btn.setAttribute('aria-pressed',String(selectedPastel===color));btn.addEventListener('click',()=>{selectedPastel=color;renderTimetable();});palette.appendChild(btn);});
+    const body=$('timetableBody');body.innerHTML='';
+    for(let hour=5;hour<29;hour++){const actual=hour%24,tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(actual).padStart(2,'0')+':00';tr.appendChild(th);
+      for(let col=0;col<6;col++){const td=document.createElement('td');td.className='timetable-cell';const key=String(hour%24)+'-'+col;const btn=document.createElement('button');btn.type='button';btn.style.background=timetableColors[key]||'#ffffff';btn.title=String(actual).padStart(2,'0')+':00, block '+(col+1);btn.setAttribute('aria-label',btn.title+'; '+(timetableColors[key]?'colored':'empty'));btn.addEventListener('click',()=>{if(timetableColors[key]===selectedPastel)delete timetableColors[key];else timetableColors[key]=selectedPastel;saveTimetable();renderTimetable();});td.appendChild(btn);tr.appendChild(td);}body.appendChild(tr);}
+  }
+
   // Habit tracker data is stored separately from study-time entries.
   let habits=read('study-week-habits',[]);
   let habitChecks=read('study-week-habit-checks',{});
@@ -435,39 +447,17 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         actions.append(edit,del);row.append(check,name,actions);$('habitTodayList').appendChild(row);
       });
     }
-    const dates=weekDates();
+    const base=new Date();base.setHours(12,0,0,0);const dates=Array.from({length:30},(_,i)=>addDays(base,i-29));
     $('habitWeekHead').innerHTML='';$('habitWeekBody').innerHTML='';
-    const headRow=document.createElement('tr');
-    const habitTh=document.createElement('th');habitTh.textContent='Habit';headRow.appendChild(habitTh);
-    dates.forEach(d=>{
-      const th=document.createElement('th');th.textContent=fmtDay(d)+' '+d.getDate();
-      if(dateKey(d)===todayKey)th.className='today-col';
-      headRow.appendChild(th);
-    });
-    const totalTh=document.createElement('th');totalTh.textContent='Done';headRow.appendChild(totalTh);
-    $('habitWeekHead').appendChild(headRow);
+    const headRow=document.createElement('tr');const habitTh=document.createElement('th');habitTh.textContent='Habit';headRow.appendChild(habitTh);
+    dates.forEach(d=>{const th=document.createElement('th');th.className='month-day-label';th.textContent=(d.getMonth()+1)+'/'+d.getDate();if(dateKey(d)===todayKey)th.className+=' month-today';headRow.appendChild(th);});
+    const totalTh=document.createElement('th');totalTh.textContent='Done';headRow.appendChild(totalTh);$('habitWeekHead').appendChild(headRow);
     let possible=0,completed=0;
-    habits.forEach(h=>{
-      const tr=document.createElement('tr');
-      const nameTd=document.createElement('td');nameTd.textContent=h.name;tr.appendChild(nameTd);
-      let count=0;
-      dates.forEach(d=>{
-        const key=dateKey(d),td=document.createElement('td');
-        if(key===todayKey)td.className='today-col';
-        const check=document.createElement('input');check.type='checkbox';check.className='habit-week-check';check.checked=isHabitDone(h.id,key);check.setAttribute('aria-label',h.name+' on '+key);
-        check.addEventListener('change',()=>setHabitDone(h.id,key,check.checked));
-        if(check.checked){count++;completed++;}possible++;
-        td.appendChild(check);tr.appendChild(td);
-      });
-      const totalTd=document.createElement('td');totalTd.textContent=count+' / 7';tr.appendChild(totalTd);
-      $('habitWeekBody').appendChild(tr);
-    });
-    if(!habits.length){
-      const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=9;td.textContent='Add a habit to start tracking your week.';td.style.textAlign='center';td.style.color='var(--muted)';tr.appendChild(td);$('habitWeekBody').appendChild(tr);
-    }
-    const pct=possible?Math.round(completed/possible*100):0;
-    $('habitWeekSummary').textContent=pct+'% complete';
-    $('habitWeekRange').textContent=fmtShort(dates[0])+' – '+fmtShort(dates[6]);
+    habits.forEach(h=>{const tr=document.createElement('tr');const nameTd=document.createElement('td');nameTd.textContent=h.name;tr.appendChild(nameTd);let count=0;
+      dates.forEach(d=>{const key=dateKey(d),td=document.createElement('td');if(key===todayKey)td.className='month-today';const check=document.createElement('input');check.type='checkbox';check.className='month-check';check.checked=isHabitDone(h.id,key);check.setAttribute('aria-label',h.name+' on '+key);check.addEventListener('change',()=>setHabitDone(h.id,key,check.checked));if(check.checked){count++;completed++;}possible++;td.appendChild(check);tr.appendChild(td);});
+      const totalTd=document.createElement('td');totalTd.textContent=count+' / 30';tr.appendChild(totalTd);$('habitWeekBody').appendChild(tr);});
+    if(!habits.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=32;td.textContent='Add a habit to start tracking your 30 days.';td.style.textAlign='center';td.style.color='var(--muted)';tr.appendChild(td);$('habitWeekBody').appendChild(tr);}
+    const pct=possible?Math.round(completed/possible*100):0;$('habitWeekSummary').textContent=pct+'% complete';$('habitWeekRange').textContent=fmtShort(dates[0])+' – '+fmtShort(dates[29]);
   }
   $('habitAddForm').addEventListener('submit',ev=>{
     ev.preventDefault();
@@ -478,6 +468,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   });
 
   render();
+  renderTimetable();
   renderHabits();
 })();
 </script>
