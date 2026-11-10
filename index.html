@@ -238,6 +238,21 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .meal-fields textarea:focus{border-color:#a9a1ff;box-shadow:0 0 0 2px #6558e81a}
 .meal-save-status{margin:8px 0 0}
 
+
+/* 30-day habit history: rotated date labels and evenly spaced grid */
+.habit-month-wrap{overflow-x:auto!important}
+.habit-month-table{border-collapse:separate!important;border-spacing:3px 3px!important;table-layout:fixed!important;width:max-content!important;min-width:0!important}
+.habit-month-table th,.habit-month-table td{padding:0!important;height:25px!important;min-height:25px!important;border-bottom:0!important;vertical-align:middle!important}
+.habit-month-table th:first-child,.habit-month-table td:first-child{width:110px!important;min-width:110px!important;max-width:110px!important;padding-left:7px!important}
+.habit-month-table thead th.month-day-label{width:24px!important;min-width:24px!important;max-width:24px!important;height:62px!important;position:relative!important;overflow:visible!important;white-space:nowrap!important}
+.habit-month-table thead th.month-day-label:not(:first-child){text-align:center!important}
+.habit-month-table thead th.month-day-label{font-size:10px!important}
+.habit-month-table thead th.month-day-label{ }
+.habit-month-table thead th.month-day-label{writing-mode:vertical-rl!important;transform:none!important}
+.habit-month-table thead th.month-day-label{padding:4px 0!important}
+.habit-month-table .month-color-mark{width:18px!important;height:18px!important;margin:0 auto!important;border-radius:2px!important}
+.habit-month-table th:last-child,.habit-month-table td:last-child{width:55px!important;min-width:55px!important;max-width:55px!important}
+
 </style>
 </head>
 <body>
