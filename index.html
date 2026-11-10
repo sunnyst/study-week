@@ -81,6 +81,19 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 
 /* Larger square cells for timetable and 30-day habit history */
 /* Lock timetable cells to exact 25 × 25 px squares, including row height */
+
+/* Layout adjustment: wider memo, narrower timetable, truly fixed 25px cells */
+.daily-planner{grid-template-columns:minmax(260px,1.25fr) minmax(210px,.95fr) minmax(185px,.75fr)!important;gap:12px!important}
+.daily-planner>.card{min-width:0!important;overflow:hidden}
+.timetable-wrap{width:100%;overflow-x:auto!important;overflow-y:visible!important}
+.timetable{width:max-content!important;min-width:0!important;table-layout:auto!important;border-collapse:separate!important;border-spacing:2px!important}
+.timetable thead th:not(.time-label),.timetable tbody .timetable-cell{width:25px!important;min-width:25px!important;max-width:25px!important}
+.timetable .time-label{width:17px!important;min-width:17px!important;max-width:17px!important}
+.timetable-cell{height:25px!important;min-height:25px!important;max-height:25px!important}
+.timetable-cell button{width:25px!important;height:25px!important;min-width:25px!important;max-width:25px!important;min-height:25px!important;max-height:25px!important;box-sizing:border-box!important;aspect-ratio:auto!important}
+@media(max-width:900px){.daily-planner{grid-template-columns:minmax(240px,1.1fr) minmax(200px,.9fr)!important}.planner-memo{grid-column:1/-1}.daily-memo-input{min-height:180px}}
+@media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.planner-memo{grid-column:auto}.daily-planner>.card{width:100%;box-sizing:border-box}.timetable-wrap{overflow-x:auto!important}.timetable{width:max-content!important}}
+
 .timetable tbody tr{height:25px!important}
 .timetable tbody td{height:25px!important;min-height:25px!important;box-sizing:border-box!important}
 .timetable-cell button{box-sizing:border-box!important;flex:none!important}
