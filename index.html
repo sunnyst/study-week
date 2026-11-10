@@ -701,7 +701,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
       const empty=document.createElement('div');empty.className='habit-empty';empty.textContent='No habits yet. Add your first habit above.';$('habitTodayList').appendChild(empty);
     }else{
       habits.forEach(h=>{
-        const row=document.createElement('div');row.className='habit-today-row';if(h.color)row.style.backgroundColor=h.color;
+        const row=document.createElement('div');row.className='habit-today-row';row.dataset.habitId=String(h.id);if(h.color)row.style.backgroundColor=h.color;
         const dragHandle=document.createElement('span');dragHandle.className='habit-drag-handle';dragHandle.textContent='⠿';dragHandle.title='Hold and drag to reorder';dragHandle.setAttribute('aria-label','Hold and drag to reorder habit');dragHandle.setAttribute('role','button');dragHandle.tabIndex=0;
         dragHandle.addEventListener('pointerdown',ev=>{
           if(ev.button!==undefined&&ev.button!==0)return;
