@@ -43,6 +43,35 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .timer-note{font-size:12px;color:var(--muted);margin:10px 0 0}
 @media(max-width:720px){.pomodoro-card{grid-template-columns:1fr;gap:22px}.analog-timer{width:min(78vw,270px)}}
 
+
+/* Habit tracker */
+.habit-section{margin:0 0 24px}
+.habit-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px}
+.habit-summary{font-size:12px;font-weight:700;color:#285f39;background:#eaf3ec;border-radius:10px;padding:8px 11px;white-space:nowrap}
+.habit-add-form{display:flex;gap:9px;margin-bottom:18px}
+.habit-add-form input{flex:1;min-width:0;border:1px solid var(--line);background:#fcfcff;border-radius:12px;padding:11px 13px;color:var(--ink)}
+.habit-add-form button{border:0;background:#285f39;color:white;border-radius:12px;padding:10px 15px;font-weight:700}
+.habit-today-list{display:grid;gap:8px;margin-bottom:24px}
+.habit-today-row{display:flex;align-items:center;gap:11px;padding:12px 13px;border:1px solid var(--line);border-radius:13px;background:#fff;min-width:0}
+.habit-check{width:21px;height:21px;accent-color:#249b78;flex:0 0 auto}
+.habit-name{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:650;font-size:13px}
+.habit-name.done{text-decoration:line-through;color:var(--muted)}
+.habit-actions{display:flex;gap:5px;flex:0 0 auto}
+.habit-action{border:1px solid var(--line);background:#fff;color:#626981;border-radius:8px;padding:5px 8px;font-size:11px}
+.habit-action.delete{color:#bd5961}
+.habit-week-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:13px}
+.habit-week-table{width:100%;border-collapse:collapse;min-width:570px;font-size:12px}
+.habit-week-table th,.habit-week-table td{padding:11px 8px;text-align:center;border-bottom:1px solid var(--line)}
+.habit-week-table th{background:#f8f9fb;color:var(--muted);font-weight:700}
+.habit-week-table th:first-child,.habit-week-table td:first-child{text-align:left;min-width:150px;padding-left:13px}
+.habit-week-table tr:last-child td{border-bottom:0}
+.habit-week-table td:first-child{font-weight:650;overflow-wrap:anywhere}
+.habit-week-table .habit-week-check{width:18px;height:18px;accent-color:#249b78;cursor:pointer}
+.habit-week-table .today-col{background:#f0f8f2}
+.habit-week-footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-top:10px}
+.habit-empty{padding:18px;text-align:center;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:12px}
+@media(max-width:720px){.habit-head{align-items:flex-start}.habit-add-form{flex-wrap:wrap}.habit-add-form input{flex-basis:100%}.habit-add-form button{width:100%;padding:12px}.habit-today-row{padding:11px 10px}.habit-actions{gap:4px}.habit-action{padding:5px 6px}.habit-summary{font-size:11px}}
+
 </style>
 </head>
 <body>
@@ -104,6 +133,23 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     </div>
     <p class="timer-note">Pause and resume anytime. Finishing early saves only completed study minutes (rounded down); break time is never counted.</p>
   </div>
+</section>
+
+
+<section class="card habit-section" aria-labelledby="habitHeading">
+  <div class="habit-head">
+    <div><div class="eyebrow">Habit tracker</div><h2 id="habitHeading" style="font-size:22px;margin-top:5px">Small habits, steady progress.</h2><p class="sub">Check off today’s habits and review your week.</p></div>
+    <div class="habit-summary" id="habitTodaySummary">0 / 0 done today</div>
+  </div>
+  <form class="habit-add-form" id="habitAddForm">
+    <input id="habitNewName" type="text" maxlength="80" placeholder="Add a habit (e.g. English practice)" aria-label="New habit name" required>
+    <button type="submit">＋ Add habit</button>
+  </form>
+  <h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2>
+  <div class="habit-today-list" id="habitTodayList"></div>
+  <div class="chart-head" style="margin:25px 0 12px"><div><h2 style="font-size:15px">Weekly completion</h2><p class="sub">Tap a day’s checkbox to update its record.</p></div><div class="week-total" id="habitWeekSummary">0% complete</div></div>
+  <div class="habit-week-wrap"><table class="habit-week-table" aria-label="Weekly habit completion"><thead id="habitWeekHead"></thead><tbody id="habitWeekBody"></tbody></table></div>
+  <div class="habit-week-footer"><span id="habitWeekRange">This week</span><span>Saved automatically in this browser</span></div>
 </section>
 
 <section class="main-grid">
@@ -344,7 +390,94 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   setInterval(timerTick,1000);
   renderTimer();
 
+
+  // Habit tracker data is stored separately from study-time entries.
+  let habits=read('study-week-habits',[]);
+  let habitChecks=read('study-week-habit-checks',{});
+  if(!Array.isArray(habits))habits=[];
+  if(!habitChecks||typeof habitChecks!=='object')habitChecks={};
+  function saveHabits(){
+    try{
+      localStorage.setItem('study-week-habits',JSON.stringify(habits));
+      localStorage.setItem('study-week-habit-checks',JSON.stringify(habitChecks));
+    }catch(e){console.warn('Could not save habit tracker data in this browser.',e);}
+  }
+  function isHabitDone(habitId,date){return !!(habitChecks[date]&&habitChecks[date][habitId]);}
+  function setHabitDone(habitId,date,checked){
+    if(!habitChecks[date])habitChecks[date]={};
+    habitChecks[date][habitId]=checked;
+    saveHabits();
+    renderHabits();
+  }
+  function renderHabits(){
+    const todayKey=dateKey(new Date());
+    const doneToday=habits.filter(h=>isHabitDone(h.id,todayKey)).length;
+    $('habitTodaySummary').textContent=doneToday+' / '+habits.length+' done today';
+    $('habitTodayList').innerHTML='';
+    if(!habits.length){
+      const empty=document.createElement('div');empty.className='habit-empty';empty.textContent='No habits yet. Add your first habit above.';$('habitTodayList').appendChild(empty);
+    }else{
+      habits.forEach(h=>{
+        const row=document.createElement('div');row.className='habit-today-row';
+        const check=document.createElement('input');check.type='checkbox';check.className='habit-check';check.checked=isHabitDone(h.id,todayKey);check.setAttribute('aria-label','Mark '+h.name+' complete today');check.addEventListener('change',()=>setHabitDone(h.id,todayKey,check.checked));
+        const name=document.createElement('div');name.className='habit-name'+(check.checked?' done':'');name.textContent=h.name;
+        const actions=document.createElement('div');actions.className='habit-actions';
+        const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.textContent='Edit';edit.addEventListener('click',()=>{
+          const next=prompt('Edit habit name:',h.name);
+          if(next===null)return;
+          const trimmed=next.trim();if(!trimmed){alert('Habit name cannot be empty.');return;}
+          h.name=trimmed.slice(0,80);saveHabits();renderHabits();
+        });
+        const del=document.createElement('button');del.type='button';del.className='habit-action delete';del.textContent='Delete';del.addEventListener('click',()=>{
+          if(confirm('Delete “'+h.name+'” and its completion history?')){habits=habits.filter(x=>x.id!==h.id);Object.keys(habitChecks).forEach(date=>{if(habitChecks[date])delete habitChecks[date][h.id];});saveHabits();renderHabits();}
+        });
+        actions.append(edit,del);row.append(check,name,actions);$('habitTodayList').appendChild(row);
+      });
+    }
+    const dates=weekDates();
+    $('habitWeekHead').innerHTML='';$('habitWeekBody').innerHTML='';
+    const headRow=document.createElement('tr');
+    const habitTh=document.createElement('th');habitTh.textContent='Habit';headRow.appendChild(habitTh);
+    dates.forEach(d=>{
+      const th=document.createElement('th');th.textContent=fmtDay(d)+' '+d.getDate();
+      if(dateKey(d)===todayKey)th.className='today-col';
+      headRow.appendChild(th);
+    });
+    const totalTh=document.createElement('th');totalTh.textContent='Done';headRow.appendChild(totalTh);
+    $('habitWeekHead').appendChild(headRow);
+    let possible=0,completed=0;
+    habits.forEach(h=>{
+      const tr=document.createElement('tr');
+      const nameTd=document.createElement('td');nameTd.textContent=h.name;tr.appendChild(nameTd);
+      let count=0;
+      dates.forEach(d=>{
+        const key=dateKey(d),td=document.createElement('td');
+        if(key===todayKey)td.className='today-col';
+        const check=document.createElement('input');check.type='checkbox';check.className='habit-week-check';check.checked=isHabitDone(h.id,key);check.setAttribute('aria-label',h.name+' on '+key);
+        check.addEventListener('change',()=>setHabitDone(h.id,key,check.checked));
+        if(check.checked){count++;completed++;}possible++;
+        td.appendChild(check);tr.appendChild(td);
+      });
+      const totalTd=document.createElement('td');totalTd.textContent=count+' / 7';tr.appendChild(totalTd);
+      $('habitWeekBody').appendChild(tr);
+    });
+    if(!habits.length){
+      const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=9;td.textContent='Add a habit to start tracking your week.';td.style.textAlign='center';td.style.color='var(--muted)';tr.appendChild(td);$('habitWeekBody').appendChild(tr);
+    }
+    const pct=possible?Math.round(completed/possible*100):0;
+    $('habitWeekSummary').textContent=pct+'% complete';
+    $('habitWeekRange').textContent=fmtShort(dates[0])+' – '+fmtShort(dates[6]);
+  }
+  $('habitAddForm').addEventListener('submit',ev=>{
+    ev.preventDefault();
+    const input=$('habitNewName'),name=input.value.trim();
+    if(!name)return;
+    habits.push({id:'habit-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7),name:name.slice(0,80),created:Date.now()});
+    input.value='';saveHabits();renderHabits();input.focus();
+  });
+
   render();
+  renderHabits();
 })();
 </script>
 </body>
