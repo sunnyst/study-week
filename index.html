@@ -219,7 +219,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   function renderTimer(){
     const elapsed=timerElapsed(), remaining=Math.max(0,timerDuration()-elapsed);
     $('timerDisplay').textContent=timerClock(remaining);
-    $('timerArc').style.setProperty('--timer-progress',Math.max(0,Math.min(360,(timer.mode==='focus'?focusDurationMinutes:5)/60*360))+'deg');
+    $('timerArc').style.setProperty('--timer-progress',Math.max(0,Math.min(360,remaining/(60*60*1000)*360))+'deg');
     $('timerArc').style.setProperty('--timer-green',timer.mode==='focus'?'#2f6e43':'#6558e8');
     $('focusMode').textContent='Focus · '+focusDurationMinutes+' min';
     $('focusDurationInput').value=String(focusDurationMinutes);
