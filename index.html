@@ -119,6 +119,19 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .daily-memo-input:focus{border-color:#a9a1ff}
 @media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.daily-memo-input{min-height:150px}}
 
+
+/* FINAL OVERRIDES: fixed 25px timetable columns and wider memo */
+.daily-planner{grid-template-columns:minmax(300px,1.35fr) minmax(220px,.95fr) minmax(190px,.7fr)!important;gap:12px!important}
+.daily-planner>.card{min-width:0!important}
+.timetable-wrap{width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:visible!important}
+.timetable{display:table!important;width:auto!important;min-width:0!important;max-width:none!important;table-layout:fixed!important;border-collapse:separate!important;border-spacing:2px!important}
+.timetable thead th:not(.time-label),.timetable tbody td.timetable-cell{width:25px!important;min-width:25px!important;max-width:25px!important;padding:0!important}
+.timetable tbody td.timetable-cell{height:25px!important;min-height:25px!important;max-height:25px!important}
+.timetable tbody td.timetable-cell button{display:block!important;width:25px!important;min-width:25px!important;max-width:25px!important;height:25px!important;min-height:25px!important;max-height:25px!important;box-sizing:border-box!important;aspect-ratio:auto!important}
+.timetable .time-label{width:20px!important;min-width:20px!important;max-width:20px!important;padding:0!important;text-align:center!important}
+@media(max-width:900px){.daily-planner{grid-template-columns:minmax(260px,1.2fr) minmax(200px,.8fr)!important}.planner-memo{grid-column:1/-1}.daily-memo-input{min-height:200px}}
+@media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.planner-memo{grid-column:auto}.timetable-wrap{overflow-x:auto!important}.timetable{width:auto!important}}
+
 </style>
 </head>
 <body>
