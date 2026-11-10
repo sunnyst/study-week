@@ -133,6 +133,9 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 @media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.planner-memo{grid-column:auto}.timetable-wrap{overflow-x:auto!important}.timetable{width:auto!important}}
 
 
+/* Clean white gaps between timetable squares */
+.timetable tbody td.timetable-cell{border:0!important;background:#fff!important;box-shadow:none!important;padding:0!important}
+.timetable tbody td.timetable-cell button{border:0!important;outline-offset:1px}
 /* Restore the missing right-hand vertical border after timetable column 6 */
 .timetable thead th:last-child{box-shadow:inset -1px 0 0 #dfe3ec!important}
 .timetable tbody td.timetable-cell:last-child{box-shadow:inset -1px 0 0 #dfe3ec!important}
@@ -455,7 +458,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 
 
   const TIMETABLE_KEY='study-week-timetable-v1';
-  const PASTELS=['#FADADD','#F8C8DC','#E6D6F5','#D9D2FF','#CFE2FF','#C9F0F0','#CDEFD6','#E4F0C8','#FFF1B8','#FFE0C2','#F5D5C8','#DDE1E8'];
+  const PASTELS=['#FADADD','#F8C8DC','#E6D6F5','#D9D2FF','#CFE2FF','#C9F0F0','#CDEFD6','#E4F0C8','#FFF1B8','#FFE0C2','#F5D5C8','#DDE1E8','#FFFFFF','#555555'];
   let timetableColors=read(TIMETABLE_KEY,{}), selectedPastel=PASTELS[0];
   function saveTimetable(){try{localStorage.setItem(TIMETABLE_KEY,JSON.stringify(timetableColors));}catch(e){console.warn('Could not save timetable.',e);}}
   let timetablePainting=false;
@@ -494,7 +497,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     const palette=$('timetablePalette');palette.innerHTML='';
     PASTELS.forEach(color=>{const btn=document.createElement('button');btn.type='button';btn.className='palette-color'+(selectedPastel===color?' selected':'');btn.style.background=color;btn.title=color;btn.setAttribute('aria-label','Select pastel color '+color);btn.setAttribute('aria-pressed',String(selectedPastel===color));btn.addEventListener('click',()=>{selectedPastel=color;renderTimetable();});palette.appendChild(btn);});
     const body=$('timetableBody');body.innerHTML='';
-    for(let hour=5;hour<29;hour++){const displayHour=((hour+22)%24)+1;const tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(displayHour);tr.appendChild(th);
+    for(let hour=5;hour<29;hour++){const rowIndex=hour-5;const displayHour=rowIndex<9?rowIndex+4:rowIndex<21?rowIndex-8:rowIndex-20;const tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(displayHour);tr.appendChild(th);
       for(let col=0;col<6;col++){const td=document.createElement('td');td.className='timetable-cell';const key=String(hour%24)+'-'+col;const btn=document.createElement('button');btn.type='button';btn.dataset.timetableKey=key;btn.style.backgroundColor=timetableColors[key]||'#ffffff';btn.title='Hour '+displayHour+', block '+(col+1);btn.setAttribute('aria-label',btn.title+'; '+(timetableColors[key]?'colored':'empty'));
         btn.addEventListener('click',ev=>{if(ev.detail===0){if(timetableColors[key]===selectedPastel)delete timetableColors[key];else timetableColors[key]=selectedPastel;saveTimetable();renderTimetable();}});
         td.appendChild(btn);tr.appendChild(td);}body.appendChild(tr);}
