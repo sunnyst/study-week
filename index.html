@@ -205,6 +205,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .habit-today-row .habit-actions{gap:3px!important}
 .habit-today-row .habit-action{width:25px!important;min-width:25px!important;height:25px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;font-size:11px!important;line-height:1!important;border-radius:6px!important}
 .habit-today-row .habit-action.color{font-size:11px!important}
+.habit-today-row .habit-action svg{pointer-events:none;display:block;flex:0 0 auto}
 
 </style>
 </head>
@@ -602,9 +603,9 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         const actions=document.createElement('div');actions.className='habit-actions';
         let swipeStartX=0,swipeStartY=0,swipePointerId=null;
         row.addEventListener('pointerdown',ev=>{
+          if(ev.target.closest('button,input,textarea,select'))return;
           swipeStartX=ev.clientX;swipeStartY=ev.clientY;swipePointerId=ev.pointerId;
           row.dataset.swipeStartX=String(ev.clientX);row.dataset.swipeStartY=String(ev.clientY);
-          try{row.setPointerCapture(ev.pointerId);}catch(e){}
         });
         row.addEventListener('pointerup',ev=>{
           if(swipePointerId!==ev.pointerId)return;
