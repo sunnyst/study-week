@@ -207,6 +207,14 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .habit-today-row .habit-action.color{font-size:11px!important}
 .habit-today-row .habit-action svg{pointer-events:none;display:block;flex:0 0 auto}
 
+
+/* Ensure revealed habit action icons receive clicks above the swipe row */
+.habit-today-row.actions-revealed .habit-actions,
+.habit-today-row.actions-revealed .habit-actions button,
+.habit-today-row.actions-revealed .habit-actions svg{pointer-events:auto!important}
+.habit-today-row.actions-revealed .habit-actions{z-index:20!important;isolation:isolate}
+.habit-today-row.actions-revealed .habit-actions button{position:relative;z-index:21;cursor:pointer;touch-action:manipulation}
+
 </style>
 </head>
 <body>
