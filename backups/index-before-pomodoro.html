@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f8fc">
+<title>Study Week — Study Tracker</title>
+<style>
+:root{--bg:#f7f8fc;--card:#fff;--ink:#20243a;--muted:#7d8398;--line:#e9ebf3;--accent:#6558e8;--accent2:#a79fff;--soft:#f0efff;--green:#249b78;--shadow:0 10px 30px rgba(40,43,80,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}button{cursor:pointer}.app{max-width:1080px;margin:auto;padding:32px 24px 48px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:32px}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;background:var(--accent);display:grid;place-items:center;color:#fff;font-size:22px;box-shadow:0 6px 14px #6558e833}.brand h1{font-size:20px;margin:0;letter-spacing:-.5px}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.week-nav{display:flex;align-items:center;gap:10px}.icon-btn{border:1px solid var(--line);background:white;width:38px;height:38px;border-radius:12px;color:var(--ink);font-size:18px}.week-label{font-weight:650;font-size:13px;min-width:130px;text-align:center}
+h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);margin:0;font-size:13px}.overview{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:18px}.card{background:var(--card);border:1px solid #eef0f6;border-radius:22px;padding:24px;box-shadow:var(--shadow);min-width:0}
+.progress-card{background:linear-gradient(135deg,#fff 50%,#f5f3ff);position:relative;overflow:hidden}.eyebrow{font-size:11px;font-weight:750;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase}.progress-numbers{display:flex;align-items:baseline;gap:8px;margin:12px 0 14px}.big{font-size:42px;font-weight:750;letter-spacing:-2px;line-height:1.15}.of{color:var(--muted);font-size:15px}.progress-track{height:10px;background:#eae8fb;border-radius:99px;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#9a8fff);border-radius:99px;transition:width .25s}.progress-foot{display:flex;justify-content:space-between;gap:12px;margin-top:12px;color:var(--muted);font-size:12px}.progress-foot strong{color:var(--accent)}
+.goal-card{display:flex;flex-direction:column;justify-content:space-between;gap:16px}.goal-input-row{display:flex;align-items:center;gap:8px;margin-top:16px}.goal-input-row input{width:74px;border:1px solid var(--line);border-radius:10px;padding:9px 8px;background:#fbfbfe;text-align:center;color:var(--ink)}.goal-input-row label{font-size:12px;color:var(--muted)}.small-btn{border:0;background:var(--soft);color:var(--accent);font-weight:700;border-radius:10px;padding:10px 13px;font-size:12px}.goal-note{font-size:12px;color:var(--muted)}
+.main-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}.chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:22px}.week-total{background:#f6f6fb;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;white-space:nowrap}.chart{height:224px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;align-items:end;padding:8px 0 0}.day{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;min-width:0}.bar-area{height:170px;width:100%;max-width:44px;display:flex;align-items:flex-end;background:#f5f5fb;border-radius:10px 10px 7px 7px;overflow:hidden;position:relative}.bar{width:100%;height:0;background:linear-gradient(180deg,#8d83ff,#6558e8);border-radius:9px 9px 0 0;transition:height .25s}.bar.today{background:linear-gradient(180deg,#5ccead,#249b78)}.day-time{font-size:10px;color:var(--muted);height:14px;white-space:nowrap}.day-label{font-size:11px;color:var(--muted);font-weight:600}.day-label.current{color:var(--accent)}.chart-legend{display:flex;gap:16px;margin-top:14px;color:var(--muted);font-size:11px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:5px}.dot.green{background:var(--green)}
+.entry-card h2{margin-bottom:4px}.entry-form{margin-top:20px;display:grid;gap:13px}.field label{display:block;font-size:12px;font-weight:650;color:#626981;margin-bottom:6px}.field input{width:100%;padding:12px 13px;border:1px solid var(--line);background:#fcfcff;border-radius:12px;color:var(--ink);outline:none}.field input:focus{border-color:#9a91ff;box-shadow:0 0 0 3px #6558e81a}.time-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.time-field{position:relative}.time-field span{position:absolute;right:12px;top:39px;color:var(--muted);font-size:11px;pointer-events:none}.save-btn{background:var(--accent);color:white;border:0;border-radius:12px;padding:13px;font-weight:700;box-shadow:0 6px 14px #6558e82b}.save-btn:hover{background:#5548d7}.hint{font-size:11px;color:var(--muted);margin:0}.history{margin-top:18px}.history-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.history-list{display:grid;gap:8px;max-height:220px;overflow:auto}.history-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.history-date{font-size:12px;font-weight:650}.history-duration{font-size:12px;color:var(--muted);margin-top:2px}.delete-btn{border:0;background:transparent;color:#a0a4b5;font-size:17px;padding:4px 7px;border-radius:8px}.delete-btn:hover{background:#fff0f0;color:#d34b59}.empty{text-align:center;color:var(--muted);font-size:12px;padding:22px 8px;border:1px dashed var(--line);border-radius:12px}.footer{margin-top:22px;text-align:center;font-size:11px;color:#a0a4b5}
+@media(max-width:720px){.app{padding:20px 14px 32px}header{align-items:flex-start;flex-direction:column;margin-bottom:22px}.week-nav{width:100%;justify-content:space-between}.overview,.main-grid{grid-template-columns:1fr}.card{padding:19px;border-radius:18px}.big{font-size:38px}.chart{gap:7px}.bar-area{max-width:38px;height:150px}.chart{height:205px}.chart-head{margin-bottom:14px}.progress-foot{font-size:11px}.goal-card{gap:10px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">✦</div><div><h1>Study Week</h1><p>A little progress, every day.</p></div></div>
+  <div class="week-nav"><button class="icon-btn" id="prevWeek" aria-label="Previous week">‹</button><div class="week-label" id="weekLabel">This week</div><button class="icon-btn" id="nextWeek" aria-label="Next week">›</button><button class="small-btn" id="thisWeek">Today</button></div>
+</header>
+<section class="overview">
+  <div class="card progress-card">
+    <div class="eyebrow">Weekly progress</div>
+    <div class="progress-numbers"><span class="big" id="totalTime">0h 0m</span><span class="of" id="goalText">of 7h goal</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-foot"><span id="remainingText">7h left to reach your goal</span><strong id="percentText">0%</strong></div>
+  </div>
+  <div class="card goal-card">
+    <div><div class="eyebrow">Your weekly goal</div><h2 style="margin-top:7px">Make it your own</h2><p class="sub">Choose a goal that works for you.</p>
+    <div class="goal-input-row"><input id="goalHours" type="number" min="0" max="168" step="1" value="7" aria-label="Goal hours"><label for="goalHours">hours per week</label><button class="small-btn" id="saveGoal">Save goal</button></div></div>
+    <div class="goal-note" id="goalNote">A steady routine beats a perfect day.</div>
+  </div>
+</section>
+<section class="main-grid">
+  <div class="card">
+    <div class="chart-head"><div><h2>Weekly study hours</h2><p class="sub">Your time, day by day.</p></div><div class="week-total" id="weekTotalPill">0h total</div></div>
+    <div class="chart" id="chart" role="img" aria-label="Study time bar chart"></div>
+    <div class="chart-legend"><span><i class="dot"></i>Study time</span><span><i class="dot green"></i>Today</span></div>
+    <div class="history"><div class="history-head"><h2 style="font-size:14px">This week's entries</h2><span class="sub" id="entryCount">0 entries</span></div><div class="history-list" id="historyList"></div></div>
+  </div>
+  <div class="card entry-card">
+    <h2>Log your study time</h2><p class="sub">Every session counts. Add your time below.</p>
+    <form class="entry-form" id="entryForm">
+      <div class="field"><label for="studyDate">Date</label><input id="studyDate" type="date" required></div>
+      <div class="time-row">
+        <div class="field time-field"><label for="hours">Hours</label><input id="hours" type="number" min="0" max="24" step="1" value="0" required><span>hours</span></div>
+        <div class="field time-field"><label for="minutes">Minutes</label><input id="minutes" type="number" min="0" max="59" step="1" value="30" required><span>min</span></div>
+      </div>
+      <button class="save-btn" type="submit">＋ Add study time</button>
+      <p class="hint">You can add multiple sessions on the same day. They’ll be combined in the chart.</p>
+    </form>
+    <div style="margin-top:24px;padding:14px;border-radius:14px;background:#f8f7ff"><div class="eyebrow">Small reminder</div><p style="margin:6px 0 0;font-size:13px;color:#646982">You don't need to do it all today. Just keep showing up.</p></div>
+  </div>
+</section>
+<div class="footer">Your data stays in this browser on this device. No account needed.</div>
+</div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const today = new Date();
+  const dateKey = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const parseDate = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d,12); };
+  const monday = d => { const x=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12); x.setDate(x.getDate()-(x.getDay()+6)%7); return x; };
+  const addDays = (d,n) => {const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+  const fmtShort = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const fmtDay = d => d.toLocaleDateString('en-US',{weekday:'short'});
+  let weekStart=monday(today);
+  let entries=read('study-week-entries',[]);
+  let goal=Number(read('study-week-goal',7)) || 7;
+  $('studyDate').value=dateKey(today);
+  $('goalHours').value=goal;
+  function read(key,fallback){try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch{return fallback}}
+  function persist(){localStorage.setItem('study-week-entries',JSON.stringify(entries));}
+  function fmtMinutes(n){return `${Math.floor(n/60)}h ${n%60}m`;}
+  function weekDates(){return Array.from({length:7},(_,i)=>addDays(weekStart,i));}
+  function weekEntries(){const a=dateKey(weekStart),b=dateKey(addDays(weekStart,6));return entries.filter(e=>e.date>=a&&e.date<=b);}
+  function render(){
+    const dates=weekDates(), week=weekEntries();
+    const daily=dates.map(d=>week.filter(e=>e.date===dateKey(d)).reduce((s,e)=>s+e.minutes,0));
+    const total=daily.reduce((a,b)=>a+b,0), goalM=goal*60, pct=goalM?Math.round(total/goalM*100):100, remain=Math.max(0,goalM-total);
+    $('weekLabel').textContent=(weekStart.getFullYear()===monday(today).getFullYear()&&dateKey(weekStart)===dateKey(monday(today)))?'This week':`${fmtShort(dates[0])} – ${fmtShort(dates[6])}`;
+    $('totalTime').textContent=fmtMinutes(total); $('goalText').textContent=`of ${goal}h goal`;
+    $('progressFill').style.width=`${Math.min(100,pct)}%`; $('remainingText').textContent=remain?`${fmtMinutes(remain)} left to reach your goal`:'Weekly goal reached — well done!';
+    $('percentText').textContent=`${pct}%`; $('weekTotalPill').textContent=`${fmtMinutes(total)} total`;
+    $('goalNote').textContent=total>=goalM?'You reached your weekly goal. Great work!':`${Math.ceil(remain/60)} more hour${Math.ceil(remain/60)===1?'':'s'} to go — one session at a time.`;
+    const max=Math.max(60,...daily);
+    $('chart').innerHTML='';
+    dates.forEach((d,i)=>{
+      const day=document.createElement('div');day.className='day';
+      const time=document.createElement('div');time.className='day-time';time.textContent=daily[i]?`${Math.floor(daily[i]/60)}h${daily[i]%60?` ${daily[i]%60}m`:''}`:'';
+      const area=document.createElement('div');area.className='bar-area';
+      const bar=document.createElement('div');bar.className='bar'+(dateKey(d)===dateKey(today)?' today':'');bar.style.height=`${daily[i]?Math.max(5,daily[i]/max*100):0}%`;bar.title=`${fmtDay(d)}: ${fmtMinutes(daily[i])}`;area.appendChild(bar);
+      const label=document.createElement('div');label.className='day-label'+(dateKey(d)===dateKey(today)?' current':'');label.textContent=fmtDay(d);
+      day.append(time,area,label);$('chart').appendChild(day);
+    });
+    $('entryCount').textContent=`${week.length} ${week.length===1?'entry':'entries'}`;
+    $('historyList').innerHTML='';
+    const sorted=week.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.created-a.created);
+    if(!sorted.length){const e=document.createElement('div');e.className='empty';e.textContent='No study time logged this week yet. Start with your first session.';$('historyList').appendChild(e);}
+    sorted.forEach(e=>{
+      const item=document.createElement('div');item.className='history-item';
+      const info=document.createElement('div');const dt=document.createElement('div');dt.className='history-date';dt.textContent=parseDate(e.date).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});const dur=document.createElement('div');dur.className='history-duration';dur.textContent=fmtMinutes(e.minutes);info.append(dt,dur);
+      const del=document.createElement('button');del.className='delete-btn';del.type='button';del.textContent='×';del.setAttribute('aria-label','Delete entry');del.title='Delete this entry';del.addEventListener('click',()=>{if(confirm('Delete this study entry?')){entries=entries.filter(x=>x.id!==e.id);persist();render();}});
+      item.append(info,del);$('historyList').appendChild(item);
+    });
+  }
+  $('entryForm').addEventListener('submit',ev=>{
+    ev.preventDefault();const date=$('studyDate').value,h=Number($('hours').value),m=Number($('minutes').value);
+    if(!date||!Number.isInteger(h)||!Number.isInteger(m)||h<0||h>24||m<0||m>59||h*60+m<=0){alert('Enter a date and a study duration greater than zero.');return;}
+    entries.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),date,minutes:h*60+m,created:Date.now()});persist();
+    weekStart=monday(parseDate(date));render();$('hours').value=0;$('minutes').value=30;
+  });
+  $('saveGoal').addEventListener('click',()=>{const n=Number($('goalHours').value);if(!Number.isInteger(n)||n<1||n>168){alert('Choose a weekly goal from 1 to 168 hours.');return;}goal=n;localStorage.setItem('study-week-goal',JSON.stringify(goal));render();});
+  $('prevWeek').addEventListener('click',()=>{weekStart=addDays(weekStart,-7);render();});
+  $('nextWeek').addEventListener('click',()=>{weekStart=addDays(weekStart,7);render();});
+  $('thisWeek').addEventListener('click',()=>{weekStart=monday(today);render();});
+  render();
+})();
+</script>
+</body>
+</html>
