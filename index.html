@@ -268,6 +268,27 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .habit-history-completion{display:flex;justify-content:flex-end;margin-top:12px;width:100%}
 .habit-week-footer{align-items:center}
 @media(max-width:720px){.habit-history-head{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"title" "add"!important;align-items:stretch!important}.habit-history-head .habit-add-form{max-width:none;width:100%}.habit-history-head .habit-add-form input{flex:1;width:auto;min-width:0}.habit-history-head .habit-add-form button{width:auto!important}.habit-history-completion{justify-content:flex-end}}
+
+/* Reading list */
+.reading-list-section{margin-top:20px}
+.reading-list-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.reading-count{font-size:12px;font-weight:750;color:var(--accent);background:var(--soft);padding:7px 10px;border-radius:999px;white-space:nowrap}
+.reading-add-form{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.2fr) auto;gap:8px;margin-bottom:12px}
+.reading-add-form input{min-width:0;width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-size:13px;color:var(--ink);background:#fff}
+.reading-add-form button{border:0;border-radius:10px;padding:10px 14px;background:var(--accent);color:#fff;font:inherit;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}
+.reading-list{display:grid;gap:7px}
+.reading-book{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;min-width:0}
+.reading-book input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);flex-shrink:0}
+.reading-book-info{min-width:0;flex:1}
+.reading-book-title{font-size:13px;font-weight:700;overflow-wrap:anywhere}
+.reading-book-author{font-size:11px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+.reading-book.is-read .reading-book-title{text-decoration:line-through;color:var(--muted)}
+.reading-book-delete{border:0;background:transparent;color:var(--muted);font-size:18px;line-height:1;padding:5px 7px;border-radius:7px;cursor:pointer}
+.reading-book-delete:hover{background:#f4f4fa;color:var(--ink)}
+.reading-empty{padding:18px 12px;text-align:center;border:1px dashed var(--line);border-radius:11px;font-size:12px;color:var(--muted)}
+.reading-list-status{margin:10px 0 0;font-size:11px}
+@media(max-width:620px){.reading-add-form{grid-template-columns:1fr 1fr}.reading-add-form input:first-child{grid-column:1/-1}.reading-add-form button{grid-column:1/-1}.reading-list-head{align-items:flex-start}}
+
 </style>
 </head>
 <body>
@@ -344,6 +365,14 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     <button type="submit">＋ Add habit</button>
   </form>
 </div><div class="habit-month-wrap"><table class="habit-month-table" aria-label="30-day habit completion"><thead id="habitWeekHead"></thead><tbody id="habitWeekBody"></tbody></table></div><div class="habit-week-footer"><span id="habitWeekRange">Last 30 days</span><span class="habit-saved-status">Saved automatically in this browser</span><span id="habitWeekSummary" class="week-total">0% complete</span></div>
+</section>
+
+
+<section class="card reading-list-section" id="readingListSection" aria-labelledby="readingListHeading">
+  <div class="reading-list-head"><div><div class="eyebrow">Reading tracker</div><h2 id="readingListHeading" style="font-size:20px;margin-top:5px">Reading list</h2><p class="sub">Keep the books you want to read in one place.</p></div><span class="reading-count" id="readingListCount">0 books</span></div>
+  <form class="reading-add-form" id="readingListForm"><input id="readingBookTitle" type="text" maxlength="160" placeholder="Enter a book title..." aria-label="Book title" required><input id="readingBookAuthor" type="text" maxlength="120" placeholder="Author (optional)" aria-label="Author (optional)"><button type="submit">＋ Add book</button></form>
+  <div class="reading-list" id="readingListItems" aria-live="polite"></div>
+  <p class="sub reading-list-status" id="readingListStatus">Your list is saved in this browser.</p>
 </section>
 
 <section class="main-grid">
@@ -783,6 +812,40 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   if(calendarEventText)calendarEventText.addEventListener('input',()=>{if($('calendarEventStatus'))$('calendarEventStatus').textContent='Unsaved changes — click Save.';const selected=$('calendarGrid').querySelector('.calendar-day.selected');if(selected){let label=selected.querySelector('.calendar-event-label');const value=String(calendarEventText.value||'').trim();if(value&&!label){label=document.createElement('span');label.className='calendar-event-label';selected.appendChild(label);}if(label){label.textContent=value;if(!value)label.remove();}if(value)selected.classList.add('has-record');selected.setAttribute('aria-label',activeDateKey+(value?', important schedule: '+value:''));}});
   const calendarEventSave=$('calendarEventSave');
   if(calendarEventSave)calendarEventSave.addEventListener('click',()=>{calendarEvents[activeDateKey]=calendarEventText?calendarEventText.value:'';calendarWeather[activeDateKey]=selectedWeather;try{localStorage.setItem(CALENDAR_EVENTS_KEY,JSON.stringify(calendarEvents));localStorage.setItem(CALENDAR_WEATHER_KEY,JSON.stringify(calendarWeather));if($('calendarEventStatus'))$('calendarEventStatus').textContent='Saved.';renderCalendar();}catch(e){if($('calendarEventStatus'))$('calendarEventStatus').textContent='Could not save. Check browser storage settings.';}});
+
+  // Reading list — saved locally in this browser.
+  const READING_LIST_KEY='study-week-reading-list-v1';
+  let readingBooks=read(READING_LIST_KEY,[]);
+  function saveReadingBooks(){
+    try{localStorage.setItem(READING_LIST_KEY,JSON.stringify(readingBooks));if($('readingListStatus'))$('readingListStatus').textContent='Saved in this browser.';}
+    catch(e){if($('readingListStatus'))$('readingListStatus').textContent='Could not save. Check browser storage settings.';}
+  }
+  function renderReadingList(){
+    const list=$('readingListItems');if(!list)return;list.innerHTML='';
+    const count=$('readingListCount');if(count)count.textContent=readingBooks.length+' '+(readingBooks.length===1?'book':'books');
+    if(!readingBooks.length){const empty=document.createElement('div');empty.className='reading-empty';empty.textContent='Your reading list is empty. Add a book to get started.';list.appendChild(empty);return;}
+    readingBooks.forEach(book=>{
+      const row=document.createElement('div');row.className='reading-book'+(book.done?' is-read':'');
+      const check=document.createElement('input');check.type='checkbox';check.checked=!!book.done;check.setAttribute('aria-label','Mark '+book.title+' as read');
+      check.addEventListener('change',()=>{book.done=check.checked;saveReadingBooks();renderReadingList();});
+      const info=document.createElement('div');info.className='reading-book-info';
+      const title=document.createElement('div');title.className='reading-book-title';title.textContent=book.title;info.appendChild(title);
+      if(book.author){const author=document.createElement('div');author.className='reading-book-author';author.textContent=book.author;info.appendChild(author);}
+      const del=document.createElement('button');del.type='button';del.className='reading-book-delete';del.textContent='×';del.setAttribute('aria-label','Remove '+book.title);del.title='Remove book';
+      del.addEventListener('click',()=>{readingBooks=readingBooks.filter(item=>item.id!==book.id);saveReadingBooks();renderReadingList();});
+      row.append(check,info,del);list.appendChild(row);
+    });
+  }
+  const readingListForm=$('readingListForm');
+  if(readingListForm)readingListForm.addEventListener('submit',event=>{
+    event.preventDefault();
+    const title=$('readingBookTitle').value.trim(),author=$('readingBookAuthor').value.trim();
+    if(!title)return;
+    readingBooks.push({id:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),title,author,done:false});
+    saveReadingBooks();renderReadingList();readingListForm.reset();$('readingBookTitle').focus();
+  });
+  renderReadingList();
+
   let calendarMonth=new Date(today.getFullYear(),today.getMonth(),1,12);
   function dayHasRecords(key){
     const m=mealLog[key]||{};
