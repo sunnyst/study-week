@@ -93,6 +93,14 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .habit-month-table .month-color-mark.done{background:#76c7a0}
 .habit-month-table .month-today{background:#f4faf6!important}
 @media(max-width:720px){.timetable .time-label{width:17px!important;font-size:8px!important}.timetable th{font-size:7px!important}.timetable-cell button{width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important;aspect-ratio:1/1!important;background-size:3px 3px!important}.habit-month-table{min-width:1050px!important}}
+
+/* Ruled memo beside today's checklist */
+.daily-planner{grid-template-columns:minmax(120px,.55fr) minmax(210px,.9fr) minmax(0,1.4fr)!important}
+.planner-memo{min-width:0}
+.daily-memo-input{display:block;width:100%;min-height:260px;resize:vertical;border:1px solid #e2e5ee;border-radius:8px;padding:7px 8px;font:12px/25px inherit;color:var(--ink);background-color:#fff;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 24px,#dfe5f0 24px,#dfe5f0 25px);background-attachment:local;outline:none}
+.daily-memo-input:focus{border-color:#a9a1ff}
+@media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.daily-memo-input{min-height:150px}}
+
 </style>
 </head>
 <body>
@@ -166,7 +174,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     <input id="habitNewName" type="text" maxlength="80" placeholder="Add a habit (e.g. English practice)" aria-label="New habit name" required>
     <button type="submit">＋ Add habit</button>
   </form>
-  <div class="daily-planner"><div class="planner-checklist"><h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2><div class="habit-today-list" id="habitTodayList"></div></div><div class="card" style="padding:16px;box-shadow:none;border-radius:16px"><h2 style="font-size:15px">Daily timetable</h2><p class="sub">24 hours · 6 blocks per hour</p><div class="timetable-palette" id="timetablePalette" aria-label="12 pastel colors"></div><p class="timetable-help">Choose a pastel color, then tap any square to color it. Tap a colored square again to clear it.</p><div class="timetable-wrap"><table class="timetable" aria-label="24-hour daily timetable"><thead><tr><th class="time-label">Time</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody id="timetableBody"></tbody></table></div></div></div>
+  <div class="daily-planner"><div class="planner-memo"><h2 style="font-size:15px;margin-bottom:10px">Memo</h2><textarea id="dailyMemo" class="daily-memo-input" placeholder="Write a note..." aria-label="Daily memo"></textarea></div><div class="planner-checklist"><h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2><div class="habit-today-list" id="habitTodayList"></div></div><div class="card" style="padding:16px;box-shadow:none;border-radius:16px"><h2 style="font-size:15px">Daily timetable</h2><p class="sub">24 hours · 6 blocks per hour</p><div class="timetable-palette" id="timetablePalette" aria-label="12 pastel colors"></div><p class="timetable-help">Choose a pastel color, then tap any square to color it. Tap a colored square again to clear it.</p><div class="timetable-wrap"><table class="timetable" aria-label="24-hour daily timetable"><thead><tr><th class="time-label">Time</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody id="timetableBody"></tbody></table></div></div></div>
   <div class="chart-head" style="margin:25px 0 12px"><div><h2 style="font-size:15px">30-day habit history</h2><p class="sub">Track each habit for the last 30 days.</p></div><div class="week-total" id="habitWeekSummary">0% complete</div></div><div class="habit-month-wrap"><table class="habit-month-table" aria-label="30-day habit completion"><thead id="habitWeekHead"></thead><tbody id="habitWeekBody"></tbody></table></div><div class="habit-week-footer"><span id="habitWeekRange">Last 30 days</span><span>Saved automatically in this browser</span></div>
 </section>
 
@@ -487,6 +495,14 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   });
 
   render();
+
+  // Persist the daily memo in this browser.
+  const dailyMemo=$('dailyMemo');
+  if(dailyMemo){
+    try{dailyMemo.value=localStorage.getItem('study-week-daily-memo')||'';}catch(e){}
+    dailyMemo.addEventListener('input',()=>{try{localStorage.setItem('study-week-daily-memo',dailyMemo.value);}catch(e){}});
+  }
+
   renderTimetable();
   renderHabits();
 })();
