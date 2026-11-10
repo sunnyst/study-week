@@ -302,7 +302,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
       if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
     }
     if(elapsed>=timerDuration()){
-      timer.elapsedMs=timerDuration();timer.startedAt=Date.now()-(timerDuration());
+      timer.elapsedMs=timerDuration();timer.startedAt=Date.now();
       // timerTick will transition to the next mode on its first interval.
     }else{
       timer.elapsedMs=elapsed;timer.startedAt=Date.now();
