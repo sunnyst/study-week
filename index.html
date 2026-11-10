@@ -196,6 +196,11 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 #timetablePalette .palette-color.selected{outline:2px solid #888!important;outline-offset:2px!important;box-shadow:none!important}
 
 
+/* Swipe-to-reveal actions in Today's checklist */
+.habit-today-row{position:relative;overflow:hidden;touch-action:pan-y}
+.habit-today-row .habit-actions{position:absolute!important;right:8px;top:50%;transform:translate(115%,-50%);opacity:0;pointer-events:none;background:#fff;padding:4px;border-radius:9px;box-shadow:0 0 0 1px #e9ebf3;transition:transform .2s ease,opacity .2s ease;z-index:2}
+.habit-today-row.actions-revealed .habit-actions{transform:translate(0,-50%);opacity:1;pointer-events:auto}
+.habit-today-row.actions-revealed .habit-name{padding-right:88px}
 /* Compact single-letter actions in Today's checklist */
 .habit-today-row .habit-actions{gap:3px!important}
 .habit-today-row .habit-action{width:25px!important;min-width:25px!important;height:25px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;font-size:11px!important;line-height:1!important;border-radius:6px!important}
@@ -595,6 +600,12 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         const check=document.createElement('input');check.type='checkbox';check.className='habit-check';check.checked=isHabitDone(h.id,todayKey);check.setAttribute('aria-label','Mark '+h.name+' complete today');check.addEventListener('change',()=>setHabitDone(h.id,todayKey,check.checked));
         const name=document.createElement('div');name.className='habit-name'+(check.checked?' done':'');name.textContent=h.name;
         const actions=document.createElement('div');actions.className='habit-actions';
+        let swipeStartX=0,swipeStartY=0;
+        row.addEventListener('touchstart',ev=>{const t=ev.changedTouches[0];swipeStartX=t.clientX;swipeStartY=t.clientY;},{passive:true});
+        row.addEventListener('touchend',ev=>{const t=ev.changedTouches[0],dx=t.clientX-swipeStartX,dy=t.clientY-swipeStartY;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){if(dx<0)row.classList.add('actions-revealed');else row.classList.remove('actions-revealed');}},{passive:true});
+        row.addEventListener('pointerdown',ev=>{if(ev.pointerType==='mouse'){row.dataset.swipeStartX=String(ev.clientX);row.dataset.swipeStartY=String(ev.clientY);} });
+        row.addEventListener('pointerup',ev=>{if(ev.pointerType!=='mouse'||row.dataset.swipeStartX===undefined)return;const dx=ev.clientX-Number(row.dataset.swipeStartX),dy=ev.clientY-Number(row.dataset.swipeStartY);if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){if(dx<0)row.classList.add('actions-revealed');else row.classList.remove('actions-revealed');}delete row.dataset.swipeStartX;delete row.dataset.swipeStartY;});
+
         const colorBtn=document.createElement('button');colorBtn.type='button';colorBtn.className='habit-action color';colorBtn.textContent='C';colorBtn.title='Color: apply selected pastel color';colorBtn.setAttribute('aria-label','Color');colorBtn.style.borderColor=h.color||'var(--line)';colorBtn.addEventListener('click',()=>{h.color=selectedPastel;saveHabits();renderHabits();});
         const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.textContent='E';edit.title='Edit habit';edit.setAttribute('aria-label','Edit habit');edit.addEventListener('click',()=>{
           const next=prompt('Edit habit name:',h.name);
