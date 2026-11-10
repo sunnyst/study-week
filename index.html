@@ -16,6 +16,33 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .main-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}.chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:22px}.week-total{background:#f6f6fb;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;white-space:nowrap}.chart{height:224px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;align-items:end;padding:8px 0 0}.day{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;min-width:0}.bar-area{height:170px;width:100%;max-width:44px;display:flex;align-items:flex-end;background:#f5f5fb;border-radius:10px 10px 7px 7px;overflow:hidden;position:relative}.bar{width:100%;height:0;background:linear-gradient(180deg,#8d83ff,#6558e8);border-radius:9px 9px 0 0;transition:height .25s}.bar.today{background:linear-gradient(180deg,#5ccead,#249b78)}.day-time{font-size:10px;color:var(--muted);height:14px;white-space:nowrap}.day-label{font-size:11px;color:var(--muted);font-weight:600}.day-label.current{color:var(--accent)}.chart-legend{display:flex;gap:16px;margin-top:14px;color:var(--muted);font-size:11px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:5px}.dot.green{background:var(--green)}
 .entry-card h2{margin-bottom:4px}.entry-form{margin-top:20px;display:grid;gap:13px}.field label{display:block;font-size:12px;font-weight:650;color:#626981;margin-bottom:6px}.field input{width:100%;padding:12px 13px;border:1px solid var(--line);background:#fcfcff;border-radius:12px;color:var(--ink);outline:none}.field input:focus{border-color:#9a91ff;box-shadow:0 0 0 3px #6558e81a}.time-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.time-field{position:relative}.time-field span{position:absolute;right:12px;top:39px;color:var(--muted);font-size:11px;pointer-events:none}.save-btn{background:var(--accent);color:white;border:0;border-radius:12px;padding:13px;font-weight:700;box-shadow:0 6px 14px #6558e82b}.save-btn:hover{background:#5548d7}.hint{font-size:11px;color:var(--muted);margin:0}.history{margin-top:18px}.history-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.history-list{display:grid;gap:8px;max-height:220px;overflow:auto}.history-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.history-date{font-size:12px;font-weight:650}.history-duration{font-size:12px;color:var(--muted);margin-top:2px}.delete-btn{border:0;background:transparent;color:#a0a4b5;font-size:17px;padding:4px 7px;border-radius:8px}.delete-btn:hover{background:#fff0f0;color:#d34b59}.empty{text-align:center;color:var(--muted);font-size:12px;padding:22px 8px;border:1px dashed var(--line);border-radius:12px}.footer{margin-top:22px;text-align:center;font-size:11px;color:#a0a4b5}
 @media(max-width:720px){.app{padding:20px 14px 32px}header{align-items:flex-start;flex-direction:column;margin-bottom:22px}.week-nav{width:100%;justify-content:space-between}.overview,.main-grid{grid-template-columns:1fr}.card{padding:19px;border-radius:18px}.big{font-size:38px}.chart{gap:7px}.bar-area{max-width:38px;height:150px}.chart{height:205px}.chart-head{margin-bottom:14px}.progress-foot{font-size:11px}.goal-card{gap:10px}}
+
+/* Analog Pomodoro timer */
+.pomodoro-card{display:grid;grid-template-columns:minmax(230px,.9fr) 1.1fr;gap:28px;align-items:center;margin-bottom:24px}
+.pomodoro-visual{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
+.analog-timer{position:relative;width:min(100%,270px);aspect-ratio:1;border-radius:28px;background:linear-gradient(145deg,#fff,#eff0f3);box-shadow:10px 12px 22px rgba(34,39,58,.12),inset -4px -4px 8px rgba(40,43,60,.06),inset 4px 4px 8px #fff;padding:17px}
+.timer-top-mark{position:absolute;top:7px;left:40%;width:25%;height:4px;border-radius:5px;background:#245d36;transform:rotate(6deg)}
+.timer-face{width:100%;height:100%;position:relative;border-radius:50%;border:2px solid #d7d9dc;background:#fcfcfc;box-shadow:inset 0 2px 6px #0000000d;overflow:hidden}
+.timer-arc{position:absolute;inset:8%;border-radius:50%;background:conic-gradient(from 0deg,var(--timer-green,#2f6e43) 0deg,var(--timer-green,#2f6e43) var(--timer-progress,0deg),#f4f5f5 var(--timer-progress,0deg),#f4f5f5 360deg);mask:radial-gradient(circle,transparent 0 48%,#000 49% 100%);-webkit-mask:radial-gradient(circle,transparent 0 48%,#000 49% 100%)}
+.timer-ticks{position:absolute;inset:0;pointer-events:none}
+.timer-tick{position:absolute;left:50%;top:50%;width:2px;height:7px;margin-left:-1px;background:#c9cbd0;transform-origin:50% 0}
+.timer-tick.major{height:11px;background:#a9adb4}
+.timer-number{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(25px,4vw,36px);font-weight:750;letter-spacing:-1.5px;color:#252a31;font-variant-numeric:tabular-nums;text-shadow:0 1px #fff}
+.timer-knob{position:absolute;left:50%;top:50%;width:25%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#fff63d,#e8d900);border:1px solid #e5d400;box-shadow:2px 4px 7px #0003,inset 2px 2px 3px #fff8;pointer-events:none}
+.timer-modes{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.timer-mode{border:1px solid var(--line);background:#fff;color:var(--muted);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.timer-mode.active{background:#eaf3ec;border-color:#c9dfcd;color:#285f39}
+.timer-controls{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.timer-primary{background:#285f39;color:#fff;border:0;border-radius:12px;padding:12px 17px;font-weight:700;flex:1;min-width:120px}
+.timer-secondary{background:#f1f2f5;color:#42485a;border:1px solid #e4e6ec;border-radius:12px;padding:12px 15px;font-weight:650}
+.timer-status{font-size:12px;color:var(--muted);text-align:center;min-height:18px}
+.timer-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.timer-stat{padding:12px 14px;border-radius:13px;background:#f8f9fb;border:1px solid #eef0f3}
+.timer-stat strong{display:block;font-size:19px;letter-spacing:-.4px}
+.timer-stat span{font-size:11px;color:var(--muted)}
+.timer-note{font-size:12px;color:var(--muted);margin:10px 0 0}
+@media(max-width:720px){.pomodoro-card{grid-template-columns:1fr;gap:22px}.analog-timer{width:min(78vw,270px)}}
+
 </style>
 </head>
 <body>
@@ -37,6 +64,41 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     <div class="goal-note" id="goalNote">A steady routine beats a perfect day.</div>
   </div>
 </section>
+
+<section class="card pomodoro-card" aria-labelledby="pomodoroHeading">
+  <div class="pomodoro-visual">
+    <div class="analog-timer" aria-label="Analog Pomodoro timer">
+      <div class="timer-top-mark"></div>
+      <div class="timer-face">
+        <div class="timer-arc" id="timerArc"></div>
+        <div class="timer-ticks" id="timerTicks"></div>
+        <div class="timer-number" id="timerDisplay">25:00</div>
+        <div class="timer-knob"></div>
+      </div>
+    </div>
+    <div class="timer-modes">
+      <button class="timer-mode active" id="focusMode" type="button">Focus · 25 min</button>
+      <button class="timer-mode" id="breakMode" type="button">Short break · 5 min</button>
+    </div>
+    <div class="timer-status" id="timerStatus" aria-live="polite">Ready when you are.</div>
+  </div>
+  <div>
+    <div class="eyebrow">Pomodoro timer</div>
+    <h2 id="pomodoroHeading" style="font-size:22px;margin-top:5px">Make time for focus.</h2>
+    <p class="sub">Study time is added automatically while the focus timer runs. Breaks don't count.</p>
+    <div class="timer-controls">
+      <button class="timer-primary" id="timerStart" type="button">▶ Start focus</button>
+      <button class="timer-secondary" id="timerPause" type="button" hidden>Pause</button>
+      <button class="timer-secondary" id="timerFinish" type="button" hidden>Finish & save</button>
+    </div>
+    <div class="timer-stats">
+      <div class="timer-stat"><strong id="todayTimerTime">0m</strong><span>Added today by timer</span></div>
+      <div class="timer-stat"><strong id="sessionTimerTime">0m</strong><span>This focus session</span></div>
+    </div>
+    <p class="timer-note">Pause and resume anytime. Finishing early saves only completed study minutes (rounded down); break time is never counted.</p>
+  </div>
+</section>
+
 <section class="main-grid">
   <div class="card">
     <div class="chart-head"><div><h2>Weekly study hours</h2><p class="sub">Your time, day by day.</p></div><div class="week-total" id="weekTotalPill">0h total</div></div>
@@ -76,7 +138,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   $('studyDate').value=dateKey(today);
   $('goalHours').value=goal;
   function read(key,fallback){try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch{return fallback}}
-  function persist(){localStorage.setItem('study-week-entries',JSON.stringify(entries));}
+  function persist(){try{localStorage.setItem('study-week-entries',JSON.stringify(entries));}catch(e){console.warn('Could not save study entries in this browser.',e);}}
   function fmtMinutes(n){return `${Math.floor(n/60)}h ${n%60}m`;}
   function weekDates(){return Array.from({length:7},(_,i)=>addDays(weekStart,i));}
   function weekEntries(){const a=dateKey(weekStart),b=dateKey(addDays(weekStart,6));return entries.filter(e=>e.date>=a&&e.date<=b);}
@@ -116,10 +178,140 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     entries.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),date,minutes:h*60+m,created:Date.now()});persist();
     weekStart=monday(parseDate(date));render();$('hours').value=0;$('minutes').value=30;
   });
-  $('saveGoal').addEventListener('click',()=>{const n=Number($('goalHours').value);if(!Number.isInteger(n)||n<1||n>168){alert('Choose a weekly goal from 1 to 168 hours.');return;}goal=n;localStorage.setItem('study-week-goal',JSON.stringify(goal));render();});
+  $('saveGoal').addEventListener('click',()=>{const n=Number($('goalHours').value);if(!Number.isInteger(n)||n<1||n>168){alert('Choose a weekly goal from 1 to 168 hours.');return;}goal=n;try{localStorage.setItem('study-week-goal',JSON.stringify(goal));}catch(e){console.warn('Could not save goal in this browser.',e);}render();});
   $('prevWeek').addEventListener('click',()=>{weekStart=addDays(weekStart,-7);render();});
   $('nextWeek').addEventListener('click',()=>{weekStart=addDays(weekStart,7);render();});
   $('thisWeek').addEventListener('click',()=>{weekStart=monday(today);render();});
+
+  // Pomodoro timer: timestamp-based elapsed time survives reloads.
+  const TIMER_KEY='study-week-pomodoro-v1';
+  const FOCUS_MS=25*60*1000, BREAK_MS=5*60*1000;
+  let timer=read(TIMER_KEY,{mode:'focus',elapsedMs:0,startedAt:null,running:false,entryId:null,sessionDate:null,creditedMinutes:0});
+  if(!timer || !['focus','break'].includes(timer.mode)) timer={mode:'focus',elapsedMs:0,startedAt:null,running:false,entryId:null,sessionDate:null,creditedMinutes:0};
+  timer.creditedMinutes=Number(timer.creditedMinutes||0);
+  function saveTimer(){try{localStorage.setItem(TIMER_KEY,JSON.stringify(timer));}catch(e){console.warn('Timer state could not be saved in this browser.',e);}}
+  function timerDuration(){return timer.mode==='focus'?FOCUS_MS:BREAK_MS;}
+  function timerElapsed(){return Math.max(0,Number(timer.elapsedMs||0)+(timer.running&&timer.startedAt?Date.now()-timer.startedAt:0));}
+  function timerClock(ms){const s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+  function timerMinutes(ms){return Math.floor(Math.max(0,ms)/60000);}
+  function creditTimerMinutes(mins){
+    if(mins<=0||timer.mode!=='focus'||!timer.sessionDate)return;
+    let entry=entries.find(e=>e.id===timer.entryId);
+    if(!entry){
+      entry={id:timer.entryId||('pomodoro-'+Date.now().toString(36)),date:timer.sessionDate,minutes:0,created:Date.now(),source:'pomodoro'};
+      timer.entryId=entry.id;entries.push(entry);
+    }
+    entry.minutes+=mins;
+    persist();
+    weekStart=monday(parseDate(timer.sessionDate));
+    render();
+  }
+  function renderTimer(){
+    const elapsed=timerElapsed(), remaining=Math.max(0,timerDuration()-elapsed);
+    $('timerDisplay').textContent=timerClock(remaining);
+    $('timerArc').style.setProperty('--timer-progress',Math.min(360,elapsed/timerDuration()*360)+'deg');
+    $('timerArc').style.setProperty('--timer-green',timer.mode==='focus'?'#2f6e43':'#6558e8');
+    $('focusMode').classList.toggle('active',timer.mode==='focus');
+    $('breakMode').classList.toggle('active',timer.mode==='break');
+    $('timerStart').textContent=timer.running?'Running…':(timer.elapsedMs>0?(timer.mode==='focus'?'▶ Resume focus':'▶ Resume break'):(timer.mode==='focus'?'▶ Start focus':'▶ Start break'));
+    $('timerStart').disabled=timer.running;
+    $('timerPause').hidden=!timer.running;
+    $('timerFinish').hidden=!(timer.running||timer.elapsedMs>0);
+    const status=$('timerStatus');
+    if(timer.running)status.textContent=timer.mode==='focus'?'Focus in progress — you’ve got this.':'Break in progress. Rest your mind.';
+    else if(!status.dataset.message)status.textContent=timer.elapsedMs>0?'Paused. Resume whenever you’re ready.':'Ready when you are.';
+    const todayKey=dateKey(new Date());
+    const todayMinutes=entries.filter(e=>e.date===todayKey&&e.source==='pomodoro').reduce((sum,e)=>sum+e.minutes,0);
+    $('todayTimerTime').textContent=todayMinutes+'m';
+    $('sessionTimerTime').textContent=timer.mode==='focus'?timerMinutes(elapsed)+'m':'—';
+  }
+  function timerTick(){
+    if(!timer.running)return;
+    const elapsed=timerElapsed();
+    let changed=false;
+    if(timer.mode==='focus'){
+      const due=Math.min(25,timerMinutes(elapsed));
+      if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;changed=true;}
+    }
+    if(elapsed>=timerDuration()){
+      if(timer.mode==='focus'){
+        const due=25;
+        if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
+        timer.mode='break';timer.elapsedMs=0;timer.startedAt=null;timer.running=false;timer.entryId=null;timer.sessionDate=null;timer.creditedMinutes=0;
+        $('timerStatus').dataset.message='focus-complete';
+        $('timerStatus').textContent='Focus complete! Take a short break.';
+      }else{
+        timer.elapsedMs=0;timer.startedAt=null;timer.running=false;
+        $('timerStatus').dataset.message='break-complete';
+        $('timerStatus').textContent='Break complete. Ready for another focus session?';
+      }
+      saveTimer();renderTimer();render();return;
+    }
+    timer.elapsedMs=elapsed;timer.startedAt=Date.now();saveTimer();
+    renderTimer();
+    if(changed)renderTimer();
+  }
+  function makeTimerTicks(){
+    const holder=$('timerTicks');
+    for(let i=0;i<60;i++){
+      const tick=document.createElement('i');tick.className='timer-tick'+(i%5===0?' major':'');
+      tick.style.transform='rotate('+(i*6)+'deg) translateY(-'+(holder.clientWidth*.43)+'px)';
+      holder.appendChild(tick);
+    }
+  }
+  function setTimerMode(mode){
+    if(timer.running){alert('Pause or finish the current timer before changing modes.');return;}
+    timer={mode,elapsedMs:0,startedAt:null,running:false,entryId:null,sessionDate:null,creditedMinutes:0};
+    $('timerStatus').dataset.message='';
+    saveTimer();renderTimer();
+  }
+  $('focusMode').addEventListener('click',()=>setTimerMode('focus'));
+  $('breakMode').addEventListener('click',()=>setTimerMode('break'));
+  $('timerStart').addEventListener('click',()=>{
+    if(timer.running)return;
+    if(timer.mode==='focus'&&!timer.sessionDate)timer.sessionDate=dateKey(new Date());
+    timer.startedAt=Date.now();timer.running=true;$('timerStatus').dataset.message='';saveTimer();renderTimer();
+  });
+  $('timerPause').addEventListener('click',()=>{
+    if(!timer.running)return;
+    timer.elapsedMs=timerElapsed();timer.startedAt=null;timer.running=false;
+    if(timer.mode==='focus'){
+      const due=Math.min(25,timerMinutes(timer.elapsedMs));
+      if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
+    }
+    saveTimer();renderTimer();render();
+  });
+  $('timerFinish').addEventListener('click',()=>{
+    const elapsed=timerElapsed();
+    if(timer.mode==='focus'){
+      const due=Math.min(25,timerMinutes(elapsed));
+      if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
+    }
+    timer.elapsedMs=0;timer.startedAt=null;timer.running=false;timer.entryId=null;timer.sessionDate=null;timer.creditedMinutes=0;
+    $('timerStatus').dataset.message='finished';
+    $('timerStatus').textContent='Session saved. Take a breath before the next one.';
+    saveTimer();renderTimer();render();
+  });
+  // Tick marks positioned around the dial.
+  makeTimerTicks();
+  // Catch up elapsed time after reload, crediting only completed focus minutes.
+  if(timer.running){
+    const elapsed=timerElapsed();
+    if(timer.mode==='focus'){
+      const due=Math.min(25,timerMinutes(Math.min(elapsed,FOCUS_MS)));
+      if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
+    }
+    if(elapsed>=timerDuration()){
+      timer.elapsedMs=timerDuration();timer.startedAt=Date.now()-(timerDuration());
+      // timerTick will transition to the next mode on its first interval.
+    }else{
+      timer.elapsedMs=elapsed;timer.startedAt=Date.now();
+    }
+    saveTimer();
+  }
+  setInterval(timerTick,1000);
+  renderTimer();
+
   render();
 })();
 </script>
