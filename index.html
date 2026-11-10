@@ -133,6 +133,10 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 @media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.planner-memo{grid-column:auto}.timetable-wrap{overflow-x:auto!important}.timetable{width:auto!important}}
 
 
+/* Force the requested hour sequence and remove decorative grid patterns */
+#timetableBody .time-label{font-variant-numeric:tabular-nums}
+#timetableBody .timetable-cell{border:0!important;background:#fff!important;box-shadow:none!important;padding:0!important}
+#timetableBody .timetable-cell button{background-image:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
 /* Clean white gaps between timetable squares */
 .timetable tbody td.timetable-cell{border:0!important;background:#fff!important;box-shadow:none!important;padding:0!important}
 .timetable tbody td.timetable-cell button{border:0!important;outline-offset:1px}
