@@ -140,6 +140,16 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 /* Clean white gaps between timetable squares */
 .timetable tbody td.timetable-cell{border:0!important;background:#fff!important;box-shadow:none!important;padding:0!important}
 .timetable tbody td.timetable-cell button{border:0!important;outline-offset:1px}
+/* Definitively remove miniature grid patterns from timetable squares and keep gaps white */
+#timetableBody, #timetableBody tr, #timetableBody td.timetable-cell{background:#fff!important;background-image:none!important;border:0!important;box-shadow:none!important}
+#timetableBody td.timetable-cell{padding:0!important}
+#timetableBody td.timetable-cell button,
+#timetableBody td.timetable-cell button:hover,
+#timetableBody td.timetable-cell button:active{background-image:none!important;background-repeat:no-repeat!important;background-size:auto!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+#timetablePalette .palette-color{border:1px solid #d5d8e2!important;box-shadow:none!important}
+#timetablePalette .palette-color[title="#FFFFFF"]{background:#fff!important;border:1px solid #8b90a0!important}
+#timetablePalette .palette-color[title="#555555"]{background:#555!important;border:1px solid #555!important}
+#timetablePalette .palette-color.selected{outline:2px solid var(--ink)!important;outline-offset:2px!important}
 /* Restore the missing right-hand vertical border after timetable column 6 */
 .timetable thead th:last-child{box-shadow:inset -1px 0 0 #dfe3ec!important}
 .timetable tbody td.timetable-cell:last-child{box-shadow:inset -1px 0 0 #dfe3ec!important}
@@ -501,7 +511,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     const palette=$('timetablePalette');palette.innerHTML='';
     PASTELS.forEach(color=>{const btn=document.createElement('button');btn.type='button';btn.className='palette-color'+(selectedPastel===color?' selected':'');btn.style.background=color;btn.title=color;btn.setAttribute('aria-label','Select pastel color '+color);btn.setAttribute('aria-pressed',String(selectedPastel===color));btn.addEventListener('click',()=>{selectedPastel=color;renderTimetable();});palette.appendChild(btn);});
     const body=$('timetableBody');body.innerHTML='';
-    for(let hour=5;hour<29;hour++){const rowIndex=hour-5;const displayHour=rowIndex<9?rowIndex+4:rowIndex<21?rowIndex-8:rowIndex-20;const tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(displayHour);tr.appendChild(th);
+    for(let hour=5;hour<29;hour++){const rowIndex=hour-5;const hourSequence=[4,5,6,7,8,9,10,11,12,1,2,3];const displayHour=hourSequence[rowIndex%12];const tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(displayHour);tr.appendChild(th);
       for(let col=0;col<6;col++){const td=document.createElement('td');td.className='timetable-cell';const key=String(hour%24)+'-'+col;const btn=document.createElement('button');btn.type='button';btn.dataset.timetableKey=key;btn.style.backgroundColor=timetableColors[key]||'#ffffff';btn.title='Hour '+displayHour+', block '+(col+1);btn.setAttribute('aria-label',btn.title+'; '+(timetableColors[key]?'colored':'empty'));
         btn.addEventListener('click',ev=>{if(ev.detail===0){if(timetableColors[key]===selectedPastel)delete timetableColors[key];else timetableColors[key]=selectedPastel;saveTimetable();renderTimetable();}});
         td.appendChild(btn);tr.appendChild(td);}body.appendChild(tr);}
