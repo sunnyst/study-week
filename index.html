@@ -600,11 +600,23 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         const check=document.createElement('input');check.type='checkbox';check.className='habit-check';check.checked=isHabitDone(h.id,todayKey);check.setAttribute('aria-label','Mark '+h.name+' complete today');check.addEventListener('change',()=>setHabitDone(h.id,todayKey,check.checked));
         const name=document.createElement('div');name.className='habit-name'+(check.checked?' done':'');name.textContent=h.name;
         const actions=document.createElement('div');actions.className='habit-actions';
-        let swipeStartX=0,swipeStartY=0;
-        row.addEventListener('touchstart',ev=>{const t=ev.changedTouches[0];swipeStartX=t.clientX;swipeStartY=t.clientY;},{passive:true});
-        row.addEventListener('touchend',ev=>{const t=ev.changedTouches[0],dx=t.clientX-swipeStartX,dy=t.clientY-swipeStartY;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){if(dx<0)row.classList.add('actions-revealed');else row.classList.remove('actions-revealed');}},{passive:true});
-        row.addEventListener('pointerdown',ev=>{if(ev.pointerType==='mouse'){row.dataset.swipeStartX=String(ev.clientX);row.dataset.swipeStartY=String(ev.clientY);} });
-        row.addEventListener('pointerup',ev=>{if(ev.pointerType!=='mouse'||row.dataset.swipeStartX===undefined)return;const dx=ev.clientX-Number(row.dataset.swipeStartX),dy=ev.clientY-Number(row.dataset.swipeStartY);if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){if(dx<0)row.classList.add('actions-revealed');else row.classList.remove('actions-revealed');}delete row.dataset.swipeStartX;delete row.dataset.swipeStartY;});
+        let swipeStartX=0,swipeStartY=0,swipePointerId=null;
+        row.addEventListener('pointerdown',ev=>{
+          swipeStartX=ev.clientX;swipeStartY=ev.clientY;swipePointerId=ev.pointerId;
+          row.dataset.swipeStartX=String(ev.clientX);row.dataset.swipeStartY=String(ev.clientY);
+          try{row.setPointerCapture(ev.pointerId);}catch(e){}
+        });
+        row.addEventListener('pointerup',ev=>{
+          if(swipePointerId!==ev.pointerId)return;
+          const dx=ev.clientX-swipeStartX,dy=ev.clientY-swipeStartY;
+          if(Math.abs(dx)>30&&Math.abs(dx)>Math.abs(dy)*1.15){
+            if(dx<0)row.classList.add('actions-revealed');
+            else row.classList.remove('actions-revealed');
+            ev.preventDefault();
+          }
+          swipePointerId=null;delete row.dataset.swipeStartX;delete row.dataset.swipeStartY;
+        });
+        row.addEventListener('pointercancel',()=>{swipePointerId=null;delete row.dataset.swipeStartX;delete row.dataset.swipeStartY;});
 
         const colorBtn=document.createElement('button');colorBtn.type='button';colorBtn.className='habit-action color';colorBtn.textContent='C';colorBtn.title='Color: apply selected pastel color';colorBtn.setAttribute('aria-label','Color');colorBtn.style.borderColor=h.color||'var(--line)';colorBtn.addEventListener('click',()=>{h.color=selectedPastel;saveHabits();renderHabits();});
         const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.textContent='E';edit.title='Edit habit';edit.setAttribute('aria-label','Edit habit');edit.addEventListener('click',()=>{
