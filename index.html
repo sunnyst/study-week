@@ -618,14 +618,14 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         });
         row.addEventListener('pointercancel',()=>{swipePointerId=null;delete row.dataset.swipeStartX;delete row.dataset.swipeStartY;});
 
-        const colorBtn=document.createElement('button');colorBtn.type='button';colorBtn.className='habit-action color';colorBtn.textContent='🎨';colorBtn.title='Change color';colorBtn.setAttribute('aria-label','Change color');colorBtn.style.borderColor=h.color||'var(--line)';colorBtn.addEventListener('click',()=>{h.color=selectedPastel;saveHabits();renderHabits();});
-        const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.textContent='✎';edit.title='Edit habit';edit.setAttribute('aria-label','Edit habit');edit.addEventListener('click',()=>{
+        const colorBtn=document.createElement('button');colorBtn.type='button';colorBtn.className='habit-action color';colorBtn.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.4-3.4 1.8 1.8 0 0 1 1.3-3.1H18a3 3 0 0 0 3-3c0-4.7-4-8.5-9-8.5Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="10" cy="6.8" r="1"/><circle cx="15" cy="7.5" r="1"/></svg>';colorBtn.title='Change color';colorBtn.setAttribute('aria-label','Change color');colorBtn.style.borderColor=h.color||'var(--line)';colorBtn.addEventListener('click',()=>{h.color=selectedPastel;saveHabits();renderHabits();});
+        const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg>';edit.title='Edit habit';edit.setAttribute('aria-label','Edit habit');edit.addEventListener('click',()=>{
           const next=prompt('Edit habit name:',h.name);
           if(next===null)return;
           const trimmed=next.trim();if(!trimmed){alert('Habit name cannot be empty.');return;}
           h.name=trimmed.slice(0,80);saveHabits();renderHabits();
         });
-        const del=document.createElement('button');del.type='button';del.className='habit-action delete';del.textContent='×';del.title='Delete habit';del.setAttribute('aria-label','Delete habit');del.addEventListener('click',()=>{
+        const del=document.createElement('button');del.type='button';del.className='habit-action delete';del.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 14H6L5 6"/><path d="M10 10v6M14 10v6"/></svg>';del.title='Delete habit';del.setAttribute('aria-label','Delete habit');del.addEventListener('click',()=>{
           if(confirm('Delete “'+h.name+'” and its completion history?')){habits=habits.filter(x=>x.id!==h.id);Object.keys(habitChecks).forEach(date=>{if(habitChecks[date])delete habitChecks[date][h.id];});saveHabits();renderHabits();}
         });
         actions.append(colorBtn,edit,del);row.append(check,name,actions);$('habitTodayList').appendChild(row);
