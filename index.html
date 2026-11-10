@@ -53,6 +53,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .habit-add-form button{border:0;background:#285f39;color:white;border-radius:12px;padding:10px 15px;font-weight:700}
 .habit-today-list{display:grid;gap:8px;margin-bottom:24px}
 .habit-today-row{display:flex;align-items:center;gap:11px;padding:6px 7px;border:1px solid var(--line);border-radius:13px;background:#fff;min-width:0}
+.habit-drag-handle{display:flex;align-items:center;justify-content:center;flex:0 0 18px;width:18px;color:#999;cursor:grab;user-select:none;touch-action:none;font-size:16px;letter-spacing:-3px;padding-right:3px}.habit-drag-handle:active{cursor:grabbing}.habit-today-row.dragging{opacity:.45}.habit-today-row.drag-over{outline:2px dashed #aaa;outline-offset:1px}
 .habit-check{width:21px;height:21px;accent-color:#249b78;flex:0 0 auto}
 .habit-name{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:650;font-size:13px}
 .habit-name.done{text-decoration:line-through;color:var(--muted)}
@@ -700,7 +701,13 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
       const empty=document.createElement('div');empty.className='habit-empty';empty.textContent='No habits yet. Add your first habit above.';$('habitTodayList').appendChild(empty);
     }else{
       habits.forEach(h=>{
-        const row=document.createElement('div');row.className='habit-today-row';if(h.color)row.style.backgroundColor=h.color;
+        const row=document.createElement('div');row.className='habit-today-row';row.draggable=true;if(h.color)row.style.backgroundColor=h.color;
+        const dragHandle=document.createElement('span');dragHandle.className='habit-drag-handle';dragHandle.textContent='⠿';dragHandle.title='Drag to reorder';dragHandle.setAttribute('aria-label','Drag to reorder habit');dragHandle.setAttribute('role','img');
+        row.addEventListener('dragstart',ev=>{if(!ev.target.closest('.habit-drag-handle')){ev.preventDefault();return;}row.classList.add('dragging');ev.dataTransfer.effectAllowed='move';ev.dataTransfer.setData('text/plain',String(h.id));});
+        row.addEventListener('dragover',ev=>{if(!document.querySelector('.habit-today-row.dragging'))return;ev.preventDefault();ev.dataTransfer.dropEffect='move';row.classList.add('drag-over');});
+        row.addEventListener('dragleave',()=>row.classList.remove('drag-over'));
+        row.addEventListener('drop',ev=>{ev.preventDefault();row.classList.remove('drag-over');const draggedId=ev.dataTransfer.getData('text/plain');if(!draggedId||draggedId===String(h.id))return;const from=habits.findIndex(item=>String(item.id)===draggedId),to=habits.findIndex(item=>item.id===h.id);if(from<0||to<0)return;const moved=habits.splice(from,1)[0];habits.splice(to,0,moved);saveHabits();renderHabits();});
+        row.addEventListener('dragend',()=>{row.classList.remove('dragging');document.querySelectorAll('.habit-today-row.drag-over').forEach(el=>el.classList.remove('drag-over'));});
         const check=document.createElement('input');check.type='checkbox';check.className='habit-check';check.checked=isHabitDone(h.id,todayKey);check.setAttribute('aria-label','Mark '+h.name+' complete today');check.addEventListener('change',()=>setHabitDone(h.id,todayKey,check.checked));
         const name=document.createElement('div');name.className='habit-name'+(check.checked?' done':'');name.textContent=h.name;
         const actions=document.createElement('div');actions.className='habit-actions';
@@ -732,7 +739,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         const del=document.createElement('button');del.type='button';del.className='habit-action delete';del.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 14H6L5 6"/><path d="M10 10v6M14 10v6"/></svg>';del.title='Delete habit';del.setAttribute('aria-label','Delete habit');del.addEventListener('click',()=>{
           if(confirm('Delete “'+h.name+'” and its completion history?')){habits=habits.filter(x=>x.id!==h.id);Object.keys(habitChecks).forEach(date=>{if(habitChecks[date])delete habitChecks[date][h.id];});saveHabits();renderHabits();}
         });
-        actions.append(colorBtn,edit,del);row.append(check,name,actions);$('habitTodayList').appendChild(row);
+        actions.append(colorBtn,edit,del);row.append(dragHandle,check,name,actions);$('habitTodayList').appendChild(row);
       });
     }
     const base=parseDate(activeDateKey);const dates=Array.from({length:30},(_,i)=>addDays(base,i));
