@@ -819,7 +819,18 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   function refreshWeatherPicker(){const picker=$('calendarWeatherPicker');if(picker)picker.querySelectorAll('button[data-weather]').forEach(b=>{const active=b.dataset.weather===selectedWeather;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});}
   const calendarWeatherPicker=$('calendarWeatherPicker');
   if(calendarWeatherPicker)calendarWeatherPicker.addEventListener('click',e=>{const b=e.target.closest('button[data-weather]');if(!b)return;selectedWeather=b.dataset.weather||'';refreshWeatherPicker();if($('calendarEventStatus'))$('calendarEventStatus').textContent='Unsaved changes — click Save.';});
-  if(calendarEventText)calendarEventText.addEventListener('input',()=>{if($('calendarEventStatus'))$('calendarEventStatus').textContent='Unsaved changes — click Save.';const selected=$('calendarGrid').querySelector('.calendar-day.selected');if(selected){let label=selected.querySelector('.calendar-event-label');const value=String(calendarEventText.value||'').trim();if(value&&!label){label=document.createElement('span');label.className='calendar-event-label';selected.appendChild(label);}if(label){label.textContent=value;if(!value  function renderReadingList(){
+  if(calendarEventText)calendarEventText.addEventListener('input',()=>{if($('calendarEventStatus'))$('calendarEventStatus').textContent='Unsaved changes — click Save.';const selected=$('calendarGrid').querySelector('.calendar-day.selected');if(selected){let label=selected.querySelector('.calendar-event-label');const value=String(calendarEventText.value||'').trim();if(value&&!label){label=document.createElement('span');label.className='calendar-event-label';selected.appendChild(label);}if(label){label.textContent=value;if(!value)label.remove();}if(value)selected.classList.add('has-record');selected.setAttribute('aria-label',activeDateKey+(value?', important schedule: '+value:''));}});
+  const calendarEventSave=$('calendarEventSave');
+  if(calendarEventSave)calendarEventSave.addEventListener('click',()=>{calendarEvents[activeDateKey]=calendarEventText?calendarEventText.value:'';calendarWeather[activeDateKey]=selectedWeather;try{localStorage.setItem(CALENDAR_EVENTS_KEY,JSON.stringify(calendarEvents));localStorage.setItem(CALENDAR_WEATHER_KEY,JSON.stringify(calendarWeather));if($('calendarEventStatus'))$('calendarEventStatus').textContent='Saved.';renderCalendar();}catch(e){if($('calendarEventStatus'))$('calendarEventStatus').textContent='Could not save. Check browser storage settings.';}});
+
+  // Reading list — saved locally in this browser.
+  const READING_LIST_KEY='study-week-reading-list-v1';
+  let readingBooks=read(READING_LIST_KEY,[]);
+  function saveReadingBooks(){
+    try{localStorage.setItem(READING_LIST_KEY,JSON.stringify(readingBooks));if($('readingListStatus'))$('readingListStatus').textContent='Saved in this browser.';}
+    catch(e){if($('readingListStatus'))$('readingListStatus').textContent='Could not save. Check browser storage settings.';}
+  }
+  function renderReadingList(){
     const list=$('readingListItems');if(!list)return;list.innerHTML='';
     const count=$('readingListCount');if(count)count.textContent=readingBooks.length+' '+(readingBooks.length===1?'book':'books');
     if(!readingBooks.length){const empty=document.createElement('div');empty.className='reading-empty';empty.textContent='Your reading list is empty. Add a book to get started.';list.appendChild(empty);return;}
@@ -836,12 +847,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
       const edit=document.createElement('button');edit.type='button';edit.className='reading-book-edit';edit.textContent='Edit';edit.setAttribute('aria-label','Edit '+book.title);edit.addEventListener('click',()=>{
         row.innerHTML='';
         const editor=document.createElement('form');editor.className='reading-book-editor';
-        const fields=[
-          {key:'title',type:'text',placeholder:'Book title',value:book.title,required:true},
-          {key:'author',type:'text',placeholder:'Author',value:book.author||''},
-          {key:'startDate',type:'date',placeholder:'Start date',value:book.startDate||''},
-          {key:'endDate',type:'date',placeholder:'Finish date',value:book.endDate||''}
-        ];
+        const fields=[{key:'title',type:'text',placeholder:'Book title',value:book.title,required:true},{key:'author',type:'text',placeholder:'Author',value:book.author||''},{key:'startDate',type:'date',placeholder:'Start date',value:book.startDate||''},{key:'endDate',type:'date',placeholder:'Finish date',value:book.endDate||''}];
         const inputs={};
         fields.forEach(field=>{const input=document.createElement('input');input.type=field.type;input.value=field.value;input.placeholder=field.placeholder;input.setAttribute('aria-label',field.placeholder);if(field.required)input.required=true;inputs[field.key]=input;editor.appendChild(input);});
         const save=document.createElement('button');save.type='submit';save.className='reading-edit-save';save.textContent='Save';
