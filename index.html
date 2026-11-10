@@ -195,6 +195,12 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 #timetablePalette .palette-color{width:22px!important;height:22px!important;min-width:22px!important;max-width:22px!important;box-sizing:border-box!important}
 #timetablePalette .palette-color.selected{outline:2px solid #888!important;outline-offset:2px!important;box-shadow:none!important}
 
+
+/* Compact single-letter actions in Today's checklist */
+.habit-today-row .habit-actions{gap:3px!important}
+.habit-today-row .habit-action{width:25px!important;min-width:25px!important;height:25px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;font-size:11px!important;line-height:1!important;border-radius:6px!important}
+.habit-today-row .habit-action.color{font-size:11px!important}
+
 </style>
 </head>
 <body>
@@ -589,14 +595,14 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         const check=document.createElement('input');check.type='checkbox';check.className='habit-check';check.checked=isHabitDone(h.id,todayKey);check.setAttribute('aria-label','Mark '+h.name+' complete today');check.addEventListener('change',()=>setHabitDone(h.id,todayKey,check.checked));
         const name=document.createElement('div');name.className='habit-name'+(check.checked?' done':'');name.textContent=h.name;
         const actions=document.createElement('div');actions.className='habit-actions';
-        const colorBtn=document.createElement('button');colorBtn.type='button';colorBtn.className='habit-action color';colorBtn.textContent='Color';colorBtn.title='Apply selected pastel color';colorBtn.style.borderColor=h.color||'var(--line)';colorBtn.addEventListener('click',()=>{h.color=selectedPastel;saveHabits();renderHabits();});
-        const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.textContent='Edit';edit.addEventListener('click',()=>{
+        const colorBtn=document.createElement('button');colorBtn.type='button';colorBtn.className='habit-action color';colorBtn.textContent='C';colorBtn.title='Color: apply selected pastel color';colorBtn.setAttribute('aria-label','Color');colorBtn.style.borderColor=h.color||'var(--line)';colorBtn.addEventListener('click',()=>{h.color=selectedPastel;saveHabits();renderHabits();});
+        const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.textContent='E';edit.title='Edit habit';edit.setAttribute('aria-label','Edit habit');edit.addEventListener('click',()=>{
           const next=prompt('Edit habit name:',h.name);
           if(next===null)return;
           const trimmed=next.trim();if(!trimmed){alert('Habit name cannot be empty.');return;}
           h.name=trimmed.slice(0,80);saveHabits();renderHabits();
         });
-        const del=document.createElement('button');del.type='button';del.className='habit-action delete';del.textContent='Delete';del.addEventListener('click',()=>{
+        const del=document.createElement('button');del.type='button';del.className='habit-action delete';del.textContent='D';del.title='Delete habit';del.setAttribute('aria-label','Delete habit');del.addEventListener('click',()=>{
           if(confirm('Delete “'+h.name+'” and its completion history?')){habits=habits.filter(x=>x.id!==h.id);Object.keys(habitChecks).forEach(date=>{if(habitChecks[date])delete habitChecks[date][h.id];});saveHabits();renderHabits();}
         });
         actions.append(colorBtn,edit,del);row.append(check,name,actions);$('habitTodayList').appendChild(row);
