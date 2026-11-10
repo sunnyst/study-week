@@ -459,14 +459,35 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   let timetableColors=read(TIMETABLE_KEY,{}), selectedPastel=PASTELS[0];
   function saveTimetable(){try{localStorage.setItem(TIMETABLE_KEY,JSON.stringify(timetableColors));}catch(e){console.warn('Could not save timetable.',e);}}
   let timetablePainting=false;
+  let lastPaintedTimetableKey=null;
   function paintTimetableCell(key,btn){
-    if(!btn)return;
+    if(!btn||lastPaintedTimetableKey===key)return;
+    lastPaintedTimetableKey=key;
     timetableColors[key]=selectedPastel;
-    btn.style.background=selectedPastel;
+    btn.style.backgroundColor=selectedPastel;
     btn.setAttribute('aria-label',btn.title+'; colored');
     saveTimetable();
   }
-  function stopTimetablePainting(){timetablePainting=false;}
+  function timetableCellFromPoint(x,y){
+    const el=document.elementFromPoint(x,y);
+    const btn=el&&el.closest('#timetableBody button[data-timetable-key]');
+    return btn&&$('timetableBody').contains(btn)?btn:null;
+  }
+  function stopTimetablePainting(){timetablePainting=false;lastPaintedTimetableKey=null;}
+  const timetableBody=$('timetableBody');
+  timetableBody.addEventListener('pointerdown',ev=>{
+    const btn=ev.target.closest('button[data-timetable-key]');
+    if(!btn|| (ev.button!==undefined&&ev.button!==0))return;
+    ev.preventDefault();
+    timetablePainting=true;
+    lastPaintedTimetableKey=null;
+    paintTimetableCell(btn.dataset.timetableKey,btn);
+  });
+  document.addEventListener('pointermove',ev=>{
+    if(!timetablePainting)return;
+    const btn=timetableCellFromPoint(ev.clientX,ev.clientY);
+    if(btn)paintTimetableCell(btn.dataset.timetableKey,btn);
+  });
   window.addEventListener('pointerup',stopTimetablePainting);
   window.addEventListener('pointercancel',stopTimetablePainting);
   function renderTimetable(){
@@ -474,9 +495,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     PASTELS.forEach(color=>{const btn=document.createElement('button');btn.type='button';btn.className='palette-color'+(selectedPastel===color?' selected':'');btn.style.background=color;btn.title=color;btn.setAttribute('aria-label','Select pastel color '+color);btn.setAttribute('aria-pressed',String(selectedPastel===color));btn.addEventListener('click',()=>{selectedPastel=color;renderTimetable();});palette.appendChild(btn);});
     const body=$('timetableBody');body.innerHTML='';
     for(let hour=5;hour<29;hour++){const tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(hour-4);tr.appendChild(th);
-      for(let col=0;col<6;col++){const td=document.createElement('td');td.className='timetable-cell';const key=String(hour%24)+'-'+col;const btn=document.createElement('button');btn.type='button';btn.style.background=timetableColors[key]||'#ffffff';btn.title='Hour '+(hour-4)+', block '+(col+1);btn.setAttribute('aria-label',btn.title+'; '+(timetableColors[key]?'colored':'empty'));
-        btn.addEventListener('pointerdown',ev=>{if(ev.button!==undefined&&ev.button!==0)return;ev.preventDefault();timetablePainting=true;paintTimetableCell(key,btn);});
-        btn.addEventListener('pointerenter',()=>{if(timetablePainting)paintTimetableCell(key,btn);});
+      for(let col=0;col<6;col++){const td=document.createElement('td');td.className='timetable-cell';const key=String(hour%24)+'-'+col;const btn=document.createElement('button');btn.type='button';btn.dataset.timetableKey=key;btn.style.backgroundColor=timetableColors[key]||'#ffffff';btn.title='Hour '+(hour-4)+', block '+(col+1);btn.setAttribute('aria-label',btn.title+'; '+(timetableColors[key]?'colored':'empty'));
         btn.addEventListener('click',ev=>{if(ev.detail===0){if(timetableColors[key]===selectedPastel)delete timetableColors[key];else timetableColors[key]=selectedPastel;saveTimetable();renderTimetable();}});
         td.appendChild(btn);tr.appendChild(td);}body.appendChild(tr);}
   }
