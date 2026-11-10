@@ -276,7 +276,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .reading-add-form{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1.1fr) minmax(130px,1fr) minmax(130px,1fr) auto;align-items:end;gap:8px;margin-bottom:12px}
 .reading-add-form input{min-width:0;width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-size:13px;color:var(--ink);background:#fff}
 .reading-date-field{display:grid;gap:5px;min-width:0;font-size:11px;font-weight:650;color:var(--muted)}
-.reading-date-field input{min-width:0;width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 9px;font:inherit;font-size:12px;color:var(--ink);background:#fff}
+.reading-date-field input{min-width:0;width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 9px;font:inherit;font-size:12px;color:#888;background:#fff}
 .reading-add-form button{border:0;border-radius:10px;padding:10px 14px;background:var(--accent);color:#fff;font:inherit;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}
 .reading-list{display:grid;gap:7px}
 .reading-book{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;min-width:0}
@@ -380,7 +380,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 
 <section class="card reading-list-section" id="readingListSection" aria-labelledby="readingListHeading">
   <div class="reading-list-head"><div><div class="eyebrow">Reading tracker</div><h2 id="readingListHeading" style="font-size:20px;margin-top:5px">Reading list</h2><p class="sub">Keep the books you want to read in one place.</p></div><span class="reading-count" id="readingListCount">0 books</span></div>
-  <form class="reading-add-form" id="readingListForm"><input id="readingBookTitle" type="text" maxlength="160" placeholder="Enter a book title..." aria-label="Book title" required><input id="readingBookAuthor" type="text" maxlength="120" placeholder="Author (optional)" aria-label="Author (optional)"><label class="reading-date-field"><span>Start date</span><input id="readingStartDate" type="date" aria-label="Reading start date"></label><label class="reading-date-field"><span>Finish date</span><input id="readingEndDate" type="date" aria-label="Reading finish date"></label><button type="submit">＋ Add book</button></form>
+  <form class="reading-add-form" id="readingListForm"><input id="readingBookTitle" type="text" maxlength="160" placeholder="Enter a book title..." aria-label="Book title" required><input id="readingBookAuthor" type="text" maxlength="120" placeholder="Author (optional)" aria-label="Author (optional)"><label class="reading-date-field"><span>Start date</span><input id="readingStartDate" type="date" lang="en" aria-label="Reading start date"></label><label class="reading-date-field"><span>Finish date</span><input id="readingEndDate" type="date" lang="en" aria-label="Reading finish date"></label><button type="submit">＋ Add book</button></form>
   <div class="reading-list" id="readingListItems" aria-live="polite"></div>
   <p class="sub reading-list-status" id="readingListStatus">Your list is saved in this browser.</p>
 </section>
@@ -849,7 +849,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         const editor=document.createElement('form');editor.className='reading-book-editor';
         const fields=[{key:'title',type:'text',placeholder:'Book title',value:book.title,required:true},{key:'author',type:'text',placeholder:'Author',value:book.author||''},{key:'startDate',type:'date',placeholder:'Start date',value:book.startDate||''},{key:'endDate',type:'date',placeholder:'Finish date',value:book.endDate||''}];
         const inputs={};
-        fields.forEach(field=>{const input=document.createElement('input');input.type=field.type;input.value=field.value;input.placeholder=field.placeholder;input.setAttribute('aria-label',field.placeholder);if(field.required)input.required=true;inputs[field.key]=input;editor.appendChild(input);});
+        fields.forEach(field=>{const input=document.createElement('input');input.type=field.type;if(field.type==='date'){input.lang='en';input.style.color='#888';}input.value=field.value;input.placeholder=field.placeholder;input.setAttribute('aria-label',field.placeholder);if(field.required)input.required=true;inputs[field.key]=input;editor.appendChild(input);});
         const save=document.createElement('button');save.type='submit';save.className='reading-edit-save';save.textContent='Save';
         const cancel=document.createElement('button');cancel.type='button';cancel.className='reading-edit-cancel';cancel.textContent='Cancel';cancel.addEventListener('click',renderReadingList);
         editor.append(save,cancel);
