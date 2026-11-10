@@ -701,19 +701,45 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
       const empty=document.createElement('div');empty.className='habit-empty';empty.textContent='No habits yet. Add your first habit above.';$('habitTodayList').appendChild(empty);
     }else{
       habits.forEach(h=>{
-        const row=document.createElement('div');row.className='habit-today-row';row.draggable=true;if(h.color)row.style.backgroundColor=h.color;
-        const dragHandle=document.createElement('span');dragHandle.className='habit-drag-handle';dragHandle.textContent='⠿';dragHandle.title='Drag to reorder';dragHandle.setAttribute('aria-label','Drag to reorder habit');dragHandle.setAttribute('role','img');
-        row.addEventListener('dragstart',ev=>{if(!ev.target.closest('.habit-drag-handle')){ev.preventDefault();return;}row.classList.add('dragging');ev.dataTransfer.effectAllowed='move';ev.dataTransfer.setData('text/plain',String(h.id));});
-        row.addEventListener('dragover',ev=>{if(!document.querySelector('.habit-today-row.dragging'))return;ev.preventDefault();ev.dataTransfer.dropEffect='move';row.classList.add('drag-over');});
-        row.addEventListener('dragleave',()=>row.classList.remove('drag-over'));
-        row.addEventListener('drop',ev=>{ev.preventDefault();row.classList.remove('drag-over');const draggedId=ev.dataTransfer.getData('text/plain');if(!draggedId||draggedId===String(h.id))return;const from=habits.findIndex(item=>String(item.id)===draggedId),to=habits.findIndex(item=>item.id===h.id);if(from<0||to<0)return;const moved=habits.splice(from,1)[0];habits.splice(to,0,moved);saveHabits();renderHabits();});
-        row.addEventListener('dragend',()=>{row.classList.remove('dragging');document.querySelectorAll('.habit-today-row.drag-over').forEach(el=>el.classList.remove('drag-over'));});
+        const row=document.createElement('div');row.className='habit-today-row';if(h.color)row.style.backgroundColor=h.color;
+        const dragHandle=document.createElement('span');dragHandle.className='habit-drag-handle';dragHandle.textContent='⠿';dragHandle.title='Hold and drag to reorder';dragHandle.setAttribute('aria-label','Hold and drag to reorder habit');dragHandle.setAttribute('role','button');dragHandle.tabIndex=0;
+        dragHandle.addEventListener('pointerdown',ev=>{
+          if(ev.button!==undefined&&ev.button!==0)return;
+          ev.preventDefault();ev.stopPropagation();
+          const startY=ev.clientY;let moved=false;let targetRow=row;
+          row.classList.add('dragging');
+          const move=moveEv=>{
+            moveEv.preventDefault();
+            const under=document.elementFromPoint(moveEv.clientX,moveEv.clientY);
+            const candidate=under&&under.closest('.habit-today-row');
+            if(candidate&&candidate.parentElement===row.parentElement){
+              document.querySelectorAll('.habit-today-row.drag-over').forEach(el=>el.classList.remove('drag-over'));
+              targetRow=candidate;targetRow.classList.add('drag-over');moved=true;
+            }
+          };
+          const finish=()=>{
+            document.removeEventListener('pointermove',move);
+            document.removeEventListener('pointerup',finish);
+            document.removeEventListener('pointercancel',finish);
+            document.querySelectorAll('.habit-today-row.dragging,.habit-today-row.drag-over').forEach(el=>el.classList.remove('dragging','drag-over'));
+            if(!moved||targetRow===row)return;
+            const from=habits.findIndex(item=>String(item.id)===String(h.id));
+            const targetId=targetRow.dataset.habitId;
+            const to=habits.findIndex(item=>String(item.id)===String(targetId));
+            if(from<0||to<0||from===to)return;
+            const movedHabit=habits.splice(from,1)[0];habits.splice(to,0,movedHabit);saveHabits();renderHabits();
+          };
+          row.dataset.habitId=String(h.id);
+          document.addEventListener('pointermove',move,{passive:false});
+          document.addEventListener('pointerup',finish);
+          document.addEventListener('pointercancel',finish);
+        });
         const check=document.createElement('input');check.type='checkbox';check.className='habit-check';check.checked=isHabitDone(h.id,todayKey);check.setAttribute('aria-label','Mark '+h.name+' complete today');check.addEventListener('change',()=>setHabitDone(h.id,todayKey,check.checked));
         const name=document.createElement('div');name.className='habit-name'+(check.checked?' done':'');name.textContent=h.name;
         const actions=document.createElement('div');actions.className='habit-actions';
         let swipeStartX=0,swipeStartY=0,swipePointerId=null;
         row.addEventListener('pointerdown',ev=>{
-          if(ev.target.closest('button,input,textarea,select'))return;
+          if(ev.target.closest('button,input,textarea,select,.habit-drag-handle'))return;
           swipeStartX=ev.clientX;swipeStartY=ev.clientY;swipePointerId=ev.pointerId;
           row.dataset.swipeStartX=String(ev.clientX);row.dataset.swipeStartY=String(ev.clientY);
         });
