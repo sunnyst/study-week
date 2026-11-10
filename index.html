@@ -22,13 +22,13 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .pomodoro-visual{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
 .analog-timer{position:relative;width:min(100%,270px);aspect-ratio:1;border-radius:28px;background:linear-gradient(145deg,#fff,#eff0f3);box-shadow:10px 12px 22px rgba(34,39,58,.12),inset -4px -4px 8px rgba(40,43,60,.06),inset 4px 4px 8px #fff;padding:17px}
 .timer-top-mark{position:absolute;top:7px;left:40%;width:25%;height:4px;border-radius:5px;background:#245d36;transform:rotate(6deg)}
-.timer-face{width:100%;height:100%;position:relative;border-radius:50%;border:2px solid #d7d9dc;background:#fcfcfc;box-shadow:inset 0 2px 6px #0000000d;overflow:hidden}
-.timer-arc{position:absolute;inset:8%;border-radius:50%;background:conic-gradient(from 0deg,var(--timer-green,#2f6e43) 0deg,var(--timer-green,#2f6e43) var(--timer-progress,0deg),#f4f5f5 var(--timer-progress,0deg),#f4f5f5 360deg);mask:radial-gradient(circle,transparent 0 48%,#000 49% 100%);-webkit-mask:radial-gradient(circle,transparent 0 48%,#000 49% 100%)}
+.timer-face{width:100%;height:100%;position:relative;border-radius:50%;border:2px solid #d7d9dc;background:#2f6e43;box-shadow:inset 0 2px 6px #0000000d;overflow:hidden}
+.timer-arc{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,var(--timer-green,#2f6e43) 0deg,var(--timer-green,#2f6e43) var(--timer-progress,360deg),#f4f5f5 var(--timer-progress,360deg),#f4f5f5 360deg)}
 .timer-ticks{position:absolute;inset:0;pointer-events:none}
-.timer-tick{position:absolute;left:50%;top:50%;width:2px;height:7px;margin-left:-1px;background:#c9cbd0;transform-origin:50% 0}
-.timer-tick.major{height:11px;background:#a9adb4}
-.timer-number{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:61%;font-size:clamp(17px,2.7vw,23px);font-weight:800;letter-spacing:-.6px;color:#252a31;font-variant-numeric:tabular-nums;text-shadow:0 1px #fff;z-index:3;pointer-events:none}.timer-knob{top:39%;z-index:2}
-.timer-knob{position:absolute;left:50%;top:39%;width:25%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#fff63d,#e8d900);border:1px solid #e5d400;box-shadow:2px 4px 7px #0003,inset 2px 2px 3px #fff8;pointer-events:none}
+.timer-tick{position:absolute;left:50%;top:50%;width:1px;height:7px;margin-left:-.5px;background:#c9cbd0;transform-origin:50% 0}
+.timer-tick.major{width:3px;margin-left:-1.5px;height:11px;background:#a9adb4}
+.timer-number{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:68%;font-size:clamp(17px,2.7vw,23px);font-weight:800;letter-spacing:-.6px;color:#252a31;font-variant-numeric:tabular-nums;text-shadow:0 1px #fff;z-index:3;pointer-events:none}.timer-knob{top:50%;z-index:2}
+.timer-knob{position:absolute;left:50%;top:50%;width:25%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#fff63d,#e8d900);border:1px solid #e5d400;box-shadow:2px 4px 7px #0003,inset 2px 2px 3px #fff8;pointer-events:none}
 .timer-modes{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
 .timer-mode{border:1px solid var(--line);background:#fff;color:var(--muted);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700}
 .timer-mode.active{background:#eaf3ec;border-color:#c9dfcd;color:#285f39}
