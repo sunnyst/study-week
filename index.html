@@ -27,8 +27,8 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .timer-ticks{position:absolute;inset:0;pointer-events:none}
 .timer-tick{position:absolute;left:50%;top:50%;width:2px;height:7px;margin-left:-1px;background:#c9cbd0;transform-origin:50% 0}
 .timer-tick.major{height:11px;background:#a9adb4}
-.timer-number{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(25px,4vw,36px);font-weight:750;letter-spacing:-1.5px;color:#252a31;font-variant-numeric:tabular-nums;text-shadow:0 1px #fff}
-.timer-knob{position:absolute;left:50%;top:50%;width:25%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#fff63d,#e8d900);border:1px solid #e5d400;box-shadow:2px 4px 7px #0003,inset 2px 2px 3px #fff8;pointer-events:none}
+.timer-number{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:61%;font-size:clamp(17px,2.7vw,23px);font-weight:800;letter-spacing:-.6px;color:#252a31;font-variant-numeric:tabular-nums;text-shadow:0 1px #fff;z-index:3;pointer-events:none}.timer-knob{top:39%;z-index:2}
+.timer-knob{position:absolute;left:50%;top:39%;width:25%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#fff63d,#e8d900);border:1px solid #e5d400;box-shadow:2px 4px 7px #0003,inset 2px 2px 3px #fff8;pointer-events:none}
 .timer-modes{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
 .timer-mode{border:1px solid var(--line);background:#fff;color:var(--muted);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700}
 .timer-mode.active{background:#eaf3ec;border-color:#c9dfcd;color:#285f39}
@@ -90,6 +90,13 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
       <button class="timer-primary" id="timerStart" type="button">▶ Start focus</button>
       <button class="timer-secondary" id="timerPause" type="button" hidden>Pause</button>
       <button class="timer-secondary" id="timerFinish" type="button" hidden>Finish & save</button>
+    </div>
+
+    <div class="timer-duration-setting" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px">
+      <label for="focusDurationInput" style="font-size:12px;color:var(--muted);font-weight:650">Focus length (minutes)</label>
+      <input id="focusDurationInput" type="number" min="1" max="180" step="1" value="25" style="width:82px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);font:inherit">
+      <button class="timer-secondary" id="saveFocusDuration" type="button" style="padding:9px 12px">Set time</button>
+      <span id="focusDurationHint" style="font-size:11px;color:var(--muted)">1–180 minutes</span>
     </div>
     <div class="timer-stats">
       <div class="timer-stat"><strong id="todayTimerTime">0m</strong><span>Added today by timer</span></div>
@@ -185,12 +192,15 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 
   // Pomodoro timer: timestamp-based elapsed time survives reloads.
   const TIMER_KEY='study-week-pomodoro-v1';
-  const FOCUS_MS=25*60*1000, BREAK_MS=5*60*1000;
+  const BREAK_MS=5*60*1000;
+  let focusDurationMinutes=Number(read('study-week-focus-duration',25));
+  if(!Number.isFinite(focusDurationMinutes)||focusDurationMinutes<1||focusDurationMinutes>180)focusDurationMinutes=25;
+  function focusDurationMs(){return focusDurationMinutes*60*1000;}
   let timer=read(TIMER_KEY,{mode:'focus',elapsedMs:0,startedAt:null,running:false,entryId:null,sessionDate:null,creditedMinutes:0});
   if(!timer || !['focus','break'].includes(timer.mode)) timer={mode:'focus',elapsedMs:0,startedAt:null,running:false,entryId:null,sessionDate:null,creditedMinutes:0};
   timer.creditedMinutes=Number(timer.creditedMinutes||0);
   function saveTimer(){try{localStorage.setItem(TIMER_KEY,JSON.stringify(timer));}catch(e){console.warn('Timer state could not be saved in this browser.',e);}}
-  function timerDuration(){return timer.mode==='focus'?FOCUS_MS:BREAK_MS;}
+  function timerDuration(){return timer.mode==='focus'?focusDurationMs():BREAK_MS;}
   function timerElapsed(){return Math.max(0,Number(timer.elapsedMs||0)+(timer.running&&timer.startedAt?Date.now()-timer.startedAt:0));}
   function timerClock(ms){const s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
   function timerMinutes(ms){return Math.floor(Math.max(0,ms)/60000);}
@@ -209,8 +219,12 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   function renderTimer(){
     const elapsed=timerElapsed(), remaining=Math.max(0,timerDuration()-elapsed);
     $('timerDisplay').textContent=timerClock(remaining);
-    $('timerArc').style.setProperty('--timer-progress',Math.min(360,elapsed/timerDuration()*360)+'deg');
+    $('timerArc').style.setProperty('--timer-progress',Math.max(0,remaining/timerDuration()*360)+'deg');
     $('timerArc').style.setProperty('--timer-green',timer.mode==='focus'?'#2f6e43':'#6558e8');
+    $('focusMode').textContent='Focus · '+focusDurationMinutes+' min';
+    $('focusDurationInput').value=String(focusDurationMinutes);
+    $('focusDurationInput').disabled=timer.running;
+    $('saveFocusDuration').disabled=timer.running;
     $('focusMode').classList.toggle('active',timer.mode==='focus');
     $('breakMode').classList.toggle('active',timer.mode==='break');
     $('timerStart').textContent=timer.running?'Running…':(timer.elapsedMs>0?(timer.mode==='focus'?'▶ Resume focus':'▶ Resume break'):(timer.mode==='focus'?'▶ Start focus':'▶ Start break'));
@@ -230,12 +244,12 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     const elapsed=timerElapsed();
     let changed=false;
     if(timer.mode==='focus'){
-      const due=Math.min(25,timerMinutes(elapsed));
+      const due=Math.min(focusDurationMinutes,timerMinutes(elapsed));
       if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;changed=true;}
     }
     if(elapsed>=timerDuration()){
       if(timer.mode==='focus'){
-        const due=25;
+        const due=focusDurationMinutes;
         if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
         timer.mode='break';timer.elapsedMs=0;timer.startedAt=null;timer.running=false;timer.entryId=null;timer.sessionDate=null;timer.creditedMinutes=0;
         $('timerStatus').dataset.message='focus-complete';
@@ -265,6 +279,24 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     $('timerStatus').dataset.message='';
     saveTimer();renderTimer();
   }
+
+  $('saveFocusDuration').addEventListener('click',()=>{
+    if(timer.running){$('focusDurationHint').textContent='Pause the timer before changing duration.';return;}
+    const input=Number($('focusDurationInput').value);
+    if(!Number.isInteger(input)||input<1||input>180){
+      $('focusDurationHint').textContent='Enter a whole number from 1 to 180.';
+      $('focusDurationInput').focus();return;
+    }
+    focusDurationMinutes=input;
+    try{localStorage.setItem('study-week-focus-duration',String(input));}catch(e){console.warn('Could not save focus duration.',e);}
+    if(timer.mode==='focus'){
+      timer.elapsedMs=0;timer.startedAt=null;timer.running=false;timer.entryId=null;timer.sessionDate=null;timer.creditedMinutes=0;
+    }
+    $('focusDurationHint').textContent='Focus length set to '+input+' minutes.';
+    $('timerStatus').dataset.message='';
+    saveTimer();renderTimer();
+  });
+
   $('focusMode').addEventListener('click',()=>setTimerMode('focus'));
   $('breakMode').addEventListener('click',()=>setTimerMode('break'));
   $('timerStart').addEventListener('click',()=>{
@@ -276,7 +308,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     if(!timer.running)return;
     timer.elapsedMs=timerElapsed();timer.startedAt=null;timer.running=false;
     if(timer.mode==='focus'){
-      const due=Math.min(25,timerMinutes(timer.elapsedMs));
+      const due=Math.min(focusDurationMinutes,timerMinutes(timer.elapsedMs));
       if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
     }
     saveTimer();renderTimer();render();
@@ -284,7 +316,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   $('timerFinish').addEventListener('click',()=>{
     const elapsed=timerElapsed();
     if(timer.mode==='focus'){
-      const due=Math.min(25,timerMinutes(elapsed));
+      const due=Math.min(focusDurationMinutes,timerMinutes(elapsed));
       if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
     }
     timer.elapsedMs=0;timer.startedAt=null;timer.running=false;timer.entryId=null;timer.sessionDate=null;timer.creditedMinutes=0;
@@ -298,7 +330,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   if(timer.running){
     const elapsed=timerElapsed();
     if(timer.mode==='focus'){
-      const due=Math.min(25,timerMinutes(Math.min(elapsed,FOCUS_MS)));
+      const due=Math.min(focusDurationMinutes,timerMinutes(Math.min(elapsed,focusDurationMs())));
       if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
     }
     if(elapsed>=timerDuration()){
