@@ -221,8 +221,19 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .meal-log-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:10px}
 .meal-log-head h2{font-size:15px;margin:0}
 .meal-log-head span,.meal-save-status{font-size:10px;color:var(--muted)}
-.meal-fields{display:grid;gap:9px}
+.meal-fields{display:grid;grid-template-columns:minmax(0,1fr);gap:9px}
 .meal-fields label{display:grid;gap:4px;font-size:11px;font-weight:650;color:#626981}
+.meal-fields .meal-snacks-field{grid-column:1 / -1}
+.water-tracker{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.water-tracker-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;font-size:11px;font-weight:650;color:#626981}
+.water-tracker-head span:last-child{font-size:10px;font-weight:400;color:var(--muted)}
+.water-circles{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:7px;max-width:360px}
+.water-circle{width:100%;aspect-ratio:1;border:1.5px solid #b9dce9;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;transition:background .15s,border-color .15s,transform .15s;touch-action:manipulation}
+.water-circle svg{width:55%;height:55%;stroke:#78b9cf;fill:none;stroke-width:1.8;pointer-events:none}
+.water-circle.is-filled{background:#bdeaf5;border-color:#70c5df}
+.water-circle.is-filled svg{stroke:#247f9b}
+.water-circle:active{transform:scale(.94)}
+.water-circle:focus-visible{outline:2px solid #6558e8;outline-offset:2px}
 .meal-fields textarea{width:100%;min-width:0;resize:vertical;border:1px solid #e2e5ee;border-radius:7px;padding:7px 8px;font:12px/1.45 inherit;color:var(--ink);background:#fff;outline:none}
 .meal-fields textarea:focus{border-color:#a9a1ff;box-shadow:0 0 0 2px #6558e81a}
 .meal-save-status{margin:8px 0 0}
@@ -300,7 +311,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     <input id="habitNewName" type="text" maxlength="80" placeholder="Add a habit (e.g. English practice)" aria-label="New habit name" required>
     <button type="submit">＋ Add habit</button>
   </form>
-  <div class="daily-planner"><div class="planner-memo"><h2 style="font-size:15px;margin-bottom:10px">Memo</h2><textarea id="dailyMemo" class="daily-memo-input" placeholder="Write a note..." aria-label="Daily memo"></textarea><section class="meal-log" aria-labelledby="mealLogTitle"><div class="meal-log-head"><h2 id="mealLogTitle">Daily food log</h2><span id="mealLogDate"></span></div><div class="meal-fields"><label>Breakfast<textarea id="mealBreakfast" rows="2" placeholder="What did you eat?"></textarea></label><label>Lunch<textarea id="mealLunch" rows="2" placeholder="What did you eat?"></textarea></label><label>Dinner<textarea id="mealDinner" rows="2" placeholder="What did you eat?"></textarea></label><label>Snacks / drinks<textarea id="mealSnacks" rows="2" placeholder="Snacks, coffee, water..."></textarea></label></div><p class="meal-save-status" id="mealSaveStatus" aria-live="polite">Saved automatically in this browser.</p></section></div><div class="planner-checklist"><h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2><div class="habit-today-list" id="habitTodayList"></div></div><div class="card" style="padding:16px;box-shadow:none;border-radius:16px"><h2 style="font-size:15px">Daily timetable</h2><p class="sub">24 hours · 6 blocks per hour</p><div class="timetable-palette" id="timetablePalette" aria-label="12 pastel colors"></div><p class="timetable-help">Choose a pastel color, then tap any square to color it. Tap a colored square again to clear it.</p><div class="timetable-wrap"><table class="timetable" aria-label="24-hour daily timetable"><thead><tr><th class="time-label">Time</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody id="timetableBody"></tbody></table></div></div></div>
+  <div class="daily-planner"><div class="planner-memo"><h2 style="font-size:15px;margin-bottom:10px">Memo</h2><textarea id="dailyMemo" class="daily-memo-input" placeholder="Write a note..." aria-label="Daily memo"></textarea><section class="meal-log" aria-labelledby="mealLogTitle"><div class="meal-log-head"><h2 id="mealLogTitle">Daily food log</h2><span id="mealLogDate"></span></div><div class="meal-fields"><label>Breakfast<textarea id="mealBreakfast" rows="2" placeholder="What did you eat?"></textarea></label><label>Lunch<textarea id="mealLunch" rows="2" placeholder="What did you eat?"></textarea></label><label>Dinner<textarea id="mealDinner" rows="2" placeholder="What did you eat?"></textarea></label><label class="meal-snacks-field">Snacks / drinks<textarea id="mealSnacks" rows="2" placeholder="Snacks, coffee, water..."></textarea></label></div><div class="water-tracker"><div class="water-tracker-head"><span>Water</span><span id="waterCount">0 / 8 glasses</span></div><div class="water-circles" id="waterCircles" aria-label="Track 8 glasses of water"></div></div><p class="meal-save-status" id="mealSaveStatus" aria-live="polite">Saved automatically in this browser.</p></section></div><div class="planner-checklist"><h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2><div class="habit-today-list" id="habitTodayList"></div></div><div class="card" style="padding:16px;box-shadow:none;border-radius:16px"><h2 style="font-size:15px">Daily timetable</h2><p class="sub">24 hours · 6 blocks per hour</p><div class="timetable-palette" id="timetablePalette" aria-label="12 pastel colors"></div><p class="timetable-help">Choose a pastel color, then tap any square to color it. Tap a colored square again to clear it.</p><div class="timetable-wrap"><table class="timetable" aria-label="24-hour daily timetable"><thead><tr><th class="time-label">Time</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody id="timetableBody"></tbody></table></div></div></div>
   <div class="chart-head" style="margin:25px 0 12px"><div><h2 style="font-size:15px">30-day habit history</h2><p class="sub">Track each habit for the last 30 days.</p></div><div class="week-total" id="habitWeekSummary">0% complete</div></div><div class="habit-month-wrap"><table class="habit-month-table" aria-label="30-day habit completion"><thead id="habitWeekHead"></thead><tbody id="habitWeekBody"></tbody></table></div><div class="habit-week-footer"><span id="habitWeekRange">Last 30 days</span><span>Saved automatically in this browser</span></div>
 </section>
 
@@ -699,10 +710,34 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     field.addEventListener('input',()=>{
       if(!mealLog[mealToday])mealLog[mealToday]={};
       Object.keys(mealFields).forEach(k=>{if(mealFields[k])mealLog[mealToday][k]=mealFields[k].value;});
-      try{localStorage.setItem(MEAL_LOG_KEY,JSON.stringify(mealLog));if($('mealSaveStatus'))$('mealSaveStatus').textContent='Saved automatically.';}
-      catch(e){if($('mealSaveStatus'))$('mealSaveStatus').textContent='Could not save. Check browser storage settings.';}
+      saveMealLog();
     });
   });
+  function saveMealLog(){
+    try{localStorage.setItem(MEAL_LOG_KEY,JSON.stringify(mealLog));if($('mealSaveStatus'))$('mealSaveStatus').textContent='Saved automatically.';}
+    catch(e){if($('mealSaveStatus'))$('mealSaveStatus').textContent='Could not save. Check browser storage settings.';}
+  }
+  const waterCircles=$('waterCircles');
+  function renderWater(){
+    if(!waterCircles)return;
+    waterCircles.innerHTML='';
+    const count=Number((mealLog[mealToday]||{}).water||0);
+    for(let i=1;i<=8;i++){
+      const button=document.createElement('button');
+      button.type='button';button.className='water-circle'+(i<=count?' is-filled':'');
+      button.setAttribute('aria-label',`Glass ${i}`);button.setAttribute('aria-pressed',String(i<=count));
+      button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l-1 18H8L7 3Z"/><path d="M8 12h8"/></svg>';
+      button.addEventListener('click',()=>{
+        if(!mealLog[mealToday])mealLog[mealToday]={};
+        mealLog[mealToday].water=(i===count?i-1:i);
+        saveMealLog();renderWater();
+      });
+      waterCircles.appendChild(button);
+    }
+    const current=Number((mealLog[mealToday]||{}).water||0);
+    if($('waterCount'))$('waterCount').textContent=`${current} / 8 glasses`;
+  }
+  renderWater();
 })();
 </script>
 </body>
