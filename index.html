@@ -458,12 +458,27 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   const PASTELS=['#FADADD','#F8C8DC','#E6D6F5','#D9D2FF','#CFE2FF','#C9F0F0','#CDEFD6','#E4F0C8','#FFF1B8','#FFE0C2','#F5D5C8','#DDE1E8'];
   let timetableColors=read(TIMETABLE_KEY,{}), selectedPastel=PASTELS[0];
   function saveTimetable(){try{localStorage.setItem(TIMETABLE_KEY,JSON.stringify(timetableColors));}catch(e){console.warn('Could not save timetable.',e);}}
+  let timetablePainting=false;
+  function paintTimetableCell(key,btn){
+    if(!btn)return;
+    timetableColors[key]=selectedPastel;
+    btn.style.background=selectedPastel;
+    btn.setAttribute('aria-label',btn.title+'; colored');
+    saveTimetable();
+  }
+  function stopTimetablePainting(){timetablePainting=false;}
+  window.addEventListener('pointerup',stopTimetablePainting);
+  window.addEventListener('pointercancel',stopTimetablePainting);
   function renderTimetable(){
     const palette=$('timetablePalette');palette.innerHTML='';
     PASTELS.forEach(color=>{const btn=document.createElement('button');btn.type='button';btn.className='palette-color'+(selectedPastel===color?' selected':'');btn.style.background=color;btn.title=color;btn.setAttribute('aria-label','Select pastel color '+color);btn.setAttribute('aria-pressed',String(selectedPastel===color));btn.addEventListener('click',()=>{selectedPastel=color;renderTimetable();});palette.appendChild(btn);});
     const body=$('timetableBody');body.innerHTML='';
-    for(let hour=5;hour<29;hour++){const actual=hour%24,tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(hour-4);tr.appendChild(th);
-      for(let col=0;col<6;col++){const td=document.createElement('td');td.className='timetable-cell';const key=String(hour%24)+'-'+col;const btn=document.createElement('button');btn.type='button';btn.style.background=timetableColors[key]||'#ffffff';btn.title='Hour '+(hour-4)+', block '+(col+1);btn.setAttribute('aria-label',btn.title+'; '+(timetableColors[key]?'colored':'empty'));btn.addEventListener('click',()=>{if(timetableColors[key]===selectedPastel)delete timetableColors[key];else timetableColors[key]=selectedPastel;saveTimetable();renderTimetable();});td.appendChild(btn);tr.appendChild(td);}body.appendChild(tr);}
+    for(let hour=5;hour<29;hour++){const tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(hour-4);tr.appendChild(th);
+      for(let col=0;col<6;col++){const td=document.createElement('td');td.className='timetable-cell';const key=String(hour%24)+'-'+col;const btn=document.createElement('button');btn.type='button';btn.style.background=timetableColors[key]||'#ffffff';btn.title='Hour '+(hour-4)+', block '+(col+1);btn.setAttribute('aria-label',btn.title+'; '+(timetableColors[key]?'colored':'empty'));
+        btn.addEventListener('pointerdown',ev=>{if(ev.button!==undefined&&ev.button!==0)return;ev.preventDefault();timetablePainting=true;paintTimetableCell(key,btn);});
+        btn.addEventListener('pointerenter',()=>{if(timetablePainting)paintTimetableCell(key,btn);});
+        btn.addEventListener('click',ev=>{if(ev.detail===0){if(timetableColors[key]===selectedPastel)delete timetableColors[key];else timetableColors[key]=selectedPastel;saveTimetable();renderTimetable();}});
+        td.appendChild(btn);tr.appendChild(td);}body.appendChild(tr);}
   }
 
   // Habit tracker data is stored separately from study-time entries.
