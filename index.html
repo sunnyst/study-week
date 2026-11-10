@@ -132,6 +132,11 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 @media(max-width:900px){.daily-planner{grid-template-columns:minmax(260px,1.2fr) minmax(200px,.8fr)!important}.planner-memo{grid-column:1/-1}.daily-memo-input{min-height:200px}}
 @media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.planner-memo{grid-column:auto}.timetable-wrap{overflow-x:auto!important}.timetable{width:auto!important}}
 
+
+/* Restore the missing right-hand vertical border after timetable column 6 */
+.timetable thead th:last-child{box-shadow:inset -1px 0 0 #dfe3ec!important}
+.timetable tbody td.timetable-cell:last-child{box-shadow:inset -1px 0 0 #dfe3ec!important}
+
 </style>
 </head>
 <body>
