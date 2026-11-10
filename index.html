@@ -618,14 +618,14 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         });
         row.addEventListener('pointercancel',()=>{swipePointerId=null;delete row.dataset.swipeStartX;delete row.dataset.swipeStartY;});
 
-        const colorBtn=document.createElement('button');colorBtn.type='button';colorBtn.className='habit-action color';colorBtn.textContent='C';colorBtn.title='Color: apply selected pastel color';colorBtn.setAttribute('aria-label','Color');colorBtn.style.borderColor=h.color||'var(--line)';colorBtn.addEventListener('click',()=>{h.color=selectedPastel;saveHabits();renderHabits();});
-        const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.textContent='E';edit.title='Edit habit';edit.setAttribute('aria-label','Edit habit');edit.addEventListener('click',()=>{
+        const colorBtn=document.createElement('button');colorBtn.type='button';colorBtn.className='habit-action color';colorBtn.textContent='🎨';colorBtn.title='Change color';colorBtn.setAttribute('aria-label','Change color');colorBtn.style.borderColor=h.color||'var(--line)';colorBtn.addEventListener('click',()=>{h.color=selectedPastel;saveHabits();renderHabits();});
+        const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.textContent='✎';edit.title='Edit habit';edit.setAttribute('aria-label','Edit habit');edit.addEventListener('click',()=>{
           const next=prompt('Edit habit name:',h.name);
           if(next===null)return;
           const trimmed=next.trim();if(!trimmed){alert('Habit name cannot be empty.');return;}
           h.name=trimmed.slice(0,80);saveHabits();renderHabits();
         });
-        const del=document.createElement('button');del.type='button';del.className='habit-action delete';del.textContent='D';del.title='Delete habit';del.setAttribute('aria-label','Delete habit');del.addEventListener('click',()=>{
+        const del=document.createElement('button');del.type='button';del.className='habit-action delete';del.textContent='×';del.title='Delete habit';del.setAttribute('aria-label','Delete habit');del.addEventListener('click',()=>{
           if(confirm('Delete “'+h.name+'” and its completion history?')){habits=habits.filter(x=>x.id!==h.id);Object.keys(habitChecks).forEach(date=>{if(habitChecks[date])delete habitChecks[date][h.id];});saveHabits();renderHabits();}
         });
         actions.append(colorBtn,edit,del);row.append(check,name,actions);$('habitTodayList').appendChild(row);
