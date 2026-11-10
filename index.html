@@ -253,6 +253,9 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .habit-month-table .month-color-mark{width:18px!important;height:18px!important;margin:0 auto!important;border-radius:2px!important}
 .habit-month-table th:last-child,.habit-month-table td:last-child{width:55px!important;min-width:55px!important;max-width:55px!important}
 
+
+/* Daily calendar */
+.calendar-card{margin:0 0 22px;padding:20px!important}.calendar-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}.calendar-nav{display:flex;align-items:center;gap:7px}.calendar-nav .icon-btn{width:32px;height:32px}.calendar-nav strong{min-width:145px;text-align:center;font-size:14px}.calendar-weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.calendar-weekdays{margin-bottom:6px}.calendar-weekdays span{text-align:center;font-size:11px;color:var(--muted);font-weight:700;padding:5px 0}.calendar-day{position:relative;min-height:42px;border:1px solid #eceef5;background:#fff;border-radius:9px;color:var(--ink);font-size:12px;padding:6px;display:flex;align-items:flex-start}.calendar-day.outside{opacity:.38}.calendar-day.selected{border:2px solid var(--accent);background:#f3f1ff;padding:5px;font-weight:800}.calendar-day.today:not(.selected){background:#edf8f1;border-color:#bfe2cd}.calendar-day.has-record:after{content:'';position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#249b78}.calendar-selected{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;font-size:12px;color:var(--muted)}.calendar-selected strong{color:var(--ink)}#calendarSavedHint{margin-left:auto}@media(max-width:720px){.calendar-card{padding:14px!important}.calendar-head{align-items:flex-start;flex-direction:column}.calendar-nav{width:100%;justify-content:space-between}.calendar-nav strong{min-width:0}.calendar-day{min-height:36px;padding:5px}.calendar-day.selected{padding:4px}.calendar-weekdays,.calendar-grid{gap:3px}}
 </style>
 </head>
 <body>
@@ -326,6 +329,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     <input id="habitNewName" type="text" maxlength="80" placeholder="Add a habit (e.g. English practice)" aria-label="New habit name" required>
     <button type="submit">＋ Add habit</button>
   </form>
+  <section class="calendar-card card" aria-labelledby="calendarTitle"><div class="calendar-head"><div><h2 id="calendarTitle">Daily calendar</h2><p class="sub">Choose a date to open that day’s saved records.</p></div><div class="calendar-nav"><button type="button" class="icon-btn" id="calendarPrev" aria-label="Previous month">‹</button><strong id="calendarMonth"></strong><button type="button" class="icon-btn" id="calendarNext" aria-label="Next month">›</button><button type="button" class="small-btn" id="calendarToday">Today</button></div></div><div class="calendar-weekdays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div class="calendar-grid" id="calendarGrid"></div><p class="calendar-selected">Selected date: <strong id="calendarSelectedDate"></strong><span id="calendarSavedHint">Records save automatically in this browser.</span></p></section>
   <div class="daily-planner"><div class="planner-memo"><h2 style="font-size:15px;margin-bottom:10px">Memo</h2><textarea id="dailyMemo" class="daily-memo-input" placeholder="Write a note..." aria-label="Daily memo"></textarea><section class="meal-log" aria-labelledby="mealLogTitle"><div class="meal-log-head"><h2 id="mealLogTitle">Daily food log</h2><span id="mealLogDate"></span></div><div class="meal-fields"><label>Breakfast<textarea id="mealBreakfast" rows="2" placeholder="What did you eat?"></textarea></label><label>Lunch<textarea id="mealLunch" rows="2" placeholder="What did you eat?"></textarea></label><label>Dinner<textarea id="mealDinner" rows="2" placeholder="What did you eat?"></textarea></label><label class="meal-snacks-field">Snacks / drinks<textarea id="mealSnacks" rows="2" placeholder="Snacks, coffee, water..."></textarea></label></div><div class="water-tracker"><div class="water-tracker-head"><span>Water</span><span id="waterCount">0 / 8 glasses</span></div><div class="water-circles" id="waterCircles" aria-label="Track 8 glasses of water"></div></div><p class="meal-save-status" id="mealSaveStatus" aria-live="polite">Saved automatically in this browser.</p></section></div><div class="planner-checklist"><h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2><div class="habit-today-list" id="habitTodayList"></div></div><div class="card" style="padding:16px;box-shadow:none;border-radius:16px"><h2 style="font-size:15px">Daily timetable</h2><p class="sub">24 hours · 6 blocks per hour</p><div class="timetable-palette" id="timetablePalette" aria-label="12 pastel colors"></div><p class="timetable-help">Choose a pastel color, then tap any square to color it. Tap a colored square again to clear it.</p><div class="timetable-wrap"><table class="timetable" aria-label="24-hour daily timetable"><thead><tr><th class="time-label">Time</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody id="timetableBody"></tbody></table></div></div></div>
   <div class="chart-head" style="margin:25px 0 12px"><div><h2 style="font-size:15px">30-day habit history</h2><p class="sub">Track each habit for the last 30 days.</p></div><div class="week-total" id="habitWeekSummary">0% complete</div></div><div class="habit-month-wrap"><table class="habit-month-table" aria-label="30-day habit completion"><thead id="habitWeekHead"></thead><tbody id="habitWeekBody"></tbody></table></div><div class="habit-week-footer"><span id="habitWeekRange">Last 30 days</span><span>Saved automatically in this browser</span></div>
 </section>
@@ -358,6 +362,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   const $ = id => document.getElementById(id);
   const today = new Date();
   const dateKey = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  let activeDateKey=dateKey(today);
   const parseDate = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d,12); };
   const monday = d => { const x=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12); x.setDate(x.getDate()-(x.getDay()+6)%7); return x; };
   const addDays = (d,n) => {const x=new Date(d);x.setDate(x.getDate()+n);return x;};
@@ -572,8 +577,9 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 
   const TIMETABLE_KEY='study-week-timetable-v1';
   const PASTELS=['#FADADD','#F8C8DC','#E6D6F5','#D9D2FF','#CFE2FF','#C9F0F0','#CDEFD6','#E4F0C8','#FFF1B8','#FFE0C2','#F5D5C8','#DDE1E8','#FFFFFF','#555555'];
-  let timetableColors=read(TIMETABLE_KEY,{}), selectedPastel=PASTELS[0];
-  function saveTimetable(){try{localStorage.setItem(TIMETABLE_KEY,JSON.stringify(timetableColors));}catch(e){console.warn('Could not save timetable.',e);}}
+  const legacyTimetable=read(TIMETABLE_KEY,{});let timetableByDate=read(TIMETABLE_KEY+'-by-date',{});if(!Object.keys(timetableByDate).length&&Object.keys(legacyTimetable).length){timetableByDate[activeDateKey]=legacyTimetable;try{localStorage.setItem(TIMETABLE_KEY+'-by-date',JSON.stringify(timetableByDate));}catch(e){}}
+  let timetableColors=timetableByDate[activeDateKey]||{}, selectedPastel=PASTELS[0];
+  function saveTimetable(){try{timetableByDate[activeDateKey]=timetableColors;localStorage.setItem(TIMETABLE_KEY+'-by-date',JSON.stringify(timetableByDate));}catch(e){console.warn('Could not save timetable.',e);}}
   let timetablePainting=false;
   let lastPaintedTimetableKey=null;
   function paintTimetableCell(key,btn){
@@ -635,7 +641,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     renderHabits();
   }
   function renderHabits(){
-    const todayKey=dateKey(new Date());
+    const todayKey=activeDateKey;
     const doneToday=habits.filter(h=>isHabitDone(h.id,todayKey)).length;
     $('habitTodaySummary').textContent=doneToday+' / '+habits.length+' done today';
     $('habitTodayList').innerHTML='';
@@ -678,7 +684,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
         actions.append(colorBtn,edit,del);row.append(check,name,actions);$('habitTodayList').appendChild(row);
       });
     }
-    const base=new Date();base.setHours(12,0,0,0);const dates=Array.from({length:30},(_,i)=>addDays(base,i));
+    const base=parseDate(activeDateKey);const dates=Array.from({length:30},(_,i)=>addDays(base,i));
     $('habitWeekHead').innerHTML='';$('habitWeekBody').innerHTML='';
     const headRow=document.createElement('tr');const habitTh=document.createElement('th');habitTh.textContent='Habit';headRow.appendChild(habitTh);
     dates.forEach(d=>{const th=document.createElement('th');th.className='month-day-label';const label=document.createElement('span');label.className='month-day-label-text';label.textContent=(d.getMonth()+1)+'/'+d.getDate();th.appendChild(label);if(dateKey(d)===todayKey)th.className+=' month-today';headRow.appendChild(th);});
@@ -700,13 +706,11 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 
   render();
 
-  // Persist the daily memo in this browser.
-  const dailyMemo=$('dailyMemo');
-  if(dailyMemo){
-    try{dailyMemo.value=localStorage.getItem('study-week-daily-memo')||'';}catch(e){}
-    dailyMemo.addEventListener('input',()=>{try{localStorage.setItem('study-week-daily-memo',dailyMemo.value);}catch(e){}});
-  }
-
+  // Store each day's memo separately; migrate the previous memo to today.
+  const dailyMemo=$('dailyMemo'), DAILY_MEMO_KEY='study-week-daily-memos-v1';
+  let dailyMemos=read(DAILY_MEMO_KEY,{});
+  if(!Object.keys(dailyMemos).length){const previousMemo=localStorage.getItem('study-week-daily-memo');if(previousMemo)dailyMemos[dateKey(today)]=previousMemo;}
+  if(dailyMemo)dailyMemo.addEventListener('input',()=>{dailyMemos[activeDateKey]=dailyMemo.value;try{localStorage.setItem(DAILY_MEMO_KEY,JSON.stringify(dailyMemos));}catch(e){}});
   renderTimetable();
   renderHabits();
 
@@ -715,7 +719,7 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
   const MEAL_LOG_KEY='study-week-meal-log-v1';
   let mealLog={};
   try{mealLog=JSON.parse(localStorage.getItem(MEAL_LOG_KEY)||'{}')||{};}catch(e){mealLog={};}
-  const mealToday=dateKey(new Date());
+  let mealToday=activeDateKey;
   if($('mealLogDate'))$('mealLogDate').textContent=mealToday;
   const todaysMeals=mealLog[mealToday]||{};
   Object.keys(mealFields).forEach(key=>{
@@ -753,6 +757,31 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
     if($('waterCount'))$('waterCount').textContent=`${current} / 8 glasses`;
   }
   renderWater();
+
+  let calendarMonth=new Date(today.getFullYear(),today.getMonth(),1,12);
+  function dayHasRecords(key){
+    const m=mealLog[key]||{};
+    return entries.some(e=>e.date===key)||!!(habitChecks[key]&&Object.values(habitChecks[key]).some(Boolean))||!!String(dailyMemos[key]||'').trim()||!!(timetableByDate[key]&&Object.values(timetableByDate[key]).some(c=>c&&c!=='#ffffff'))||Object.keys(m).some(k=>k==='water'?Number(m[k])>0:String(m[k]||'').trim());
+  }
+  function renderCalendar(){
+    $('calendarMonth').textContent=calendarMonth.toLocaleDateString('en-US',{month:'long',year:'numeric'});$('calendarGrid').innerHTML='';
+    const first=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),1,12),start=addDays(first,-((first.getDay()+6)%7));
+    for(let i=0;i<42;i++){const d=addDays(start,i),key=dateKey(d),b=document.createElement('button');b.type='button';b.className='calendar-day';if(d.getMonth()!==calendarMonth.getMonth())b.classList.add('outside');if(key===dateKey(today))b.classList.add('today');if(key===activeDateKey)b.classList.add('selected');if(dayHasRecords(key))b.classList.add('has-record');b.textContent=d.getDate();b.setAttribute('aria-label',key+(dayHasRecords(key)?', has saved records':''));b.addEventListener('click',()=>selectCalendarDate(key));$('calendarGrid').appendChild(b);}
+    $('calendarSelectedDate').textContent=activeDateKey;
+  }
+  function selectCalendarDate(key){
+    if(dailyMemo){dailyMemos[activeDateKey]=dailyMemo.value;try{localStorage.setItem(DAILY_MEMO_KEY,JSON.stringify(dailyMemos));}catch(e){}}
+    if(!mealLog[mealToday])mealLog[mealToday]={};Object.keys(mealFields).forEach(k=>{if(mealFields[k])mealLog[mealToday][k]=mealFields[k].value;});saveMealLog();saveTimetable();
+    activeDateKey=key;mealToday=key;const d=parseDate(key);calendarMonth=new Date(d.getFullYear(),d.getMonth(),1,12);
+    if(dailyMemo)dailyMemo.value=dailyMemos[key]||'';
+    const m=mealLog[key]||{};Object.keys(mealFields).forEach(k=>{if(mealFields[k])mealFields[k].value=m[k]||'';});
+    if($('mealLogDate'))$('mealLogDate').textContent=key;if($('mealSaveStatus'))$('mealSaveStatus').textContent='Saved automatically in this browser.';
+    timetableColors=timetableByDate[key]||{};renderTimetable();renderHabits();renderWater();renderCalendar();
+  }
+  $('calendarPrev').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1,12);renderCalendar();});
+  $('calendarNext').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1,12);renderCalendar();});
+  $('calendarToday').addEventListener('click',()=>selectCalendarDate(dateKey(today)));
+  renderCalendar();
 })();
 </script>
 </body>
