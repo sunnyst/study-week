@@ -314,63 +314,84 @@ h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);ma
 .mp3-player-section{margin:20px 0}.mp3-upload{display:flex;align-items:center;gap:12px;padding:15px;border:1px dashed #c9c6f5;background:#faf9ff;border-radius:14px;cursor:pointer;margin:16px 0}.mp3-upload:hover{background:#f3f1ff}.mp3-upload-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#e9e6ff;color:var(--accent);font-size:24px}.mp3-upload strong,.mp3-upload small{display:block}.mp3-upload strong{font-size:13px}.mp3-upload small{font-size:11px;color:var(--muted);margin-top:2px}.mp3-now-playing{display:flex;align-items:center;gap:12px;margin:16px 0 10px}.mp3-disc{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#dcd7ff,#8b7ef0);color:white;font-size:24px}.mp3-track-info{min-width:0;display:grid;gap:3px}.mp3-track-info strong{overflow-wrap:anywhere;font-size:14px}.mp3-track-info span{color:var(--muted);font-size:12px}.mp3-player-section audio,.mp3-player-section video{display:block;width:100%;max-height:480px;margin:12px 0;border-radius:12px;background:#111}.mp3-player-section video[hidden]{display:none}.mp3-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mp3-control-btn,.mp3-clear-btn{border:1px solid var(--line);border-radius:9px;background:#fff;padding:8px 11px;color:var(--ink);font-size:12px}.mp3-control-btn:disabled,.mp3-clear-btn:disabled{opacity:.4;cursor:default}.mp3-autonext{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);margin-left:auto}.mp3-autonext input{accent-color:var(--accent)}.mp3-clear-btn{color:#bd5961}.mp3-playlist{display:grid;gap:7px;margin-top:14px}.mp3-playlist-row{display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;min-width:0}.mp3-playlist-row.active{border-color:#bcb5ff;background:#f8f7ff}.mp3-play-track{flex:1;min-width:0;border:0;background:transparent;text-align:left;color:var(--ink);padding:0}.mp3-play-track strong,.mp3-play-track small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mp3-play-track strong{font-size:12px}.mp3-play-track small{font-size:10px;color:var(--muted);margin-top:2px}.mp3-track-remove{border:0;background:transparent;color:#a0a4b5;font-size:18px;padding:3px 6px}.mp3-track-remove:hover{color:#bd5961}@media(max-width:600px){.mp3-autonext{margin-left:0}.mp3-controls{gap:6px}.mp3-control-btn,.mp3-clear-btn{padding:8px}}
 
 
-/* Mobile fixes: keep the analog timer perfectly round and preserve calendar weather + habit history */
-@media(max-width:720px){
-  .pomodoro-visual{width:100%;min-width:0}
-  .analog-timer{
-    width:min(78vw,270px)!important;
-    height:min(78vw,270px)!important;
-    min-width:0!important;
-    min-height:0!important;
+/* Mobile layout overrides — explicit sizing and visible horizontal history */
+@media screen and (max-width: 720px) {
+  .pomodoro-card .pomodoro-visual { display:flex!important; width:100%!important; align-items:center!important; }
+  .pomodoro-card .analog-timer {
+    display:block!important;
+    position:relative!important;
+    width: min(78vw, 270px)!important;
+    height: min(78vw, 270px)!important;
+    min-width: min(78vw, 270px)!important;
+    min-height: min(78vw, 270px)!important;
     max-width:270px!important;
     max-height:270px!important;
-    aspect-ratio:1/1!important;
-    flex:0 0 auto!important;
-    box-sizing:border-box!important;
+    aspect-ratio:1 / 1!important;
+    padding:17px!important;
+    flex:none!important;
+    border-radius:50%!important;
   }
-  .timer-face{width:100%!important;height:100%!important;aspect-ratio:1/1!important}
-  .calendar-grid{width:100%;min-width:0}
-  .calendar-day{
+  .pomodoro-card .timer-face {
+    position:absolute!important;
+    inset:17px!important;
+    width:auto!important;
+    height:auto!important;
+    aspect-ratio:1 / 1!important;
+    border-radius:50%!important;
+  }
+  .calendar-card .calendar-grid { display:grid!important; grid-template-columns:repeat(7,minmax(0,1fr))!important; width:100%!important; }
+  .calendar-card .calendar-day {
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-rows:auto auto!important;
+    align-content:start!important;
+    align-items:start!important;
+    justify-content:stretch!important;
     min-width:0!important;
     min-height:42px!important;
     padding:4px 3px!important;
     gap:2px!important;
-    flex-wrap:wrap!important;
-    align-content:flex-start!important;
-    overflow:visible!important;
+    overflow:hidden!important;
   }
-  .calendar-day-number{font-size:11px!important}
-  .calendar-weather-icon{
-    display:inline-block!important;
+  .calendar-card .calendar-day-number { grid-column:1; grid-row:1; font-size:11px!important; }
+  .calendar-card .calendar-weather-icon {
+    display:block!important;
     visibility:visible!important;
     opacity:1!important;
-    font-size:12px!important;
+    grid-column:2!important;
+    grid-row:1!important;
+    font-size:13px!important;
     line-height:1!important;
-    min-width:11px!important;
-    flex:0 0 auto!important;
+    min-width:12px!important;
+    text-align:center!important;
   }
-  .calendar-event-label{flex:1 0 100%;max-width:100%!important;font-size:8px!important}
-  .habit-month-wrap{
+  .calendar-card .calendar-event-label { grid-column:1 / -1!important; grid-row:2!important; max-width:100%!important; font-size:8px!important; }
+  .habit-month-wrap {
     display:block!important;
+    position:relative!important;
     width:100%!important;
     max-width:100%!important;
-    overflow-x:auto!important;
+    height:auto!important;
+    overflow-x:scroll!important;
     overflow-y:hidden!important;
     -webkit-overflow-scrolling:touch!important;
     touch-action:pan-x!important;
-    overscroll-behavior-x:contain;
   }
-  .habit-month-table{
+  .habit-month-table {
     display:table!important;
     width:max-content!important;
     min-width:1050px!important;
+    max-width:none!important;
     table-layout:fixed!important;
+    visibility:visible!important;
   }
-  .habit-month-table thead,.habit-month-table tbody{display:table-row-group}
-  .habit-month-table tr{display:table-row!important}
-  .habit-month-table th,.habit-month-table td{display:table-cell!important}
+  .habit-month-table thead { display:table-header-group!important; }
+  .habit-month-table tbody { display:table-row-group!important; }
+  .habit-month-table tr { display:table-row!important; }
+  .habit-month-table th, .habit-month-table td { display:table-cell!important; }
+  .habit-history-head { display:grid!important; }
+  .habit-history-completion { display:flex!important; }
 }
-
 </style>
 </head>
 <body>
