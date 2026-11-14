@@ -1306,7 +1306,7 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
   const header=app.querySelector('header');
   const nav=document.createElement('nav');
   nav.className='book-tabs';nav.id='diaryBookTabs';nav.setAttribute('aria-label','Diary Book sections');
-  const tabs=[['study','Study'],['day','Day'],['habits','Habits'],['library','Library']];
+  const tabs=[['study','Study'],['records','Records'],['timer','Timer'],['day','Day'],['habits','Habits'],['reading','Reading'],['movies','Movies'],['music','Music']];
   tabs.forEach(([id,label],i)=>{
     const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.tab=id;
     b.setAttribute('aria-pressed',i===0?'true':'false');b.addEventListener('click',()=>activate(id));
@@ -1323,8 +1323,8 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
 
   const move=(selector,panel)=>{const el=app.querySelector(selector);if(el)panels[panel].appendChild(el);return el;};
   move('.overview','study');
-  move('.pomodoro-card','study');
-  move('.main-grid','study');
+  move('.main-grid','records');
+  move('.pomodoro-card','timer');
   move('.footer','study');
 
   move('.calendar-card','day');
@@ -1338,10 +1338,10 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
   move('.habit-month-wrap','habits');
   move('.habit-week-footer','habits');
 
-  move('#readingListSection','library');
-  move('#movieListSection','library');
-  move('#albumListSection','library');
-  move('#mp3PlayerSection','library');
+  move('#readingListSection','reading');
+  move('#movieListSection','movies');
+  move('#albumListSection','music');
+  move('#mp3PlayerSection','music');
 
   const oldPlanner=app.querySelector('.daily-planner');if(oldPlanner)oldPlanner.remove();
   const oldHabit=app.querySelector('.habit-section');if(oldHabit)oldHabit.remove();
@@ -1448,6 +1448,48 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
   .book-panel[data-panel="habits"] .habit-history-head{align-items:start;flex-direction:column}
   .book-panel[data-panel="habits"] .habit-add-form{width:100%}
   .book-panel[data-panel="habits"] .habit-add-form input{min-width:0;flex:1}
+}
+</style>
+
+
+<style id="diary-book-spread-tabs">
+/* Match the attached Diary Book's quiet paper-and-ink visual language across every tab. */
+:root{--desk:#efefec;--paper:#fffefa;--ink:#20201e;--muted:#777771;--line:#d9d9d3;--soft:#f5f5f1;--green:#426b50;--shadow:0 12px 34px rgba(0,0,0,.09)}
+html{background:var(--desk)}body{background:var(--desk);color:var(--ink);font-family:"Avenir Next","Avenir","Helvetica Neue",Arial,sans-serif}
+.diary-app .book-pages{background:var(--paper);border-radius:5px;box-shadow:-1px 1px 0 #0000000b,-7px 10px 28px #0000000d}
+.diary-app .book-panel{background:var(--paper)}
+.diary-app .book-panel[data-panel="study"] .overview,
+.diary-app .book-panel[data-panel="records"] .main-grid,
+.diary-app .book-panel[data-panel="timer"] .pomodoro-card,
+.diary-app .book-panel[data-panel="day"] .calendar-card,
+.diary-app .book-panel[data-panel="day"] .planner-memo,
+.diary-app .book-panel[data-panel="habits"] .habit-head,
+.diary-app .book-panel[data-panel="habits"] .planner-checklist,
+.diary-app .book-panel[data-panel="reading"] #readingListSection,
+.diary-app .book-panel[data-panel="movies"] #movieListSection,
+.diary-app .book-panel[data-panel="music"] #albumListSection,
+.diary-app .book-panel[data-panel="music"] #mp3PlayerSection{grid-column:1/-1}
+.diary-app .book-tabs{right:15px;top:132px;bottom:36px;gap:4px}
+.diary-app .book-tabs button{height:auto;min-height:48px;flex:1 1 0;max-height:88px;padding:8px 6px;background:#fffefa;border:1px solid #d1d1cc;border-left:0;border-radius:0 5px 5px 0;color:#686863;box-shadow:3px 2px 7px #0000000a}
+.diary-app .book-tabs button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.diary-app .book-panel .reading-list-section,.diary-app .book-panel .mp3-player-section{grid-column:1/-1}
+.diary-app .book-panel[data-panel="timer"] .pomodoro-card{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:28px;align-items:center}
+.diary-app .book-panel[data-panel="records"] .main-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+.diary-app .book-panel[data-panel="reading"] .reading-list-section,
+.diary-app .book-panel[data-panel="movies"] .reading-list-section,
+.diary-app .book-panel[data-panel="music"] .reading-list-section{width:100%}
+@media(max-width:760px){
+ body{padding:0 8px 18px}
+ .app.diary-app{padding:14px 38px 28px 8px}
+ .diary-app header{align-items:flex-start;flex-direction:column;padding-bottom:12px}
+ .diary-app .brand h1{font-size:22px}
+ .diary-app .week-nav{flex-wrap:wrap}
+ .diary-app .book-tabs{right:3px;top:145px;bottom:20px;gap:3px}
+ .diary-app .book-tabs button{width:28px;min-height:38px;font-size:8px;letter-spacing:.08em;padding:5px 4px}
+ .diary-app .book-panel{grid-template-columns:minmax(0,1fr);padding:18px 14px;gap:14px}
+ .diary-app .book-panel:after,.diary-app .book-pages:before{display:none}
+ .diary-app .book-panel[data-panel="timer"] .pomodoro-card,.diary-app .book-panel[data-panel="records"] .main-grid{grid-template-columns:minmax(0,1fr)}
+ .diary-app .book-panel .overview,.diary-app .book-panel .pomodoro-card,.diary-app .book-panel .main-grid,.diary-app .book-panel .habit-head,.diary-app .book-panel .habit-history-head,.diary-app .book-panel .habit-month-wrap,.diary-app .book-panel .habit-week-footer,.diary-app .book-panel .mp3-player-section{grid-column:1}
 }
 </style>
 
