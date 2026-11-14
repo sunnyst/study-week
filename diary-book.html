@@ -1335,6 +1335,23 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
   move('.calendar-card','day');
   move('.planner-memo','day');
 
+  // Put the daily memo beside the weather picker in one compact row.
+  const calendarEditor=app.querySelector('.calendar-event-editor');
+  const weatherLabel=calendarEditor?.querySelector('label');
+  const weatherPicker=app.querySelector('#calendarWeatherPicker');
+  const memo=app.querySelector('#dailyMemo');
+  const memoHeading=memo?.previousElementSibling;
+  if(calendarEditor && weatherLabel && weatherPicker && memo && memoHeading){
+    const weatherMemoRow=document.createElement('div');
+    weatherMemoRow.className='weather-memo-row';
+    const weatherGroup=document.createElement('div');weatherGroup.className='weather-inline-group';
+    const memoGroup=document.createElement('div');memoGroup.className='memo-inline-group';
+    weatherGroup.append(weatherLabel,weatherPicker);
+    memoGroup.append(memoHeading,memo);
+    weatherMemoRow.append(weatherGroup,memoGroup);
+    calendarEditor.insertBefore(weatherMemoRow,calendarEditor.firstChild);
+  }
+
   move('.habit-head','habits');
   move('.planner-checklist','habits');
   const timetable=app.querySelector('.daily-planner > .card');
@@ -1511,6 +1528,45 @@ html{background:var(--desk)}body{background:var(--desk);color:var(--ink);font-fa
 .diary-app .history-entry-note::placeholder{color:#a1a19a}
 .diary-app .history-item .delete-btn{flex:0 0 auto}
 @media(max-width:760px){.diary-app .history-item{padding:12px}.diary-app .history-entry-note{font-size:13px}}
+</style>
+
+
+<style id="day-layout-adjustments">
+/* Day page: weather and memo share a row; meals and drink tracking sit side by side. */
+.diary-app .weather-memo-row{display:grid;grid-template-columns:minmax(150px,.75fr) minmax(0,1.25fr);gap:18px;align-items:start;margin-bottom:8px}
+.diary-app .weather-inline-group,.diary-app .memo-inline-group{display:flex;flex-direction:column;gap:7px;min-width:0}
+.diary-app .weather-inline-group>label,.diary-app .memo-inline-group h2{margin:0!important;font-size:12px!important;font-weight:700;line-height:1.4}
+.diary-app .weather-inline-group .calendar-weather-picker{align-items:center}
+.diary-app .memo-inline-group .daily-memo-input{width:100%;min-height:74px;resize:vertical;padding:9px 10px;border:1px solid var(--line);border-radius:2px;background:var(--paper);color:var(--ink);font:12px/1.5 inherit}
+.diary-app .calendar-event-editor{gap:8px}
+.diary-app .calendar-event-editor>label:first-of-type{display:none}
+.diary-app .planner-memo>#dailyMemo{display:none}
+.diary-app .planner-memo>h2:first-child{display:none}
+.diary-app .meal-log{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:12px 20px;align-items:start}
+.diary-app .meal-log-head,.diary-app .meal-save-status{grid-column:1/-1}
+.diary-app .meal-fields{grid-column:1;grid-row:2;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.diary-app .meal-fields .meal-snacks-field{grid-column:1/-1}
+.diary-app .meal-log>.water-tracker,.diary-app .meal-log>.drink-tracker{grid-column:2;margin:0;padding:8px 0 0;border-top:1px solid var(--line)}
+.diary-app .meal-log>.water-tracker{grid-row:2}
+.diary-app .meal-log>.coffee-tracker{grid-row:3}
+.diary-app .meal-log>.beer-tracker{grid-row:4}
+.diary-app .meal-log>.wine-tracker{grid-row:5}
+.diary-app .meal-log .water-circles{max-width:none;gap:5px}
+.diary-app .meal-log .water-tracker-head{margin-bottom:6px}
+.diary-app .meal-log .meal-save-status{grid-row:6}
+@media(max-width:760px){
+ .diary-app .weather-memo-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+ .diary-app .weather-inline-group .calendar-weather-picker{gap:4px}
+ .diary-app .weather-inline-group .calendar-weather-picker button{width:28px;height:28px}
+ .diary-app .meal-log{grid-template-columns:minmax(0,1fr);gap:10px}
+ .diary-app .meal-log-head,.diary-app .meal-save-status,.diary-app .meal-fields,.diary-app .meal-log>.water-tracker,.diary-app .meal-log>.drink-tracker{grid-column:1}
+ .diary-app .meal-fields{grid-row:2;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .diary-app .meal-log>.water-tracker{grid-row:3}
+ .diary-app .meal-log>.coffee-tracker{grid-row:4}
+ .diary-app .meal-log>.beer-tracker{grid-row:5}
+ .diary-app .meal-log>.wine-tracker{grid-row:6}
+ .diary-app .meal-log .meal-save-status{grid-row:7}
+}
 </style>
 
 </body>
