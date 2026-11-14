@@ -1356,5 +1356,100 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
   if(panels[requested])activate(requested);
 })();
 </script>
+
+<style id="diary-book-habits-reference-design">
+/* Habits tab: visual language adapted from the attached Diary Book Habit page */
+.book-panel[data-panel="habits"]{
+  --habit-ink:#171717;--habit-muted:#777;--habit-line:#d9d9d5;--habit-faint:#ecece8;--habit-wash:#f7f7f4;--habit-point:#343434;
+  color:var(--habit-ink);font-family:Georgia,"Times New Roman",serif;
+}
+.book-panel[data-panel="habits"] .habit-head{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:18px;
+  padding:0 0 15px;margin:0 0 18px;border-bottom:1px solid var(--habit-ink);
+}
+.book-panel[data-panel="habits"] .eyebrow,
+.book-panel[data-panel="habits"] .sub,
+.book-panel[data-panel="habits"] .habit-summary,
+.book-panel[data-panel="habits"] .calendar-head,
+.book-panel[data-panel="habits"] .planner-checklist h2,
+.book-panel[data-panel="habits"] .habit-history-title,
+.book-panel[data-panel="habits"] .habit-week-footer,
+.book-panel[data-panel="habits"] .timetable-help,
+.book-panel[data-panel="habits"] .timetable thead,
+.book-panel[data-panel="habits"] .meal-save-status{font-family:Arial,Helvetica,sans-serif}
+.book-panel[data-panel="habits"] .eyebrow{
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--habit-muted);font-weight:500;
+}
+.book-panel[data-panel="habits"] #habitHeading{font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(25px,3vw,36px)!important;font-weight:500;letter-spacing:-.04em;line-height:1.05;margin:7px 0 5px!important}
+.book-panel[data-panel="habits"] .habit-head .sub{font-size:11px;color:var(--habit-muted);letter-spacing:.02em}
+.book-panel[data-panel="habits"] .habit-summary{border:1px solid var(--habit-line);border-radius:0;background:transparent;padding:9px 12px;font-size:11px;white-space:nowrap}
+.book-panel[data-panel="habits"] .planner-checklist,
+.book-panel[data-panel="habits"] .daily-planner>.card,
+.book-panel[data-panel="habits"] .habit-month-wrap,
+.book-panel[data-panel="habits"] .habit-week-footer{border-radius:0!important;box-shadow:none!important}
+.book-panel[data-panel="habits"] .planner-checklist{
+  border:0!important;border-top:1px solid var(--habit-ink)!important;border-bottom:1px solid var(--habit-line)!important;
+  background:transparent!important;padding:14px 0 18px!important;
+}
+.book-panel[data-panel="habits"] .planner-checklist h2,
+.book-panel[data-panel="habits"] .daily-planner>.card h2,
+.book-panel[data-panel="habits"] .habit-history-title h2{
+  font-family:Georgia,"Times New Roman",serif!important;font-size:19px!important;font-weight:500!important;letter-spacing:-.02em;
+}
+.book-panel[data-panel="habits"] .planner-checklist h2:before{content:"01 / ";font:10px Arial,sans-serif;letter-spacing:.12em;color:var(--habit-muted);vertical-align:middle;margin-right:4px}
+.book-panel[data-panel="habits"] .habit-today-list{gap:0!important}
+.book-panel[data-panel="habits"] .habit-today-list>*{
+  border-radius:0!important;box-shadow:none!important;border:0!important;border-bottom:1px solid var(--habit-faint)!important;background:transparent!important;
+}
+.book-panel[data-panel="habits"] .habit-today-list button,
+.book-panel[data-panel="habits"] .habit-today-list input{accent-color:#333}
+.book-panel[data-panel="habits"] .daily-planner>.card{
+  border:0!important;border-top:1px solid var(--habit-ink)!important;border-bottom:1px solid var(--habit-line)!important;
+  background:transparent!important;padding:15px 0!important;margin-top:18px!important;
+}
+.book-panel[data-panel="habits"] .daily-planner>.card h2:before{content:"02 / ";font:10px Arial,sans-serif;letter-spacing:.12em;color:var(--habit-muted);vertical-align:middle;margin-right:4px}
+.book-panel[data-panel="habits"] .timetable-help{font-size:10px;color:var(--habit-muted)}
+.book-panel[data-panel="habits"] .timetable{border-collapse:collapse;border-radius:0!important}
+.book-panel[data-panel="habits"] .timetable th,
+.book-panel[data-panel="habits"] .timetable td{border:1px solid var(--habit-faint)!important;border-radius:0!important}
+.book-panel[data-panel="habits"] .timetable th{background:transparent!important;color:var(--habit-muted);font-size:9px;letter-spacing:.08em;font-weight:500}
+.book-panel[data-panel="habits"] .habit-history-head{
+  display:flex;justify-content:space-between;align-items:end;gap:16px;
+  border-bottom:1px solid var(--habit-ink);padding:0 0 12px;margin:24px 0 0!important;
+}
+.book-panel[data-panel="habits"] .habit-history-title h2{margin:0 0 4px!important}
+.book-panel[data-panel="habits"] .habit-history-title h2:before{content:"03 / ";font:10px Arial,sans-serif;letter-spacing:.12em;color:var(--habit-muted);vertical-align:middle;margin-right:4px}
+.book-panel[data-panel="habits"] .habit-history-title .sub{font-size:10px;color:var(--habit-muted)}
+.book-panel[data-panel="habits"] .habit-add-form{gap:0!important}
+.book-panel[data-panel="habits"] .habit-add-form input{
+  border:0!important;border-bottom:1px solid var(--habit-line)!important;border-radius:0!important;background:transparent!important;
+  font:12px Arial,sans-serif!important;padding:8px 5px!important;box-shadow:none!important;
+}
+.book-panel[data-panel="habits"] .habit-add-form button{
+  border:1px solid var(--habit-ink)!important;border-radius:0!important;background:var(--habit-ink)!important;color:#fff!important;
+  font:10px Arial,sans-serif!important;letter-spacing:.04em;padding:8px 11px!important;box-shadow:none!important;
+}
+.book-panel[data-panel="habits"] .habit-month-wrap{overflow-x:auto;border:0!important;margin-top:0!important}
+.book-panel[data-panel="habits"] .habit-month-table{border-collapse:collapse!important;border-spacing:0!important;font-family:Arial,Helvetica,sans-serif}
+.book-panel[data-panel="habits"] .habit-month-table th,
+.book-panel[data-panel="habits"] .habit-month-table td{border:1px solid var(--habit-faint)!important;border-radius:0!important;background:transparent}
+.book-panel[data-panel="habits"] .habit-month-table thead th{font-size:9px!important;font-weight:400!important;color:var(--habit-muted)!important;background:var(--habit-wash)!important}
+.book-panel[data-panel="habits"] .habit-month-table tbody th{font-family:Georgia,"Times New Roman",serif!important;font-size:11px!important;font-weight:500!important;text-align:left}
+.book-panel[data-panel="habits"] .habit-month-table td{font-size:10px!important}
+.book-panel[data-panel="habits"] .habit-month-table td button,
+.book-panel[data-panel="habits"] .habit-month-table button{border-radius:0!important;box-shadow:none!important}
+.book-panel[data-panel="habits"] .habit-week-footer{
+  border-top:1px solid var(--habit-line);padding:10px 0!important;font-size:10px;color:var(--habit-muted);
+}
+.book-panel[data-panel="habits"] .habit-week-footer .week-total{font-weight:600;color:var(--habit-ink)}
+@media(max-width:680px){
+  .book-panel[data-panel="habits"] .habit-head{grid-template-columns:minmax(0,1fr);align-items:start;gap:10px}
+  .book-panel[data-panel="habits"] .habit-summary{justify-self:start}
+  .book-panel[data-panel="habits"] .habit-history-head{align-items:start;flex-direction:column}
+  .book-panel[data-panel="habits"] .habit-add-form{width:100%}
+  .book-panel[data-panel="habits"] .habit-add-form input{min-width:0;flex:1}
+}
+</style>
+
 </body>
 </html>
