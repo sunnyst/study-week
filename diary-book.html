@@ -1018,6 +1018,7 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
     root.querySelectorAll('[data-hb-rename]').forEach(b=>b.addEventListener('click',()=>{const h=habits.find(x=>String(x.id)===b.dataset.hbRename);if(!h)return;const name=prompt('Edit habit name:',h.name);if(name&&name.trim()){h.name=name.trim().slice(0,80);saveHabits();renderHabits();}}));
     root.querySelectorAll('[data-hb-delete]').forEach(b=>b.addEventListener('click',()=>{const h=habits.find(x=>String(x.id)===b.dataset.hbDelete);if(!h||!confirm('Delete “'+h.name+'” and its completion history?'))return;habits=habits.filter(x=>x.id!==h.id);Object.keys(habitChecks).forEach(k=>{if(habitChecks[k])delete habitChecks[k][h.id];});saveHabits();renderHabits();}));
   }
+  document.addEventListener('diarybooktabsready',renderHabitBook);
   function renderHabits(){
     const todayKey=activeDateKey;
     const doneToday=habits.filter(h=>isHabitDone(h.id,todayKey)).length;
@@ -1458,6 +1459,7 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
 
   const oldPlanner=app.querySelector('.daily-planner');if(oldPlanner)oldPlanner.remove();
   const oldHabit=app.querySelector('.habit-section');if(oldHabit)oldHabit.remove();
+  document.dispatchEvent(new Event('diarybooktabsready'));
 
   function activate(id){
     Object.entries(panels).forEach(([key,p])=>p.classList.toggle('active',key===id));
