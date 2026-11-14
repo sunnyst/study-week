@@ -521,6 +521,54 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
 }
 @media(prefers-reduced-motion:reduce){.diary-app *{scroll-behavior:auto!important;transition:none!important}}
 </style>
+<style id="original-habit-book-design">
+/* Habit tab rebuilt around the supplied Diary Book's card/detail layout */
+.diary-app .book-panel[data-panel="habits"] .planner-checklist,
+.diary-app .book-panel[data-panel="habits"] .habit-month-wrap,
+.diary-app .book-panel[data-panel="habits"] .habit-week-footer,
+.diary-app .book-panel[data-panel="habits"] .card:has(#timetableBody){display:none!important}
+.diary-app .book-panel[data-panel="habits"] .habit-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:16px}
+.diary-app .book-panel[data-panel="habits"] .habit-head h2{font-size:24px!important;font-weight:500;letter-spacing:-.04em}
+.diary-app .book-panel[data-panel="habits"] .habit-summary{background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:0;font-weight:500}
+.diary-app .habit-book-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(250px,.9fr);gap:24px;align-items:start}
+.diary-app .habit-book-main,.diary-app .habit-book-side{min-width:0}
+.diary-app .habit-book-section{margin-bottom:22px}
+.diary-app .habit-book-section-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding:0 0 7px;margin-bottom:8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.diary-app .habit-book-section-head span{font-size:10px;color:var(--muted);letter-spacing:0}
+.diary-app .habit-book-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.diary-app .habit-book-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:6px;min-height:136px;padding:13px;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.diary-app .habit-book-card:hover,.diary-app .habit-book-card.selected{background:var(--wash)}
+.diary-app .habit-book-card .hb-icon{font-size:23px;line-height:1.1}
+.diary-app .habit-book-card .hb-name{font-size:13px;font-weight:600;overflow-wrap:anywhere}
+.diary-app .habit-book-card .hb-since{font-size:10px;color:var(--muted)}
+.diary-app .habit-book-card .hb-rate{margin-top:auto;font-size:10px;color:var(--muted)}
+.diary-app .habit-book-card .hb-rate b{font-size:15px;color:var(--ink);font-weight:500}
+.diary-app .habit-book-card .hb-toggle{align-self:flex-end;font-size:9px;letter-spacing:.08em;border:1px solid var(--line);padding:3px 6px}
+.diary-app .habit-book-card.done .hb-toggle{background:var(--ink);color:var(--paper)}
+.diary-app .habit-book-add{display:flex;gap:8px;margin-top:12px}
+.diary-app .habit-book-add input{flex:1;min-width:0;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 2px;font:inherit}
+.diary-app .habit-book-add button{border:1px solid var(--line);background:transparent;padding:7px 11px}
+.diary-app .habit-book-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line);margin-bottom:18px}
+.diary-app .habit-book-stat{padding:11px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.diary-app .habit-book-stat b{display:block;font-size:20px;font-weight:500}
+.diary-app .habit-book-stat span{font-size:10px;color:var(--muted)}
+.diary-app .habit-book-heat{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:3px;margin:10px 0 20px}
+.diary-app .habit-book-heat i{display:block;aspect-ratio:1;background:var(--wash);border:1px solid var(--line)}
+.diary-app .habit-book-heat i.done{background:var(--ink);border-color:var(--ink)}
+.diary-app .habit-book-months{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.diary-app .habit-book-month{border-top:1px solid var(--line);padding-top:6px}
+.diary-app .habit-book-month-head{display:flex;justify-content:space-between;font-size:10px;margin-bottom:5px}
+.diary-app .habit-book-month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
+.diary-app .habit-book-month-grid button,.diary-app .habit-book-month-grid i{border:0;background:var(--wash);aspect-ratio:1;min-width:0;padding:0;font-size:8px;color:var(--ink)}
+.diary-app .habit-book-month-grid button.done{background:var(--ink);color:var(--paper)}
+.diary-app .habit-book-month-grid button.today{outline:1px solid var(--ink);outline-offset:1px}
+.diary-app .habit-book-detail{border-top:1px solid var(--ink);padding-top:12px;margin-top:20px}
+.diary-app .habit-book-detail h3{font-size:18px;font-weight:500;margin:0 0 12px}
+.diary-app .habit-book-detail .hb-detail-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-bottom:12px}
+.diary-app .habit-book-detail .hb-detail-actions{display:flex;gap:7px;margin-bottom:14px}
+.diary-app .habit-book-detail button{border:1px solid var(--line);background:transparent;padding:6px 9px;font-size:11px;color:var(--ink)}
+@media(max-width:760px){.diary-app .habit-book-layout{grid-template-columns:minmax(0,1fr);gap:18px}.diary-app .habit-book-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.diary-app .habit-book-months{grid-template-columns:repeat(2,minmax(0,1fr))}.diary-app .book-panel[data-panel="habits"] .habit-head{align-items:flex-start;flex-direction:column}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -947,6 +995,29 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
     saveHabits();
     renderHabits();
   }
+  let habitBookSelected=null;
+  function renderHabitBook(){
+    const panel=document.querySelector('.book-panel[data-panel="habits"]');
+    if(!panel)return;
+    let root=panel.querySelector('#habitBookLayout');
+    if(!root){root=document.createElement('div');root.id='habitBookLayout';root.className='habit-book-layout';const head=panel.querySelector('.habit-head');if(head)head.insertAdjacentElement('afterend',root);else panel.prepend(root);}
+    const todayKey=activeDateKey||dateKey(new Date()), now=new Date(todayKey+'T12:00:00');
+    const monthStart=new Date(now.getFullYear(),now.getMonth(),1),monthEnd=new Date(now.getFullYear(),now.getMonth()+1,0);
+    const rate=h=>{let n=0,d=0;for(let x=new Date(monthStart);x<=monthEnd&&x<=now;x.setDate(x.getDate()+1)){const k=dateKey(x);if(k>=String(h.start||h.createdDate||todayKey).slice(0,10)){d++;if(isHabitDone(h.id,k))n++;}}return d?Math.round(n/d*100):null;};
+    const selected=habits.find(h=>String(h.id)===String(habitBookSelected))||habits[0];
+    const cards=habits.map(h=>{const done=isHabitDone(h.id,todayKey),r=rate(h);return '<button type="button" class="habit-book-card'+(done?' done':'')+(selected&&String(selected.id)===String(h.id)?' selected':'')+'" data-hb-select="'+String(h.id).replace(/"/g,'&quot;')+'"><span class="hb-icon">'+(h.icon||'○')+'</span><span class="hb-name">'+String(h.name).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span><span class="hb-since">since '+String(h.start||h.createdDate||todayKey).slice(0,10).replace(/-/g,'.')+'</span><span class="hb-rate"><b>'+(r===null?'—':r+'%')+'</b> this month</span><span class="hb-toggle" data-hb-toggle="'+String(h.id).replace(/"/g,'&quot;')+'">'+(done?'DONE':'MARK DONE')+'</span></button>';}).join('');
+    const doneToday=habits.filter(h=>isHabitDone(h.id,todayKey)).length;
+    const daysYear=Array.from({length:365},(_,i)=>{const d=new Date(now.getFullYear(),0,1+i),k=dateKey(d);return '<i title="'+k+'" class="'+(habits.some(h=>isHabitDone(h.id,k))?'done':'')+'"></i>';}).join('');
+    const months=Array.from({length:12},(_,m)=>{const a=new Date(now.getFullYear(),m,1),b=new Date(now.getFullYear(),m+1,0);let cells='';const lead=(a.getDay()+6)%7;for(let i=0;i<lead;i++)cells+='<i></i>';for(let n=1;n<=b.getDate();n++){const d=new Date(now.getFullYear(),m,n),k=dateKey(d);cells+='<button type="button" class="'+(habits.some(h=>isHabitDone(h,k))?'done ':'')+(k===todayKey?'today':'')+'" data-hb-date="'+k+'" title="'+k+'">'+n+'</button>';}return '<div class="habit-book-month"><div class="habit-book-month-head"><b>'+a.toLocaleString('en',{month:'short'})+'</b><span>'+Math.round((Array.from({length:b.getDate()},(_,i)=>dateKey(new Date(now.getFullYear(),m,i+1))).filter(k=>k<=todayKey).filter(k=>habits.some(h=>isHabitDone(h,k))).length/Math.max(1,Array.from({length:b.getDate()},(_,i)=>dateKey(new Date(now.getFullYear(),m,i+1))).filter(k=>k<=todayKey).length))*100)+'%</span></div><div class="habit-book-month-grid">'+cells+'</div></div>';}).join('');
+    const detail=selected?'<section class="habit-book-detail"><h3>'+String(selected.icon||'○')+' '+String(selected.name).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</h3><div class="hb-detail-meta"><span>On · '+(selected.on===false?'Off':'On')+'</span><span>Start · '+String(selected.start||selected.createdDate||todayKey).slice(0,10)+'</span><span>Order · '+(habits.indexOf(selected)+1)+'</span><span>This month · '+(rate(selected)===null?'—':rate(selected)+'%')+'</span></div><div class="hb-detail-actions"><button type="button" data-hb-toggle="'+String(selected.id).replace(/"/g,'&quot;')+'">'+(isHabitDone(selected.id,todayKey)?'Unmark today':'Mark today done')+'</button><button type="button" data-hb-rename="'+String(selected.id).replace(/"/g,'&quot;')+'">Edit name</button><button type="button" data-hb-delete="'+String(selected.id).replace(/"/g,'&quot;')+'">Delete</button></div><div class="habit-book-months">'+months+'</div></section>':'<p>No habits yet. Add your first habit.</p>';
+    root.innerHTML='<div class="habit-book-main"><section class="habit-book-section"><div class="habit-book-section-head"><b>Habits</b><span>'+habits.length+' total · '+doneToday+' done today</span></div><div class="habit-book-cards">'+cards+'</div><form class="habit-book-add" id="habitBookAdd"><input id="habitBookNewName" maxlength="80" placeholder="New habit" aria-label="New habit"><button type="submit">＋ Add</button></form>'+detail+'</section></div><aside class="habit-book-side"><div class="habit-book-summary"><div class="habit-book-stat"><b>'+habits.filter(h=>h.on!==false).length+'</b><span>Active habits</span></div><div class="habit-book-stat"><b>'+doneToday+' / '+habits.length+'</b><span>Today completed</span></div><div class="habit-book-stat"><b>'+(habits.length?Math.round(doneToday/habits.length*100):0)+'%</b><span>Today rate</span></div><div class="habit-book-stat"><b>'+new Date().getFullYear()+'</b><span>Habit year</span></div></div><section class="habit-book-section"><div class="habit-book-section-head"><b>'+now.getFullYear()+'</b><span>Daily completion</span></div><div class="habit-book-heat">'+daysYear+'</div></section><section class="habit-book-section"><div class="habit-book-section-head"><b>Monthly habit chart</b><span>'+now.toLocaleString('en',{month:'long'})+'</span></div><div class="habit-book-months">'+months+'</div></section></aside>';
+    root.querySelectorAll('[data-hb-select]').forEach(b=>b.addEventListener('click',ev=>{const id=b.dataset.hbSelect;if(ev.target.closest('[data-hb-toggle]')){setHabitDone(id,todayKey,!isHabitDone(id,todayKey));return;}habitBookSelected=id;renderHabitBook();}));
+    root.querySelectorAll('[data-hb-toggle]').forEach(b=>b.addEventListener('click',ev=>{ev.stopPropagation();const id=b.dataset.hbToggle;setHabitDone(id,todayKey,!isHabitDone(id,todayKey));}));
+    root.querySelectorAll('[data-hb-date]').forEach(b=>b.addEventListener('click',()=>{const id=selected&&selected.id;if(id)setHabitDone(id,b.dataset.hbDate,!isHabitDone(id,b.dataset.hbDate));}));
+    const form=root.querySelector('#habitBookAdd');form?.addEventListener('submit',ev=>{ev.preventDefault();const input=root.querySelector('#habitBookNewName'),name=input.value.trim();if(!name)return;habits.push({id:'habit-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7),name:name.slice(0,80),created:Date.now(),createdDate:todayKey,icon:'○',on:true});saveHabits();renderHabits();});
+    root.querySelectorAll('[data-hb-rename]').forEach(b=>b.addEventListener('click',()=>{const h=habits.find(x=>String(x.id)===b.dataset.hbRename);if(!h)return;const name=prompt('Edit habit name:',h.name);if(name&&name.trim()){h.name=name.trim().slice(0,80);saveHabits();renderHabits();}}));
+    root.querySelectorAll('[data-hb-delete]').forEach(b=>b.addEventListener('click',()=>{const h=habits.find(x=>String(x.id)===b.dataset.hbDelete);if(!h||!confirm('Delete “'+h.name+'” and its completion history?'))return;habits=habits.filter(x=>x.id!==h.id);Object.keys(habitChecks).forEach(k=>{if(habitChecks[k])delete habitChecks[k][h.id];});saveHabits();renderHabits();}));
+  }
   function renderHabits(){
     const todayKey=activeDateKey;
     const doneToday=habits.filter(h=>isHabitDone(h.id,todayKey)).length;
@@ -1034,6 +1105,7 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
       const totalTd=document.createElement('td');totalTd.textContent=count+' / 30';tr.appendChild(totalTd);$('habitWeekBody').appendChild(tr);});
     if(!habits.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=32;td.textContent='Add a habit to start tracking your 30 days.';td.style.textAlign='center';td.style.color='var(--muted)';tr.appendChild(td);$('habitWeekBody').appendChild(tr);}
     const pct=possible?Math.round(completed/possible*100):0;$('habitWeekSummary').textContent=pct+'% complete';$('habitWeekRange').textContent=fmtShort(dates[0])+' – '+fmtShort(dates[29]);
+    renderHabitBook();
   }
   $('habitAddForm').addEventListener('submit',ev=>{
     ev.preventDefault();
