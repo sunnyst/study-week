@@ -1,0 +1,1360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f8fc">
+<title>Diary Book — Study & Life Journal</title>
+<style>
+:root{--bg:#f7f8fc;--card:#fff;--ink:#20243a;--muted:#7d8398;--line:#e9ebf3;--accent:#6558e8;--accent2:#a79fff;--soft:#f0efff;--green:#249b78;--shadow:0 10px 30px rgba(40,43,80,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}button{cursor:pointer}.app{max-width:1080px;margin:auto;padding:32px 24px 48px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:32px}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;background:var(--accent);display:grid;place-items:center;color:#fff;font-size:22px;box-shadow:0 6px 14px #6558e833}.brand h1{font-size:20px;margin:0;letter-spacing:-.5px}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.week-nav{display:flex;align-items:center;gap:10px}.icon-btn{border:1px solid var(--line);background:white;width:38px;height:38px;border-radius:12px;color:var(--ink);font-size:18px}.week-label{font-weight:650;font-size:13px;min-width:130px;text-align:center}
+h2{font-size:17px;letter-spacing:-.3px;margin:0 0 5px}.sub{color:var(--muted);margin:0;font-size:13px}.overview{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:18px}.card{background:var(--card);border:1px solid #eef0f6;border-radius:22px;padding:24px;box-shadow:var(--shadow);min-width:0}
+.progress-card{background:linear-gradient(135deg,#fff 50%,#f5f3ff);position:relative;overflow:hidden}.eyebrow{font-size:11px;font-weight:750;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase}.progress-numbers{display:flex;align-items:baseline;gap:8px;margin:12px 0 14px}.big{font-size:42px;font-weight:750;letter-spacing:-2px;line-height:1.15}.of{color:var(--muted);font-size:15px}.progress-track{height:10px;background:#eae8fb;border-radius:99px;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#9a8fff);border-radius:99px;transition:width .25s}.progress-foot{display:flex;justify-content:space-between;gap:12px;margin-top:12px;color:var(--muted);font-size:12px}.progress-foot strong{color:var(--accent)}
+.goal-card{display:flex;flex-direction:column;justify-content:space-between;gap:16px}.goal-input-row{display:flex;align-items:center;gap:8px;margin-top:16px}.goal-input-row input{width:74px;border:1px solid var(--line);border-radius:10px;padding:9px 8px;background:#fbfbfe;text-align:center;color:var(--ink)}.goal-input-row label{font-size:12px;color:var(--muted)}.small-btn{border:0;background:var(--soft);color:var(--accent);font-weight:700;border-radius:10px;padding:10px 13px;font-size:12px}.goal-note{font-size:12px;color:var(--muted)}
+.main-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}.chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:22px}.week-total{background:#f6f6fb;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;white-space:nowrap}.chart{height:224px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;align-items:end;padding:8px 0 0}.day{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;min-width:0}.bar-area{height:170px;width:100%;max-width:44px;display:flex;align-items:flex-end;background:#f5f5fb;border-radius:10px 10px 7px 7px;overflow:hidden;position:relative}.bar{width:100%;height:0;background:linear-gradient(180deg,#8d83ff,#6558e8);border-radius:9px 9px 0 0;transition:height .25s}.bar.today{background:linear-gradient(180deg,#5ccead,#249b78)}.day-time{font-size:10px;color:var(--muted);height:14px;white-space:nowrap}.day-label{font-size:11px;color:var(--muted);font-weight:600}.day-label.current{color:var(--accent)}.chart-legend{display:flex;gap:16px;margin-top:14px;color:var(--muted);font-size:11px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:5px}.dot.green{background:var(--green)}
+.entry-card h2{margin-bottom:4px}.entry-form{margin-top:20px;display:grid;gap:13px}.field label{display:block;font-size:12px;font-weight:650;color:#626981;margin-bottom:6px}.field input{width:100%;padding:12px 13px;border:1px solid var(--line);background:#fcfcff;border-radius:12px;color:var(--ink);outline:none}.field input:focus{border-color:#9a91ff;box-shadow:0 0 0 3px #6558e81a}.time-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.time-field{position:relative}.time-field span{position:absolute;right:12px;top:39px;color:var(--muted);font-size:11px;pointer-events:none}.save-btn{background:var(--accent);color:white;border:0;border-radius:12px;padding:13px;font-weight:700;box-shadow:0 6px 14px #6558e82b}.save-btn:hover{background:#5548d7}.hint{font-size:11px;color:var(--muted);margin:0}.history{margin-top:18px}.history-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.history-list{display:grid;gap:8px;max-height:220px;overflow:auto}.history-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.history-date{font-size:12px;font-weight:650}.history-duration{font-size:12px;color:var(--muted);margin-top:2px}.delete-btn{border:0;background:transparent;color:#a0a4b5;font-size:17px;padding:4px 7px;border-radius:8px}.delete-btn:hover{background:#fff0f0;color:#d34b59}.empty{text-align:center;color:var(--muted);font-size:12px;padding:22px 8px;border:1px dashed var(--line);border-radius:12px}.footer{margin-top:22px;text-align:center;font-size:11px;color:#a0a4b5}
+@media(max-width:720px){.app{padding:20px 14px 32px}header{align-items:flex-start;flex-direction:column;margin-bottom:22px}.week-nav{width:100%;justify-content:space-between}.overview,.main-grid{grid-template-columns:1fr}.card{padding:19px;border-radius:18px}.big{font-size:38px}.chart{gap:7px}.bar-area{max-width:38px;height:150px}.chart{height:205px}.chart-head{margin-bottom:14px}.progress-foot{font-size:11px}.goal-card{gap:10px}}
+
+/* Analog Pomodoro timer */
+.pomodoro-card{display:grid;grid-template-columns:minmax(230px,.9fr) 1.1fr;gap:28px;align-items:center;margin-bottom:24px}
+.pomodoro-visual{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
+.analog-timer{position:relative;width:min(100%,270px);aspect-ratio:1;border-radius:28px;background:linear-gradient(145deg,#fff,#eff0f3);box-shadow:10px 12px 22px rgba(34,39,58,.12),inset -4px -4px 8px rgba(40,43,60,.06),inset 4px 4px 8px #fff;padding:17px}
+.timer-top-mark{position:absolute;top:7px;left:40%;width:25%;height:4px;border-radius:5px;background:#245d36;transform:rotate(6deg)}
+.timer-face{width:100%;height:100%;position:relative;border-radius:50%;border:2px solid #d7d9dc;background:#2f6e43;box-shadow:inset 0 2px 6px #0000000d;overflow:hidden}
+.timer-arc{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,var(--timer-green,#2f6e43) 0deg,var(--timer-green,#2f6e43) var(--timer-progress,360deg),#f4f5f5 var(--timer-progress,360deg),#f4f5f5 360deg)}
+.timer-ticks{position:absolute;inset:0;pointer-events:none}
+.timer-tick{position:absolute;left:50%;top:50%;width:1px;height:7px;margin-left:-.5px;background:#c9cbd0;transform-origin:50% 0}
+.timer-tick.major{width:3px;margin-left:-1.5px;height:11px;background:#a9adb4}
+.timer-number{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:68%;font-size:clamp(17px,2.7vw,23px);font-weight:800;letter-spacing:-.6px;color:#252a31;font-variant-numeric:tabular-nums;text-shadow:0 1px #fff;z-index:3;pointer-events:none}.timer-knob{top:50%;z-index:2}
+.timer-knob{position:absolute;left:50%;top:50%;width:25%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#fff63d,#e8d900);border:1px solid #e5d400;box-shadow:2px 4px 7px #0003,inset 2px 2px 3px #fff8;pointer-events:none}
+.timer-modes{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.timer-mode{border:1px solid var(--line);background:#fff;color:var(--muted);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.timer-mode.active{background:#eaf3ec;border-color:#c9dfcd;color:#285f39}
+.timer-controls{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.timer-primary{background:#285f39;color:#fff;border:0;border-radius:12px;padding:12px 17px;font-weight:700;flex:1;min-width:120px}
+.timer-secondary{background:#f1f2f5;color:#42485a;border:1px solid #e4e6ec;border-radius:12px;padding:12px 15px;font-weight:650}
+.timer-status{font-size:12px;color:var(--muted);text-align:center;min-height:18px}
+.timer-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.timer-stat{padding:12px 14px;border-radius:13px;background:#f8f9fb;border:1px solid #eef0f3}
+.timer-stat strong{display:block;font-size:19px;letter-spacing:-.4px}
+.timer-stat span{font-size:11px;color:var(--muted)}
+.timer-note{font-size:12px;color:var(--muted);margin:10px 0 0}
+@media(max-width:720px){.pomodoro-card{grid-template-columns:1fr;gap:22px}.analog-timer{width:min(78vw,270px)}}
+
+
+/* Habit tracker */
+.habit-section{margin:0 0 24px}
+.habit-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px}
+.habit-summary{font-size:12px;font-weight:700;color:#285f39;background:#eaf3ec;border-radius:10px;padding:8px 11px;white-space:nowrap}
+.habit-add-form{display:flex;gap:9px;margin-bottom:18px}
+.habit-add-form input{flex:1;min-width:0;border:1px solid var(--line);background:#fcfcff;border-radius:12px;padding:11px 13px;color:var(--ink)}
+.habit-add-form button{border:0;background:#285f39;color:white;border-radius:12px;padding:10px 15px;font-weight:700}
+.habit-today-list{display:grid;gap:8px;margin-bottom:24px}
+.habit-today-row{display:flex;align-items:center;gap:11px;padding:6px 7px;border:1px solid var(--line);border-radius:13px;background:#fff;min-width:0}
+.habit-drag-handle{display:flex;align-items:center;justify-content:center;flex:0 0 18px;width:18px;color:#999;cursor:grab;user-select:none;touch-action:none;font-size:16px;letter-spacing:-3px;padding-right:3px}.habit-drag-handle:active{cursor:grabbing}.habit-today-row.dragging{opacity:.45}.habit-today-row.drag-over{outline:2px dashed #aaa;outline-offset:1px}
+.habit-check{width:21px;height:21px;accent-color:#249b78;flex:0 0 auto}
+.habit-name{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:650;font-size:13px}
+.habit-name.done{text-decoration:line-through;color:var(--muted)}
+.habit-actions{display:flex;gap:5px;flex:0 0 auto}
+.habit-action{border:1px solid var(--line);background:#fff;color:#626981;border-radius:8px;padding:5px 8px;font-size:11px}
+.habit-action.delete{color:#bd5961}
+.habit-week-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:13px}
+.habit-week-table{width:100%;border-collapse:collapse;min-width:570px;font-size:12px}
+.habit-week-table th,.habit-week-table td{padding:11px 8px;text-align:center;border-bottom:1px solid var(--line)}
+.habit-week-table th{background:#f8f9fb;color:var(--muted);font-weight:700}
+.habit-week-table th:first-child,.habit-week-table td:first-child{text-align:left;min-width:150px;padding-left:13px}
+.habit-week-table tr:last-child td{border-bottom:0}
+.habit-week-table td:first-child{font-weight:650;overflow-wrap:anywhere}
+.habit-week-table .habit-week-check{width:18px;height:18px;accent-color:#249b78;cursor:pointer}
+.habit-week-table .today-col{background:#f0f8f2}
+.habit-week-footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-top:10px}
+.habit-empty{padding:18px;text-align:center;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:12px}
+@media(max-width:720px){.habit-head{align-items:flex-start}.habit-add-form{flex-wrap:wrap}.habit-add-form input{flex-basis:100%}.habit-add-form button{width:100%;padding:12px}.habit-today-row{padding:11px 10px}.habit-actions{gap:4px}.habit-action{padding:5px 6px}.habit-summary{font-size:11px}}
+
+
+/* Daily planner timetable */
+.daily-planner{display:grid;grid-template-columns:minmax(240px,.85fr) minmax(0,1.4fr);gap:20px;align-items:start;margin:0 0 24px}.planner-checklist{min-width:0}.timetable-palette{display:grid;grid-template-columns:repeat(6,minmax(24px,1fr));gap:7px;margin:12px 0 14px}.palette-color{width:100%;aspect-ratio:1;border:2px solid #fff;border-radius:9px;box-shadow:0 0 0 1px #dfe2eb;cursor:pointer;min-width:0}.palette-color.selected{box-shadow:0 0 0 2px var(--ink),inset 0 0 0 2px white}.timetable-wrap{overflow:auto;max-height:760px;border:1px solid var(--line);border-radius:12px}.timetable{border-collapse:separate;border-spacing:4px;width:100%;min-width:330px;table-layout:fixed}.timetable th{font-size:10px;color:var(--muted);font-weight:700;text-align:center;padding:4px 1px}.timetable .time-label{width:48px;white-space:nowrap;text-align:right;padding-right:5px;font-size:10px;color:var(--muted);font-weight:650}.timetable-cell{padding:0;width:calc((100% - 55px)/6)}.timetable-cell button{display:block;width:100%;aspect-ratio:1;border:1px solid #e7e9f0;border-radius:5px;background:#fff;padding:0;cursor:pointer;min-width:0}.timetable-cell button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}.timetable-help{font-size:11px;color:var(--muted);margin:0}.habit-month-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:13px}.habit-month-table{border-collapse:collapse;min-width:1050px;width:100%;font-size:11px}.habit-month-table th,.habit-month-table td{padding:8px 5px;text-align:center;border-bottom:1px solid var(--line)}.habit-month-table th{background:#f8f9fb;color:var(--muted);font-weight:700}.habit-month-table th:first-child,.habit-month-table td:first-child{position:sticky;left:0;background:#fff;text-align:left;min-width:145px;padding-left:12px;z-index:1}.habit-month-table th:first-child{background:#f8f9fb;z-index:2}.habit-month-table tr:last-child td{border-bottom:0}.habit-month-table .month-check{width:16px;height:16px;accent-color:#249b78;cursor:pointer}.habit-month-table .month-today{background:#eef8f0}.habit-month-table .month-day-label{font-size:10px;white-space:nowrap}@media(max-width:720px){.daily-planner{grid-template-columns:1fr;gap:16px}.timetable-wrap{max-height:650px}.timetable{min-width:350px}.habit-month-table{min-width:1050px}}
+
+/* Compact squared notebook grid and habit row colors */
+.daily-planner{grid-template-columns:minmax(240px,.9fr) minmax(0,1fr);gap:14px}.daily-planner>.card{padding:12px!important}.timetable-palette{grid-template-columns:repeat(2,22px)!important;grid-auto-flow:row;gap:5px;margin:8px 0;justify-content:start}.palette-color{width:22px;height:22px;aspect-ratio:auto;border-radius:4px;padding:0}.timetable-wrap{max-height:490px;border:0;border-radius:6px}.timetable{border-collapse:collapse;border-spacing:0;width:100%;min-width:0;table-layout:fixed;background:#fff}.timetable th{font-size:9px;padding:3px 1px}.timetable .time-label{width:39px;padding:2px 4px 2px 0;font-size:9px}.timetable-cell{width:auto;border:1px solid #e4e7ef;padding:0}.timetable-cell button{aspect-ratio:1;border:0;border-radius:0;background-color:#fff;background-image:linear-gradient(to right,rgba(120,130,160,.08) 1px,transparent 1px),linear-gradient(to bottom,rgba(120,130,160,.08) 1px,transparent 1px);background-size:5px 5px}.habit-today-row{transition:background-color .15s}.habit-today-row .habit-action.color{font-size:10px}.timetable-help{font-size:10px;margin-bottom:6px}@media(max-width:720px){.daily-planner{grid-template-columns:1fr}.daily-planner>.card{padding:12px!important}.timetable-wrap{max-height:460px}.timetable{min-width:0}.timetable-cell button{aspect-ratio:1}}
+
+/* Larger square cells for timetable and 30-day habit history */
+/* Lock timetable cells to exact 25 × 25 px squares, including row height */
+
+/* Layout adjustment: wider memo, narrower timetable, truly fixed 25px cells */
+.daily-planner{grid-template-columns:minmax(260px,1.25fr) minmax(210px,.95fr) minmax(185px,.75fr)!important;gap:12px!important}
+.daily-planner>.card{min-width:0!important;overflow:hidden}
+.timetable-wrap{width:100%;overflow-x:auto!important;overflow-y:visible!important}
+.timetable{width:max-content!important;min-width:0!important;table-layout:auto!important;border-collapse:separate!important;border-spacing:2px!important}
+.timetable thead th:not(.time-label),.timetable tbody .timetable-cell{width:25px!important;min-width:25px!important;max-width:25px!important}
+.timetable .time-label{width:17px!important;min-width:17px!important;max-width:17px!important}
+.timetable-cell{height:25px!important;min-height:25px!important;max-height:25px!important}
+.timetable-cell button{width:25px!important;height:25px!important;min-width:25px!important;max-width:25px!important;min-height:25px!important;max-height:25px!important;box-sizing:border-box!important;aspect-ratio:auto!important}
+@media(max-width:900px){.daily-planner{grid-template-columns:minmax(240px,1.1fr) minmax(200px,.9fr)!important}.planner-memo{grid-column:1/-1}.daily-memo-input{min-height:180px}}
+@media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.planner-memo{grid-column:auto}.daily-planner>.card{width:100%;box-sizing:border-box}.timetable-wrap{overflow-x:auto!important}.timetable{width:max-content!important}}
+
+.timetable tbody tr{height:25px!important}
+.timetable tbody td{height:25px!important;min-height:25px!important;box-sizing:border-box!important}
+.timetable-cell button{box-sizing:border-box!important;flex:none!important}
+
+.timetable-wrap{max-height:none!important;overflow:visible!important;border:0!important}
+.timetable{border-collapse:separate!important;border-spacing:2px!important;min-width:0!important;width:100%!important}
+.timetable .time-label{width:22px!important;text-align:center!important;padding:0!important;font-size:9px!important;font-weight:500!important}
+.timetable th{padding:1px 0!important;font-size:8px!important;line-height:1.1!important}
+.timetable-cell{padding:0!important;line-height:0!important}
+.timetable-cell button{display:block;width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important;aspect-ratio:1/1!important;padding:0!important;border:0!important;border-radius:0!important;background-size:4px 4px!important}
+.habit-month-table{min-width:1050px!important;font-size:10px!important}
+.habit-month-table th,.habit-month-table td{padding:3px 2px!important;line-height:1.2!important}
+.habit-month-table th:first-child,.habit-month-table td:first-child{min-width:110px!important;padding-left:7px!important}
+.habit-month-table .month-color-mark{display:block;width:18px;height:18px;aspect-ratio:1/1;margin:0 auto;padding:0;border:0;border-radius:2px;background:#f0f1f5;cursor:pointer}
+.habit-month-table .month-color-mark.done{background:#76c7a0}
+.habit-month-table .month-today{background:#f4faf6!important}
+@media(max-width:720px){.timetable .time-label{width:17px!important;font-size:8px!important}.timetable th{font-size:7px!important}.timetable-cell button{width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important;aspect-ratio:1/1!important;background-size:3px 3px!important}.habit-month-table{min-width:1050px!important}}
+
+/* Ruled memo beside today's checklist */
+.daily-planner{grid-template-columns:minmax(120px,.55fr) minmax(210px,.9fr) minmax(0,1.4fr)!important}
+.planner-memo{min-width:0}
+.daily-memo-input{display:block;width:100%;min-height:260px;resize:vertical;border:1px solid #e2e5ee;border-radius:8px;padding:7px 8px;font:12px/25px inherit;color:var(--ink);background-color:#fff;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 24px,#dfe5f0 24px,#dfe5f0 25px);background-attachment:local;outline:none}
+.daily-memo-input:focus{border-color:#a9a1ff}
+@media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.daily-memo-input{min-height:150px}}
+
+
+/* FINAL OVERRIDES: fixed 25px timetable columns and wider memo */
+.daily-planner{grid-template-columns:minmax(300px,1.35fr) minmax(220px,.95fr) minmax(190px,.7fr)!important;gap:12px!important}
+.daily-planner>.card{min-width:0!important}
+.timetable-wrap{width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:visible!important}
+.timetable{display:table!important;width:auto!important;min-width:0!important;max-width:none!important;table-layout:fixed!important;border-collapse:separate!important;border-spacing:2px!important}
+.timetable thead th:not(.time-label),.timetable tbody td.timetable-cell{width:25px!important;min-width:25px!important;max-width:25px!important;padding:0!important}
+.timetable tbody td.timetable-cell{height:25px!important;min-height:25px!important;max-height:25px!important}
+.timetable tbody td.timetable-cell button{display:block!important;width:25px!important;min-width:25px!important;max-width:25px!important;height:25px!important;min-height:25px!important;max-height:25px!important;box-sizing:border-box!important;aspect-ratio:auto!important}
+.timetable .time-label{width:20px!important;min-width:20px!important;max-width:20px!important;padding:0!important;text-align:center!important}
+@media(max-width:900px){.daily-planner{grid-template-columns:minmax(260px,1.2fr) minmax(200px,.8fr)!important}.planner-memo{grid-column:1/-1}.daily-memo-input{min-height:200px}}
+@media(max-width:720px){.daily-planner{grid-template-columns:1fr!important}.planner-memo{grid-column:auto}.timetable-wrap{overflow-x:auto!important}.timetable{width:auto!important}}
+
+
+/* Force the requested hour sequence and remove decorative grid patterns */
+#timetableBody .time-label{font-variant-numeric:tabular-nums}
+#timetableBody .timetable-cell{border:0!important;background:#fff!important;box-shadow:none!important;padding:0!important}
+#timetableBody .timetable-cell button{background-image:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+/* Clean white gaps between timetable squares */
+.timetable tbody td.timetable-cell{border:0!important;background:#fff!important;box-shadow:none!important;padding:0!important}
+.timetable tbody td.timetable-cell button{border:0!important;outline-offset:1px}
+/* Definitively remove miniature grid patterns from timetable squares and keep gaps white */
+.timetable-palette{grid-template-columns:repeat(2,22px)!important;grid-auto-flow:row!important;justify-content:start!important;}
+#timetableBody, #timetableBody tr, #timetableBody td.timetable-cell{background:#fff!important;background-image:none!important;border:0!important;box-shadow:none!important}
+#timetableBody td.timetable-cell{padding:0!important}
+#timetableBody td.timetable-cell button,
+#timetableBody td.timetable-cell button:hover,
+#timetableBody td.timetable-cell button:active{background-image:none!important;background-repeat:no-repeat!important;background-size:auto!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+#timetablePalette .palette-color{border:1px solid #d5d8e2!important;box-shadow:none!important}
+#timetablePalette .palette-color[title="#FFFFFF"]{background:#fff!important;border:1px solid #8b90a0!important}
+#timetablePalette .palette-color[title="#555555"]{background:#555!important;border:1px solid #555!important}
+#timetablePalette .palette-color.selected{outline:2px solid var(--ink)!important;outline-offset:2px!important}
+/* Restore the missing right-hand vertical border after timetable column 6 */
+.timetable thead th:last-child{box-shadow:inset -1px 0 0 #dfe3ec!important}
+.timetable tbody td.timetable-cell:last-child{box-shadow:inset -1px 0 0 #dfe3ec!important}
+
+
+/* Final palette layout: 7 columns × 2 rows; selected swatch uses a gray outline */
+#timetablePalette.timetable-palette{
+  display:grid!important;
+  grid-template-columns:repeat(7,22px)!important;
+  grid-template-rows:repeat(2,22px)!important;
+  grid-auto-flow:row!important;
+  gap:6px!important;
+  justify-content:start!important;
+  align-content:start!important;
+}
+#timetablePalette .palette-color{
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  max-width:22px!important;
+  aspect-ratio:1/1!important;
+  box-sizing:border-box!important;
+}
+#timetablePalette .palette-color.selected{
+  outline:2px solid #888!important;
+  outline-offset:2px!important;
+  box-shadow:none!important;
+}
+
+
+/* Force palette to seven columns and two rows, even inside narrow cards */
+#timetablePalette.timetable-palette{
+ display:grid!important;
+ grid-template-columns:repeat(7,22px)!important;
+ grid-template-rows:repeat(2,22px)!important;
+ grid-auto-flow:row!important;
+ width:max-content!important;
+ max-width:none!important;
+ gap:6px!important;
+ justify-content:start!important;
+}
+#timetablePalette .palette-color{width:22px!important;height:22px!important;min-width:22px!important;max-width:22px!important;box-sizing:border-box!important}
+#timetablePalette .palette-color.selected{outline:2px solid #888!important;outline-offset:2px!important;box-shadow:none!important}
+
+
+/* Swipe-to-reveal actions in Today's checklist */
+.habit-today-row{position:relative;overflow:hidden;touch-action:pan-y}
+.habit-today-row .habit-actions{position:absolute!important;right:8px;top:50%;transform:translate(115%,-50%);opacity:0;pointer-events:none;background:#fff;padding:4px;border-radius:9px;box-shadow:0 0 0 1px #e9ebf3;transition:transform .2s ease,opacity .2s ease;z-index:2}
+.habit-today-row.actions-revealed .habit-actions{transform:translate(0,-50%);opacity:1;pointer-events:auto}
+.habit-today-row.actions-revealed .habit-name{padding-right:88px}
+/* Compact single-letter actions in Today's checklist */
+.habit-today-row .habit-actions{gap:3px!important}
+.habit-today-row .habit-action{width:25px!important;min-width:25px!important;height:25px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;font-size:11px!important;line-height:1!important;border-radius:6px!important}
+.habit-today-row .habit-action.color{font-size:11px!important}
+.habit-today-row .habit-action svg{pointer-events:none;display:block;flex:0 0 auto}
+
+
+/* Ensure revealed habit action icons receive clicks above the swipe row */
+.habit-today-row.actions-revealed .habit-actions,
+.habit-today-row.actions-revealed .habit-actions button,
+.habit-today-row.actions-revealed .habit-actions svg{pointer-events:auto!important}
+.habit-today-row.actions-revealed .habit-actions{z-index:20!important;isolation:isolate}
+.habit-today-row.actions-revealed .habit-actions button{position:relative;z-index:21;cursor:pointer;touch-action:manipulation}
+
+
+/* Daily food log below the memo */
+.meal-log{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+.meal-log-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:10px}
+.meal-log-head h2{font-size:15px;margin:0}
+.meal-log-head span,.meal-save-status{font-size:10px;color:var(--muted)}
+.meal-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.meal-fields label{display:grid;gap:4px;font-size:11px;font-weight:650;color:#626981}
+.meal-fields .meal-snacks-field{grid-column:1 / -1}
+.water-tracker{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.water-tracker-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;font-size:11px;font-weight:650;color:#626981}
+.water-tracker-head span:last-child{font-size:10px;font-weight:400;color:var(--muted)}
+.water-circles{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:7px;max-width:360px}
+.water-circle{width:100%;aspect-ratio:1;border:1.5px solid #b9dce9;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;transition:background .15s,border-color .15s,transform .15s;touch-action:manipulation}
+.water-circle svg{width:55%;height:55%;stroke:#78b9cf;fill:none;stroke-width:1.8;pointer-events:none}
+.water-circle.is-filled{background:#bdeaf5;border-color:#70c5df}
+.water-circle.is-filled svg{stroke:#247f9b}
+.water-circle:active{transform:scale(.94)}
+.water-circle:focus-visible{outline:2px solid #6558e8;outline-offset:2px}
+.drink-tracker{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.drink-circles .water-circle{border-color:var(--drink-border)}
+.drink-circles .water-circle svg{stroke:var(--drink-icon)}
+.drink-circles .water-circle.is-filled{background:var(--drink-fill);border-color:var(--drink-border)}
+.drink-circles .water-circle.is-filled svg{stroke:var(--drink-strong)}
+.coffee-tracker{--drink-border:#c9a27e;--drink-icon:#b1845c;--drink-fill:#f0d5b8;--drink-strong:#80502e}
+.beer-tracker{--drink-border:#e3bd55;--drink-icon:#c69b26;--drink-fill:#f9e6a4;--drink-strong:#946a08}
+.wine-tracker{--drink-border:#c78ca4;--drink-icon:#b66b8a;--drink-fill:#e9b8cd;--drink-strong:#873d5c}
+.meal-fields textarea{width:100%;min-width:0;min-height:100px;resize:vertical;border:1px solid #e2e5ee;border-radius:7px;padding:9px 8px;font:12px/1.45 inherit;color:var(--ink);background:#fff;outline:none}
+.meal-fields textarea:focus{border-color:#a9a1ff;box-shadow:0 0 0 2px #6558e81a}
+.meal-save-status{margin:8px 0 0}
+
+
+/* 30-day habit history: rotated date labels and evenly spaced grid */
+.habit-month-wrap{overflow-x:auto!important}
+.habit-month-table{border-collapse:separate!important;border-spacing:3px 3px!important;table-layout:fixed!important;width:max-content!important;min-width:0!important}
+.habit-month-table th,.habit-month-table td{padding:0!important;height:25px!important;min-height:25px!important;border-bottom:0!important;vertical-align:middle!important}
+.habit-month-table th:first-child,.habit-month-table td:first-child{width:110px!important;min-width:110px!important;max-width:110px!important;padding-left:7px!important}
+.habit-month-table thead th.month-day-label{width:24px!important;min-width:24px!important;max-width:24px!important;height:62px!important;position:relative!important;overflow:visible!important;white-space:nowrap!important}
+.habit-month-table thead th.month-day-label:not(:first-child){text-align:center!important}
+.habit-month-table thead th.month-day-label{font-size:10px!important}
+.habit-month-table thead th.month-day-label{ }
+.habit-month-table thead th.month-day-label{writing-mode:horizontal-tb!important;transform:none!important;padding:4px 0!important}
+.habit-month-table .month-day-label-text{display:inline-block;white-space:nowrap;transform:rotate(90deg);transform-origin:center center;font-size:10px;line-height:1}
+.habit-month-table .month-color-mark{width:18px!important;height:18px!important;margin:0 auto!important;border-radius:2px!important}
+.habit-month-table th:last-child,.habit-month-table td:last-child{width:55px!important;min-width:55px!important;max-width:55px!important}
+
+
+/* Daily calendar */
+.calendar-card{margin:0 0 22px;padding:20px!important}.calendar-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}.calendar-nav{display:flex;align-items:center;gap:7px}.calendar-nav .icon-btn{width:32px;height:32px}.calendar-nav strong{min-width:145px;text-align:center;font-size:14px}.calendar-weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.calendar-weekdays{margin-bottom:6px}.calendar-weekdays span{text-align:center;font-size:11px;color:var(--muted);font-weight:700;padding:5px 0}.calendar-day{position:relative;min-height:42px;border:1px solid #eceef5;background:#fff;border-radius:9px;color:var(--ink);font-size:12px;padding:6px;display:flex;align-items:flex-start}.calendar-day.outside{opacity:.38}.calendar-day.selected{border:2px solid var(--accent);background:#f3f1ff;padding:5px;font-weight:800}.calendar-day.today:not(.selected){background:#edf8f1;border-color:#bfe2cd}.calendar-day.has-record:after{content:'';position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#249b78}.calendar-selected{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;font-size:12px;color:var(--muted)}.calendar-selected strong{color:var(--ink)}#calendarSavedHint{margin-left:auto}@media(max-width:720px){.calendar-card{padding:14px!important}.calendar-head{align-items:flex-start;flex-direction:column}.calendar-nav{width:100%;justify-content:space-between}.calendar-nav strong{min-width:0}.calendar-day{min-height:36px;padding:5px}.calendar-day.selected{padding:4px}.calendar-weekdays,.calendar-grid{gap:3px}}
+
+/* Important schedule notes in the calendar */
+.calendar-event-editor{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:7px}.calendar-event-editor label{font-size:12px;font-weight:750}.calendar-event-editor textarea{width:100%;min-height:64px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:13px;color:var(--ink);background:#fff}.calendar-event-editor .sub{margin:0;font-size:11px}.calendar-event-input-row{display:flex;align-items:stretch;gap:8px}.calendar-event-input-row textarea{flex:1;min-width:0}.calendar-event-input-row .btn{align-self:stretch;padding:7px 16px;font-size:12px;cursor:pointer}.calendar-weather-picker{display:flex;gap:6px;flex-wrap:wrap}.calendar-weather-picker button{width:32px;height:30px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-size:17px;line-height:1;cursor:pointer}.calendar-weather-picker button.active{border-color:#7770c8;background:#f1efff}.calendar-day{flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:4px;overflow:hidden}.calendar-day-number{font-size:12px;line-height:1.2;flex:0 0 auto}.calendar-weather-icon{font-size:12px;line-height:1.1;flex:0 0 auto;color:#555}.calendar-event-label{font-size:9px;line-height:1.2;text-align:left;min-width:0;max-width:calc(100% - 20px);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere;color:#6554a4;font-weight:700}
+/* Keep Add habit beside the history title; completion rate below checklist */
+.habit-history-head{display:grid!important;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"title add" "summary summary";align-items:center!important;gap:10px 14px!important}
+.habit-history-title{grid-area:title;min-width:0}
+.habit-history-head .habit-add-form{grid-area:add;margin:0!important;display:flex;gap:6px;align-items:center;max-width:370px}
+.habit-history-head .habit-add-form input{width:175px;min-width:100px;padding:8px 10px;font-size:12px;border-radius:9px}
+.habit-history-head .habit-add-form button{padding:8px 10px;font-size:12px;white-space:nowrap;border-radius:9px}
+.habit-history-completion{display:flex;justify-content:flex-end;margin-top:12px;width:100%}
+.habit-week-footer{align-items:center}
+@media(max-width:720px){.habit-history-head{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"title" "add"!important;align-items:stretch!important}.habit-history-head .habit-add-form{max-width:none;width:100%}.habit-history-head .habit-add-form input{flex:1;width:auto;min-width:0}.habit-history-head .habit-add-form button{width:auto!important}.habit-history-completion{justify-content:flex-end}}
+
+/* Reading list */
+.reading-list-section{margin-top:20px}
+.reading-list-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.reading-count{font-size:12px;font-weight:750;color:var(--accent);background:var(--soft);padding:7px 10px;border-radius:999px;white-space:nowrap}
+.reading-add-form{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1.1fr) minmax(130px,1fr) minmax(130px,1fr) auto;align-items:end;gap:8px;margin-bottom:12px}
+.reading-add-form input{min-width:0;width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-size:13px;color:var(--ink);background:#fff}
+.reading-date-field{display:grid;gap:5px;min-width:0;font-size:11px;font-weight:650;color:var(--muted)}
+.reading-date-field input{min-width:0;width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 9px;font:inherit;font-size:12px;color:#888;background:#fff}
+.reading-add-form button{border:0;border-radius:10px;padding:10px 14px;background:var(--accent);color:#fff;font:inherit;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}
+.reading-list{display:grid;gap:7px}
+.reading-book{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;min-width:0}
+.reading-book input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);flex-shrink:0}
+.reading-book-info{display:grid;grid-template-columns:minmax(120px,1.5fr) minmax(90px,1fr) minmax(150px,1.25fr);align-items:center;gap:12px;min-width:0;flex:1}
+.reading-book-title{font-size:13px;font-weight:700;overflow-wrap:anywhere;min-width:0}
+.reading-book-author{font-size:11px;color:#888;overflow-wrap:anywhere;min-width:0}
+.reading-book-dates{font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reading-book.is-read .reading-book-title{text-decoration:line-through;color:var(--muted)}
+.reading-book-actions{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.reading-book-edit,.reading-book-delete{border:0;background:transparent;color:#888;font-size:13px;line-height:1;padding:6px 7px;border-radius:7px;cursor:pointer}
+.reading-book-edit:hover,.reading-book-delete:hover{background:#f4f4fa;color:var(--ink)}
+.reading-book-editor{display:grid;grid-template-columns:minmax(130px,1.3fr) minmax(100px,1fr) minmax(130px,1fr) minmax(130px,1fr) auto auto;align-items:center;gap:7px;width:100%;min-width:0}
+.reading-book-editor input{min-width:0;width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;font-size:11px;color:var(--ink);background:#fff}
+.reading-book-editor button{border:0;border-radius:8px;padding:8px 9px;font:inherit;font-size:11px;cursor:pointer;white-space:nowrap}
+.reading-book-editor .reading-edit-save{background:var(--accent);color:#fff}
+.reading-book-editor .reading-edit-cancel{background:#eee;color:#666}
+@media(max-width:700px){.reading-book-info{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 10px}.reading-book-dates{grid-column:1/-1;white-space:normal}.reading-book-editor{grid-template-columns:1fr 1fr}.reading-book-editor input:first-child{grid-column:1/-1}}
+.reading-empty{padding:18px 12px;text-align:center;border:1px dashed var(--line);border-radius:11px;font-size:12px;color:var(--muted)}
+.reading-list-status{margin:10px 0 0;font-size:11px}
+@media(max-width:820px){.reading-add-form{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.reading-add-form input:first-child{grid-column:1/-1}.reading-add-form button{grid-column:1/-1}.reading-list-head{align-items:flex-start}}
+.media-list-section{margin-top:20px}.media-add-form{grid-template-columns:minmax(0,1.6fr) minmax(0,1.1fr) minmax(150px,1fr) auto}#albumListForm{grid-template-columns:minmax(0,1.6fr) minmax(0,1.1fr) minmax(0,1.1fr) auto}.media-list-section .reading-book-info{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(120px,1fr)}.media-list-section .reading-count{background:#f1f5ec;color:#60794c}#movieListSection .reading-count{background:#fff0e9;color:#b76d4d}#albumListSection .reading-count{background:#f2eafa;color:#8055a6}@media(max-width:820px){.media-add-form{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.media-add-form input:first-child{grid-column:1/-1}.media-add-form button{grid-column:1/-1}}
+
+
+/* Local MP3 player */
+.mp3-player-section{margin:20px 0}.mp3-upload{display:flex;align-items:center;gap:12px;padding:15px;border:1px dashed #c9c6f5;background:#faf9ff;border-radius:14px;cursor:pointer;margin:16px 0}.mp3-upload:hover{background:#f3f1ff}.mp3-upload-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#e9e6ff;color:var(--accent);font-size:24px}.mp3-upload strong,.mp3-upload small{display:block}.mp3-upload strong{font-size:13px}.mp3-upload small{font-size:11px;color:var(--muted);margin-top:2px}.mp3-now-playing{display:flex;align-items:center;gap:12px;margin:16px 0 10px}.mp3-disc{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#dcd7ff,#8b7ef0);color:white;font-size:24px}.mp3-track-info{min-width:0;display:grid;gap:3px}.mp3-track-info strong{overflow-wrap:anywhere;font-size:14px}.mp3-track-info span{color:var(--muted);font-size:12px}.mp3-player-section audio,.mp3-player-section video{display:block;width:100%;max-height:480px;margin:12px 0;border-radius:12px;background:#111}.mp3-player-section video[hidden]{display:none}.mp3-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mp3-control-btn,.mp3-clear-btn{border:1px solid var(--line);border-radius:9px;background:#fff;padding:8px 11px;color:var(--ink);font-size:12px}.mp3-control-btn:disabled,.mp3-clear-btn:disabled{opacity:.4;cursor:default}.mp3-autonext{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);margin-left:auto}.mp3-autonext input{accent-color:var(--accent)}.mp3-clear-btn{color:#bd5961}.mp3-playlist{display:grid;gap:7px;margin-top:14px}.mp3-playlist-row{display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;min-width:0}.mp3-playlist-row.active{border-color:#bcb5ff;background:#f8f7ff}.mp3-play-track{flex:1;min-width:0;border:0;background:transparent;text-align:left;color:var(--ink);padding:0}.mp3-play-track strong,.mp3-play-track small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mp3-play-track strong{font-size:12px}.mp3-play-track small{font-size:10px;color:var(--muted);margin-top:2px}.mp3-track-remove{border:0;background:transparent;color:#a0a4b5;font-size:18px;padding:3px 6px}.mp3-track-remove:hover{color:#bd5961}@media(max-width:600px){.mp3-autonext{margin-left:0}.mp3-controls{gap:6px}.mp3-control-btn,.mp3-clear-btn{padding:8px}}
+
+
+/* Mobile layout overrides — explicit sizing and visible horizontal history */
+@media screen and (max-width: 720px) {
+  .pomodoro-card .pomodoro-visual { display:flex!important; width:100%!important; align-items:center!important; }
+  .pomodoro-card .analog-timer {
+    display:block!important;
+    position:relative!important;
+    width: min(78vw, 270px)!important;
+    height: min(78vw, 270px)!important;
+    min-width: min(78vw, 270px)!important;
+    min-height: min(78vw, 270px)!important;
+    max-width:270px!important;
+    max-height:270px!important;
+    aspect-ratio:1 / 1!important;
+    padding:17px!important;
+    flex:none!important;
+    border-radius:50%!important;
+  }
+  .pomodoro-card .timer-face {
+    position:absolute!important;
+    inset:17px!important;
+    width:auto!important;
+    height:auto!important;
+    aspect-ratio:1 / 1!important;
+    border-radius:50%!important;
+  }
+  .calendar-card .calendar-grid { display:grid!important; grid-template-columns:repeat(7,minmax(0,1fr))!important; width:100%!important; }
+  .calendar-card .calendar-day {
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-rows:auto auto!important;
+    align-content:start!important;
+    align-items:start!important;
+    justify-content:stretch!important;
+    min-width:0!important;
+    min-height:42px!important;
+    padding:4px 3px!important;
+    gap:2px!important;
+    overflow:hidden!important;
+  }
+  .calendar-card .calendar-day-number { grid-column:1; grid-row:1; font-size:11px!important; }
+  .calendar-card .calendar-weather-icon {
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    grid-column:2!important;
+    grid-row:1!important;
+    font-size:13px!important;
+    line-height:1!important;
+    min-width:12px!important;
+    text-align:center!important;
+  }
+  .calendar-card .calendar-event-label { grid-column:1 / -1!important; grid-row:2!important; max-width:100%!important; font-size:8px!important; }
+  .habit-month-wrap {
+    display:block!important;
+    position:relative!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    overflow-x:scroll!important;
+    overflow-y:hidden!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:pan-x!important;
+  }
+  .habit-month-table {
+    display:table!important;
+    width:max-content!important;
+    min-width:1050px!important;
+    max-width:none!important;
+    table-layout:fixed!important;
+    visibility:visible!important;
+  }
+  .habit-month-table thead { display:table-header-group!important; }
+  .habit-month-table tbody { display:table-row-group!important; }
+  .habit-month-table tr { display:table-row!important; }
+  .habit-month-table th, .habit-month-table td { display:table-cell!important; }
+  .habit-history-head { display:grid!important; }
+  .habit-history-completion { display:flex!important; }
+}
+</style>
+
+<style id="diary-book-redesign">
+:root{--desk:#e7e8eb;--paper:#fff;--ink:#171717;--muted:#777;--line:#d7d7d7;--accent:#171717;--soft:#f5f5f3;--green:#426b50;--shadow:0 12px 34px rgba(0,0,0,.09)}
+html{background:var(--desk)}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next","Avenir","Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.55;padding:0 16px 24px;overflow-x:hidden}
+.app.diary-app{position:relative;max-width:1320px;margin:0 auto;padding:22px 52px 42px 22px}
+.diary-app header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;padding:4px 4px 16px;border-bottom:1px solid var(--ink)}
+.diary-app .brand{gap:12px}.diary-app .logo{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;box-shadow:none;font-size:17px}
+.diary-app .brand h1{font-size:25px;line-height:1.05;letter-spacing:-.04em;font-weight:650;color:var(--ink)}
+.diary-app .brand p{margin:5px 0 0;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.diary-app .week-nav{display:flex;align-items:center;gap:8px;font-size:12px}
+.diary-app .icon-btn,.diary-app .small-btn,.diary-app button{border-radius:0}
+.diary-app .icon-btn{width:30px;height:30px;border:1px solid var(--line);background:transparent;color:var(--ink)}
+.diary-app .small-btn{border:1px solid var(--ink);padding:6px 10px;background:transparent;color:var(--ink);font-size:11px}
+.diary-app .book-tabs{position:absolute;right:15px;top:132px;z-index:10;display:flex;flex-direction:column;align-items:stretch;gap:4px}
+.diary-app .book-tabs button{writing-mode:vertical-rl;transform:none;width:30px;height:88px;min-height:50px;padding:10px 7px;background:#fff;border:1px solid #d1d1d1;border-left:0;border-radius:0 5px 5px 0;color:#686868;font-size:10px;letter-spacing:.15em;text-transform:uppercase;box-shadow:3px 2px 7px #0000000a}
+.diary-app .book-tabs button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.diary-app .book-tabs button:hover{color:var(--ink);background:#f1f1ef}
+.diary-app .book-tabs button[aria-pressed="true"]:hover{color:#fff;background:var(--ink)}
+.diary-app .book-pages{position:relative;background:var(--paper);min-height:72vh;box-shadow:-1px 1px 0 #0000000b,-7px 10px 28px #0000000d;border-radius:5px;overflow:hidden}
+.diary-app .book-pages:before{content:"";position:absolute;z-index:0;top:0;bottom:0;left:50%;width:22px;transform:translateX(-50%);pointer-events:none;background:linear-gradient(90deg,transparent,rgba(0,0,0,.035),transparent)}
+.diary-app .book-panel{position:relative;z-index:1;display:none;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-content:start;gap:22px 44px;padding:28px 34px 26px;min-width:0}
+.diary-app .book-panel.active{display:grid}
+.diary-app .book-panel:after{content:"";position:absolute;left:50%;top:24px;bottom:24px;width:1px;background:#00000008;pointer-events:none}
+.diary-app .book-panel>*{min-width:0}
+.diary-app .book-panel .overview,.diary-app .book-panel .pomodoro-card,.diary-app .book-panel .main-grid,.diary-app .book-panel .habit-head,.diary-app .book-panel .habit-history-head,.diary-app .book-panel .habit-month-wrap,.diary-app .book-panel .habit-week-footer,.diary-app .book-panel .mp3-player-section{grid-column:1/-1}
+.diary-app .overview{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;margin:0}
+.diary-app .card,.diary-app section.card{background:transparent;border:0;border-radius:0;box-shadow:none;padding:12px 0 18px;margin:0;border-bottom:1px solid var(--line)}
+.diary-app h2{font-weight:600;letter-spacing:-.025em;color:var(--ink)}
+.diary-app .eyebrow,.diary-app .label{font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.diary-app .sub,.diary-app .hint,.diary-app .muted{color:var(--muted)}
+.diary-app input,.diary-app textarea,.diary-app select{border:0;border-bottom:1px solid #bcbcbc;border-radius:0;background:transparent;color:var(--ink);padding:7px 3px}
+.diary-app input:focus,.diary-app textarea:focus,.diary-app select:focus{outline:1px solid #777;outline-offset:1px}
+.diary-app .progress-card,.diary-app .goal-card{border-bottom:1px solid var(--ink);padding:12px 0 20px}
+.diary-app .progress-track{height:4px;background:#e9e9e9;border-radius:0}.diary-app .progress-fill{background:var(--ink);border-radius:0}
+.diary-app .big{font-size:38px;font-weight:600;letter-spacing:-.05em;color:var(--ink)}
+.diary-app .progress-foot{font-size:11px;color:var(--muted)}
+.diary-app .goal-input-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.diary-app .goal-input-row input{width:58px}
+.diary-app .goal-input-row .small-btn{margin-left:3px}
+.diary-app .pomodoro-card{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:34px;align-items:center;border-bottom:1px solid var(--ink)!important;padding:10px 0 24px!important;margin:0!important}
+.diary-app .analog-timer{width:min(100%,255px);height:auto;aspect-ratio:1;border-radius:50%;padding:15px;background:#f6f6f3;box-shadow:inset 0 0 0 1px #d5d5d5}
+.diary-app .timer-face{width:100%;height:100%;border-radius:50%;background:#416c50;border-color:#d0d0d0}
+.diary-app .timer-arc{border-radius:50%}
+.diary-app .timer-number{font-weight:500}
+.diary-app .timer-modes{gap:6px}
+.diary-app .timer-mode{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:0;padding:6px 9px;font-size:11px}
+.diary-app .timer-mode.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.diary-app .timer-primary,.diary-app .save-btn,.diary-app .habit-add-form button,.diary-app .reading-add-form button,.diary-app .calendar-event-input-row .btn{background:var(--ink);color:#fff;border:1px solid var(--ink);border-radius:0;padding:9px 14px}
+.diary-app .timer-secondary{border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:0;padding:8px 12px}
+.diary-app .timer-stat strong{font-size:19px;font-weight:600}
+.diary-app .timer-stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0}
+.diary-app .main-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:34px;margin:0}
+.diary-app .chart-head,.diary-app .history-head,.diary-app .reading-list-head,.diary-app .calendar-head{border-bottom:1px solid var(--line);padding-bottom:10px}
+.diary-app .chart{gap:10px}
+.diary-app .bar-area{background:repeating-linear-gradient(to top,transparent 0 19px,#ededed 19px 20px);border-radius:0}
+.diary-app .bar{background:#c4c4c4;border-radius:0}.diary-app .bar.today{background:var(--green)}
+.diary-app .dot{background:var(--ink)}.diary-app .dot.green{background:var(--green)}
+.diary-app .history-item{border-bottom:1px solid var(--line);border-radius:0;padding:10px 0}
+.diary-app .delete-btn{border:1px solid var(--line);border-radius:0}
+.diary-app .entry-form{gap:12px}
+.diary-app .entry-form .field{gap:4px}
+.diary-app .entry-form input{width:100%}
+.diary-app .entry-form .time-field input{width:70px}
+.diary-app .footer{padding:12px 0 0;text-align:left;color:var(--muted);font-size:10px;letter-spacing:.06em}
+.diary-app .calendar-card{grid-column:1;align-self:start}
+.diary-app .calendar-nav{gap:5px}
+.diary-app .calendar-weekdays span{font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+.diary-app .calendar-grid{gap:0;border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+.diary-app .calendar-day{border-radius:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;min-height:66px}
+.diary-app .calendar-day.selected{background:#f2f2ef;border-color:var(--ink)}
+.diary-app .calendar-day.today .calendar-day-number{background:var(--ink);color:#fff;border-radius:0}
+.diary-app .calendar-event-editor{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
+.diary-app .daily-memo-input{width:100%;min-height:160px;border:1px solid var(--line);padding:10px;line-height:1.65}
+.diary-app .meal-log{border-top:1px solid var(--ink);margin-top:18px;padding-top:12px}
+.diary-app .meal-fields label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.diary-app .meal-fields textarea{width:100%;border:1px solid var(--line);padding:7px}
+.diary-app .water-circles button{border-radius:50%;border:1px solid var(--line)}
+.diary-app .water-circles button.active{border-color:var(--ink);background:var(--ink)}
+.diary-app .habit-head{border-bottom:1px solid var(--ink);padding:0 0 12px;margin:0}
+.diary-app .habit-summary{border:1px solid var(--ink);border-radius:0;padding:6px 9px;font-size:11px}
+.diary-app .planner-checklist{min-width:0}
+.diary-app .habit-today-list .habit-row,.diary-app .habit-today-list>div{border-radius:0}
+.diary-app .timetable-palette{grid-template-columns:repeat(7,minmax(20px,1fr));gap:5px}
+.diary-app .timetable-palette button{border-radius:0;border:1px solid #ddd}
+.diary-app .timetable-wrap{overflow:auto}
+.diary-app .timetable{border-collapse:collapse}
+.diary-app .timetable th,.diary-app .timetable td{border:1px solid var(--line)}
+.diary-app .timetable td button{border-radius:0}
+.diary-app .habit-month-wrap{max-width:100%;overflow-x:auto;border-top:1px solid var(--ink)}
+.diary-app .habit-month-table{border-collapse:collapse}
+.diary-app .habit-month-table th,.diary-app .habit-month-table td{border:1px solid var(--line)}
+.diary-app .habit-history-head{margin:0!important;padding:0 0 8px!important}
+.diary-app .reading-list-section,.diary-app .mp3-player-section{align-self:start}
+.diary-app .reading-list{border-top:1px solid var(--ink)}
+.diary-app .reading-item,.diary-app .media-item{border-bottom:1px solid var(--line);border-radius:0}
+.diary-app .reading-add-form input,.diary-app .media-add-form input{min-width:0}
+.diary-app .mp3-disc{border-radius:50%;box-shadow:none}
+.diary-app .mp3-controls button{border-radius:50%}
+.diary-app .book-panel[data-panel="library"] .mp3-player-section{grid-column:1/-1}
+@media(max-width:800px){
+ body{padding:0 7px 18px}
+ .app.diary-app{padding:12px 42px 28px 8px}
+ .diary-app header{align-items:flex-start;flex-wrap:wrap;padding:3px 0 12px;gap:10px}
+ .diary-app .brand h1{font-size:22px}
+ .diary-app .week-nav{gap:5px}
+ .diary-app .week-label{font-size:11px}
+ .diary-app .book-tabs{right:4px;top:122px;gap:3px}
+ .diary-app .book-tabs button{width:28px;height:76px;padding:8px 6px;font-size:9px}
+ .diary-app .book-pages{min-height:75vh}
+ .diary-app .book-pages:before,.diary-app .book-panel:after{display:none}
+ .diary-app .book-panel{grid-template-columns:minmax(0,1fr);gap:16px;padding:18px 16px}
+ .diary-app .book-panel .overview,.diary-app .book-panel .pomodoro-card,.diary-app .book-panel .main-grid,.diary-app .book-panel .habit-head,.diary-app .book-panel .habit-history-head,.diary-app .book-panel .habit-month-wrap,.diary-app .book-panel .habit-week-footer,.diary-app .book-panel .mp3-player-section{grid-column:1}
+ .diary-app .overview,.diary-app .main-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+ .diary-app .pomodoro-card{grid-template-columns:minmax(0,1fr);gap:16px!important}
+ .diary-app .pomodoro-visual{width:100%}
+ .diary-app .analog-timer{width:min(72vw,245px);height:auto;aspect-ratio:1}
+ .diary-app .calendar-card{grid-column:1}
+ .diary-app .calendar-day{min-height:46px;padding:3px}
+ .diary-app .daily-memo-input{min-height:120px}
+ .diary-app .meal-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .diary-app .timetable{min-width:0}
+ .diary-app .timetable th,.diary-app .timetable td{padding:1px}
+ .diary-app .habit-month-table{min-width:950px}
+ .diary-app .reading-add-form,.diary-app .media-add-form{flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){.diary-app *{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">✦</div><div><h1>Diary Book</h1><p>Study, habits & everyday notes</p></div></div>
+  <div class="week-nav"><button class="icon-btn" id="prevWeek" aria-label="Previous week">‹</button><div class="week-label" id="weekLabel">This week</div><button class="icon-btn" id="nextWeek" aria-label="Next week">›</button><button class="small-btn" id="thisWeek">Today</button></div>
+</header>
+<section class="overview">
+  <div class="card progress-card">
+    <div class="eyebrow">Weekly progress</div>
+    <div class="progress-numbers"><span class="big" id="totalTime">0h 0m</span><span class="of" id="goalText">of 7h goal</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-foot"><span id="remainingText">7h left to reach your goal</span><strong id="percentText">0%</strong></div>
+  </div>
+  <div class="card goal-card">
+    <div><div class="eyebrow">Your weekly goal</div><h2 style="margin-top:7px">Make it your own</h2><p class="sub">Choose a goal that works for you.</p>
+    <div class="goal-input-row"><input id="goalHours" type="number" min="0" max="168" step="1" value="7" aria-label="Goal hours"><label for="goalHours">hours per week</label><button class="small-btn" id="saveGoal">Save goal</button></div></div>
+    <div class="goal-note" id="goalNote">A steady routine beats a perfect day.</div>
+  </div>
+</section>
+
+<section class="card pomodoro-card" aria-labelledby="pomodoroHeading">
+  <div class="pomodoro-visual">
+    <div class="analog-timer" aria-label="Analog Pomodoro timer">
+      
+      <div class="timer-face">
+        <div class="timer-arc" id="timerArc"></div>
+        <div class="timer-ticks" id="timerTicks"></div>
+        <div class="timer-number" id="timerDisplay">25:00</div>
+        <div class="timer-knob"></div>
+      </div>
+    </div>
+    <div class="timer-modes">
+      <button class="timer-mode active" id="focusMode" type="button">Focus · 25 min</button>
+      <button class="timer-mode" id="breakMode" type="button">Short break · 5 min</button>
+    </div>
+    <div class="timer-status" id="timerStatus" aria-live="polite">Ready when you are.</div>
+  </div>
+  <div>
+    <div class="eyebrow">Pomodoro timer</div>
+    <h2 id="pomodoroHeading" style="font-size:22px;margin-top:5px">Make time for focus.</h2>
+    <p class="sub">Study time is added automatically while the focus timer runs. Breaks don't count.</p>
+    <div class="timer-controls">
+      <button class="timer-primary" id="timerStart" type="button">▶ Start focus</button>
+      <button class="timer-secondary" id="timerPause" type="button" hidden>Pause</button>
+      <button class="timer-secondary" id="timerFinish" type="button" hidden>Finish & save</button>
+    </div>
+
+    <div class="timer-duration-setting" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px">
+      <label for="focusDurationInput" style="font-size:12px;color:var(--muted);font-weight:650">Focus length (minutes)</label>
+      <input id="focusDurationInput" type="number" min="1" max="180" step="1" value="25" style="width:82px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);font:inherit">
+      <button class="timer-secondary" id="saveFocusDuration" type="button" style="padding:9px 12px">Set time</button>
+      <span id="focusDurationHint" style="font-size:11px;color:var(--muted)">1–180 minutes</span>
+    </div>
+    <div class="timer-stats">
+      <div class="timer-stat"><strong id="todayTimerTime">0m</strong><span>Added today by timer</span></div>
+      <div class="timer-stat"><strong id="sessionTimerTime">0m</strong><span>This focus session</span></div>
+    </div>
+    <p class="timer-note">Pause and resume anytime. Finishing early saves only completed study minutes (rounded down); break time is never counted.</p>
+  </div>
+</section>
+
+
+<section class="card habit-section" aria-labelledby="habitHeading">
+  <div class="habit-head">
+    <div><div class="eyebrow">Habit tracker</div><h2 id="habitHeading" style="font-size:22px;margin-top:5px">Small habits, steady progress.</h2><p class="sub">Check off today’s habits and review your week.</p></div>
+    <div class="habit-summary" id="habitTodaySummary">0 / 0 done today</div>
+  </div>
+  <section class="calendar-card card" aria-labelledby="calendarTitle"><div class="calendar-head"><div><h2 id="calendarTitle">Daily calendar</h2><p class="sub">Choose a date to open that day’s saved records.</p></div><div class="calendar-nav"><button type="button" class="icon-btn" id="calendarPrev" aria-label="Previous month">‹</button><strong id="calendarMonth"></strong><button type="button" class="icon-btn" id="calendarNext" aria-label="Next month">›</button><button type="button" class="small-btn" id="calendarToday">Today</button></div></div><div class="calendar-weekdays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div class="calendar-grid" id="calendarGrid"></div><p class="calendar-selected">Selected date: <strong id="calendarSelectedDate"></strong><span id="calendarSavedHint">Records save automatically in this browser.</span></p><div class="calendar-event-editor"><label>Weather</label><div class="calendar-weather-picker" id="calendarWeatherPicker" role="group" aria-label="Choose weather"><button type="button" data-weather="sun" aria-label="Sunny" title="Sunny">☀</button><button type="button" data-weather="cloud" aria-label="Cloudy" title="Cloudy">☁</button><button type="button" data-weather="rain" aria-label="Rainy" title="Rainy">☂</button><button type="button" data-weather="snow" aria-label="Snowy" title="Snowy">❄</button><button type="button" data-weather="wind" aria-label="Windy" title="Windy">≋</button><button type="button" data-weather="" aria-label="Clear weather" title="Clear">×</button></div><label for="calendarEventText">Important schedule</label><div class="calendar-event-input-row"><textarea id="calendarEventText" rows="2" placeholder="Write an important event for the selected date..."></textarea><button type="button" id="calendarEventSave" class="btn">Save</button></div><p class="sub" id="calendarEventStatus"></p></div></section>
+  <div class="daily-planner"><div class="planner-memo"><h2 style="font-size:15px;margin-bottom:10px">Memo</h2><textarea id="dailyMemo" class="daily-memo-input" placeholder="Write a note..." aria-label="Daily memo"></textarea><section class="meal-log" aria-labelledby="mealLogTitle"><div class="meal-log-head"><h2 id="mealLogTitle">Daily food log</h2><span id="mealLogDate"></span></div><div class="meal-fields"><label>Breakfast<textarea id="mealBreakfast" rows="2" placeholder="What did you eat?"></textarea></label><label>Lunch<textarea id="mealLunch" rows="2" placeholder="What did you eat?"></textarea></label><label>Dinner<textarea id="mealDinner" rows="2" placeholder="What did you eat?"></textarea></label><label class="meal-snacks-field">Snacks / drinks<textarea id="mealSnacks" rows="2" placeholder="Snacks, coffee, water..."></textarea></label></div><div class="water-tracker"><div class="water-tracker-head"><span>Water</span><span id="waterCount">0 / 8 glasses</span></div><div class="water-circles" id="waterCircles" aria-label="Track 8 glasses of water"></div></div>
+<div class="drink-tracker coffee-tracker" data-drink="coffee"><div class="water-tracker-head"><span>Coffee</span><span id="coffeeCount">0 / 8 cups</span></div><div class="water-circles drink-circles" id="coffeeCircles" aria-label="Track 8 cups of coffee"></div></div>
+<div class="drink-tracker beer-tracker" data-drink="beer"><div class="water-tracker-head"><span>Beer</span><span id="beerCount">0 / 8 glasses</span></div><div class="water-circles drink-circles" id="beerCircles" aria-label="Track 8 glasses of beer"></div></div>
+<div class="drink-tracker wine-tracker" data-drink="wine"><div class="water-tracker-head"><span>Wine</span><span id="wineCount">0 / 8 glasses</span></div><div class="water-circles drink-circles" id="wineCircles" aria-label="Track 8 glasses of wine"></div></div><p class="meal-save-status" id="mealSaveStatus" aria-live="polite">Saved automatically in this browser.</p></section></div><div class="planner-checklist"><h2 style="font-size:15px;margin-bottom:10px">Today’s checklist</h2><div class="habit-today-list" id="habitTodayList"></div></div><div class="card" style="padding:16px;box-shadow:none;border-radius:16px"><h2 style="font-size:15px">Daily timetable</h2><p class="sub">24 hours · 6 blocks per hour</p><div class="timetable-palette" id="timetablePalette" aria-label="12 pastel colors"></div><p class="timetable-help">Choose a pastel color, then tap any square to color it. Tap a colored square again to clear it.</p><div class="timetable-wrap"><table class="timetable" aria-label="24-hour daily timetable"><thead><tr><th class="time-label">Time</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody id="timetableBody"></tbody></table></div></div></div>
+  <div class="chart-head habit-history-head" style="margin:25px 0 12px"><div class="habit-history-title"><h2 style="font-size:15px">30-day habit history</h2><p class="sub">Track each habit for the last 30 days.</p></div>  <form class="habit-add-form" id="habitAddForm">
+    <input id="habitNewName" type="text" maxlength="80" placeholder="Add a habit (e.g. English practice)" aria-label="New habit name" required>
+    <button type="submit">＋ Add habit</button>
+  </form>
+</div><div class="habit-month-wrap"><table class="habit-month-table" aria-label="30-day habit completion"><thead id="habitWeekHead"></thead><tbody id="habitWeekBody"></tbody></table></div><div class="habit-week-footer"><span id="habitWeekRange">Last 30 days</span><span class="habit-saved-status">Saved automatically in this browser</span><span id="habitWeekSummary" class="week-total">0% complete</span></div>
+</section>
+
+
+<section class="card reading-list-section" id="readingListSection" aria-labelledby="readingListHeading">
+  <div class="reading-list-head"><div><div class="eyebrow">Reading tracker</div><h2 id="readingListHeading" style="font-size:20px;margin-top:5px">Reading list</h2><p class="sub">Keep the books you want to read in one place.</p></div><span class="reading-count" id="readingListCount">0 books</span></div>
+  <form class="reading-add-form" id="readingListForm"><input id="readingBookTitle" type="text" maxlength="160" placeholder="Enter a book title..." aria-label="Book title" required><input id="readingBookAuthor" type="text" maxlength="120" placeholder="Author (optional)" aria-label="Author (optional)"><label class="reading-date-field"><span>Start date</span><input id="readingStartDate" type="date" lang="en" aria-label="Reading start date"></label><label class="reading-date-field"><span>Finish date</span><input id="readingEndDate" type="date" lang="en" aria-label="Reading finish date"></label><button type="submit">＋ Add book</button></form>
+  <div class="reading-list" id="readingListItems" aria-live="polite"></div>
+  <p class="sub reading-list-status" id="readingListStatus">Your list is saved in this browser.</p>
+</section>
+
+<section class="card reading-list-section media-list-section" id="movieListSection">
+  <div class="reading-list-head"><div><div class="eyebrow">Watch tracker</div><h2 style="font-size:20px;margin-top:5px">Movie list</h2><p class="sub">Keep track of movies you want to watch or have watched.</p></div><span class="reading-count" id="movieListCount">0 movies</span></div>
+  <form class="reading-add-form media-add-form" id="movieListForm"><input id="movieTitle" type="text" maxlength="160" placeholder="Movie title..." aria-label="Movie title" required><input id="movieCreator" type="text" maxlength="120" placeholder="Director (optional)" aria-label="Director"><label class="reading-date-field"><span>Watch date</span><input id="movieDate" type="date" lang="en" aria-label="Watch date"></label><button type="submit">＋ Add movie</button></form>
+  <div class="reading-list" id="movieListItems" aria-live="polite"></div><p class="sub reading-list-status" id="movieListStatus">Your list is saved in this browser.</p>
+</section>
+
+<section class="card reading-list-section media-list-section" id="albumListSection">
+  <div class="reading-list-head"><div><div class="eyebrow">Listening tracker</div><h2 style="font-size:20px;margin-top:5px">Music album list</h2><p class="sub">Save albums you want to listen to or have listened to.</p></div><span class="reading-count" id="albumListCount">0 albums</span></div>
+  <form class="reading-add-form media-add-form" id="albumListForm"><input id="albumTitle" type="text" maxlength="160" placeholder="Album title..." aria-label="Album title" required><input id="albumCreator" type="text" maxlength="120" placeholder="Artist (optional)" aria-label="Artist"><input id="albumGenre" type="text" maxlength="100" placeholder="Genre (optional)" aria-label="Genre"><button type="submit">＋ Add album</button></form>
+  <div class="reading-list" id="albumListItems" aria-live="polite"></div><p class="sub reading-list-status" id="albumListStatus">Your list is saved in this browser.</p>
+</section>
+
+<section class="card mp3-player-section" id="mp3PlayerSection" aria-labelledby="mp3PlayerHeading">
+  <div class="reading-list-head">
+    <div><div class="eyebrow">Audio player</div><h2 id="mp3PlayerHeading" style="font-size:20px;margin-top:5px">MP3 player</h2><p class="sub">Choose MP3 audio or MP4 video files from your computer.</p></div>
+    <span class="reading-count" id="mp3TrackCount">0 tracks</span>
+  </div>
+  <label class="mp3-upload" for="mp3FileInput"><span class="mp3-upload-icon">＋</span><span><strong>Add MP3 / MP4 files</strong><small>Select audio or video files from your computer</small></span></label>
+  <input id="mp3FileInput" type="file" accept=".mp3,.mp4,audio/*,video/mp4" multiple hidden>
+  <div class="mp3-now-playing"><div class="mp3-disc" aria-hidden="true">♫</div><div class="mp3-track-info"><strong id="mp3CurrentTitle">No track selected</strong><span id="mp3CurrentMeta">Add MP3 or MP4 files to begin.</span></div></div>
+  <audio id="mp3Audio" controls preload="metadata"></audio>
+  <video id="mp4Video" controls preload="metadata" playsinline hidden></video>
+  <div class="mp3-controls"><button type="button" class="mp3-control-btn" id="mp3Prev" aria-label="Previous track" disabled>‹ Previous</button><button type="button" class="mp3-control-btn" id="mp3Next" aria-label="Next track" disabled>Next ›</button><label class="mp3-autonext"><input type="checkbox" id="mp3AutoNext" checked> Play next automatically</label><button type="button" class="mp3-clear-btn" id="mp3Clear" disabled>Clear list</button></div>
+  <div class="mp3-playlist" id="mp3Playlist" aria-live="polite"><div class="reading-empty">Your playlist is empty. Add MP3 or MP4 files to get started.</div></div>
+  <p class="sub reading-list-status" id="mp3PlayerStatus">MP3 and MP4 files play locally and are not uploaded. Refreshing the page clears this temporary playlist.</p>
+</section>
+
+<section class="main-grid">
+  <div class="card">
+    <div class="chart-head"><div><h2>Weekly study hours</h2><p class="sub">Your time, day by day.</p></div><div class="week-total" id="weekTotalPill">0h total</div></div>
+    <div class="chart" id="chart" role="img" aria-label="Study time bar chart"></div>
+    <div class="chart-legend"><span><i class="dot"></i>Study time</span><span><i class="dot green"></i>Today</span></div>
+    <div class="history"><div class="history-head"><h2 style="font-size:14px">This week's entries</h2><span class="sub" id="entryCount">0 entries</span></div><div class="history-list" id="historyList"></div></div>
+  </div>
+  <div class="card entry-card">
+    <h2>Log your study time</h2><p class="sub">Every session counts. Add your time below.</p>
+    <form class="entry-form" id="entryForm">
+      <div class="field"><label for="studyDate">Date</label><input id="studyDate" type="date" required></div>
+      <div class="time-row">
+        <div class="field time-field"><label for="hours">Hours</label><input id="hours" type="number" min="0" max="24" step="1" value="0" required><span>hours</span></div>
+        <div class="field time-field"><label for="minutes">Minutes</label><input id="minutes" type="number" min="0" max="59" step="1" value="30" required><span>min</span></div>
+      </div>
+      <button class="save-btn" type="submit">＋ Add study time</button>
+      <p class="hint">You can add multiple sessions on the same day. They’ll be combined in the chart.</p>
+    </form>
+    <div style="margin-top:24px;padding:14px;border-radius:14px;background:#f8f7ff"><div class="eyebrow">Small reminder</div><p style="margin:6px 0 0;font-size:13px;color:#646982">You don't need to do it all today. Just keep showing up.</p></div>
+  </div>
+</section>
+<div class="footer">Your data stays in this browser on this device. No account needed.</div>
+</div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const today = new Date();
+  const dateKey = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  let activeDateKey=dateKey(today);
+  const parseDate = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d,12); };
+  const monday = d => { const x=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12); x.setDate(x.getDate()-(x.getDay()+6)%7); return x; };
+  const addDays = (d,n) => {const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+  const fmtShort = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const fmtDay = d => d.toLocaleDateString('en-US',{weekday:'short'});
+  let weekStart=monday(today);
+  let entries=read('study-week-entries',[]);
+  let goal=Number(read('study-week-goal',7)) || 7;
+  $('studyDate').value=dateKey(today);
+  $('goalHours').value=goal;
+  function read(key,fallback){try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch{return fallback}}
+  function persist(){try{localStorage.setItem('study-week-entries',JSON.stringify(entries));}catch(e){console.warn('Could not save study entries in this browser.',e);}}
+  function fmtMinutes(n){return `${Math.floor(n/60)}h ${n%60}m`;}
+  function weekDates(){return Array.from({length:7},(_,i)=>addDays(weekStart,i));}
+  function weekEntries(){const a=dateKey(weekStart),b=dateKey(addDays(weekStart,6));return entries.filter(e=>e.date>=a&&e.date<=b);}
+  function render(){
+    const dates=weekDates(), week=weekEntries();
+    const daily=dates.map(d=>week.filter(e=>e.date===dateKey(d)).reduce((s,e)=>s+e.minutes,0));
+    const total=daily.reduce((a,b)=>a+b,0), goalM=goal*60, pct=goalM?Math.round(total/goalM*100):100, remain=Math.max(0,goalM-total);
+    $('weekLabel').textContent=(weekStart.getFullYear()===monday(today).getFullYear()&&dateKey(weekStart)===dateKey(monday(today)))?'This week':`${fmtShort(dates[0])} – ${fmtShort(dates[6])}`;
+    $('totalTime').textContent=fmtMinutes(total); $('goalText').textContent=`of ${goal}h goal`;
+    $('progressFill').style.width=`${Math.min(100,pct)}%`; $('remainingText').textContent=remain?`${fmtMinutes(remain)} left to reach your goal`:'Weekly goal reached — well done!';
+    $('percentText').textContent=`${pct}%`; $('weekTotalPill').textContent=`${fmtMinutes(total)} total`;
+    $('goalNote').textContent=total>=goalM?'You reached your weekly goal. Great work!':`${Math.ceil(remain/60)} more hour${Math.ceil(remain/60)===1?'':'s'} to go — one session at a time.`;
+    const max=Math.max(60,...daily);
+    $('chart').innerHTML='';
+    dates.forEach((d,i)=>{
+      const day=document.createElement('div');day.className='day';
+      const time=document.createElement('div');time.className='day-time';time.textContent=daily[i]?`${Math.floor(daily[i]/60)}h${daily[i]%60?` ${daily[i]%60}m`:''}`:'';
+      const area=document.createElement('div');area.className='bar-area';
+      const bar=document.createElement('div');bar.className='bar'+(dateKey(d)===dateKey(today)?' today':'');bar.style.height=`${daily[i]?Math.max(5,daily[i]/max*100):0}%`;bar.title=`${fmtDay(d)}: ${fmtMinutes(daily[i])}`;area.appendChild(bar);
+      const label=document.createElement('div');label.className='day-label'+(dateKey(d)===dateKey(today)?' current':'');label.textContent=fmtDay(d);
+      day.append(time,area,label);$('chart').appendChild(day);
+    });
+    $('entryCount').textContent=`${week.length} ${week.length===1?'entry':'entries'}`;
+    $('historyList').innerHTML='';
+    const sorted=week.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.created-a.created);
+    if(!sorted.length){const e=document.createElement('div');e.className='empty';e.textContent='No study time logged this week yet. Start with your first session.';$('historyList').appendChild(e);}
+    sorted.forEach(e=>{
+      const item=document.createElement('div');item.className='history-item';
+      const info=document.createElement('div');const dt=document.createElement('div');dt.className='history-date';dt.textContent=parseDate(e.date).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});const dur=document.createElement('div');dur.className='history-duration';dur.textContent=fmtMinutes(e.minutes);info.append(dt,dur);
+      const del=document.createElement('button');del.className='delete-btn';del.type='button';del.textContent='×';del.setAttribute('aria-label','Delete entry');del.title='Delete this entry';del.addEventListener('click',()=>{if(confirm('Delete this study entry?')){entries=entries.filter(x=>x.id!==e.id);persist();render();}});
+      item.append(info,del);$('historyList').appendChild(item);
+    });
+    if(typeof renderHabits==='function')renderHabits();
+  }
+  $('entryForm').addEventListener('submit',ev=>{
+    ev.preventDefault();const date=$('studyDate').value,h=Number($('hours').value),m=Number($('minutes').value);
+    if(!date||!Number.isInteger(h)||!Number.isInteger(m)||h<0||h>24||m<0||m>59||h*60+m<=0){alert('Enter a date and a study duration greater than zero.');return;}
+    entries.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),date,minutes:h*60+m,created:Date.now()});persist();
+    weekStart=monday(parseDate(date));render();$('hours').value=0;$('minutes').value=30;
+  });
+  $('saveGoal').addEventListener('click',()=>{const n=Number($('goalHours').value);if(!Number.isInteger(n)||n<1||n>168){alert('Choose a weekly goal from 1 to 168 hours.');return;}goal=n;try{localStorage.setItem('study-week-goal',JSON.stringify(goal));}catch(e){console.warn('Could not save goal in this browser.',e);}render();});
+  $('prevWeek').addEventListener('click',()=>{weekStart=addDays(weekStart,-7);render();});
+  $('nextWeek').addEventListener('click',()=>{weekStart=addDays(weekStart,7);render();});
+  $('thisWeek').addEventListener('click',()=>{weekStart=monday(today);render();});
+
+  // Pomodoro timer: timestamp-based elapsed time survives reloads.
+  const TIMER_KEY='study-week-pomodoro-v1';
+  const BREAK_MS=5*60*1000;
+  let focusDurationMinutes=Number(read('study-week-focus-duration',25));
+  if(!Number.isFinite(focusDurationMinutes)||focusDurationMinutes<1||focusDurationMinutes>180)focusDurationMinutes=25;
+  function focusDurationMs(){return focusDurationMinutes*60*1000;}
+  let timer=read(TIMER_KEY,{mode:'focus',elapsedMs:0,startedAt:null,running:false,entryId:null,sessionDate:null,creditedMinutes:0});
+  if(!timer || !['focus','break'].includes(timer.mode)) timer={mode:'focus',elapsedMs:0,startedAt:null,running:false,entryId:null,sessionDate:null,creditedMinutes:0};
+  timer.creditedMinutes=Number(timer.creditedMinutes||0);
+  function saveTimer(){try{localStorage.setItem(TIMER_KEY,JSON.stringify(timer));}catch(e){console.warn('Timer state could not be saved in this browser.',e);}}
+  function timerDuration(){return timer.mode==='focus'?focusDurationMs():BREAK_MS;}
+  function timerElapsed(){return Math.max(0,Number(timer.elapsedMs||0)+(timer.running&&timer.startedAt?Date.now()-timer.startedAt:0));}
+  function timerClock(ms){const s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+  function timerMinutes(ms){return Math.floor(Math.max(0,ms)/60000);}
+  function creditTimerMinutes(mins){
+    if(mins<=0||timer.mode!=='focus'||!timer.sessionDate)return;
+    let entry=entries.find(e=>e.id===timer.entryId);
+    if(!entry){
+      entry={id:timer.entryId||('pomodoro-'+Date.now().toString(36)),date:timer.sessionDate,minutes:0,created:Date.now(),source:'pomodoro'};
+      timer.entryId=entry.id;entries.push(entry);
+    }
+    entry.minutes+=mins;
+    persist();
+    weekStart=monday(parseDate(timer.sessionDate));
+    render();
+  }
+  function renderTimer(){
+    const elapsed=timerElapsed(), remaining=Math.max(0,timerDuration()-elapsed);
+    $('timerDisplay').textContent=timerClock(remaining);
+    $('timerArc').style.setProperty('--timer-progress',Math.max(0,Math.min(360,remaining/(60*60*1000)*360))+'deg');
+    $('timerArc').style.setProperty('--timer-green',timer.mode==='focus'?'#2f6e43':'#6558e8');
+    $('focusMode').textContent='Focus · '+focusDurationMinutes+' min';
+    $('focusDurationInput').value=String(focusDurationMinutes);
+    $('focusDurationInput').disabled=timer.running;
+    $('saveFocusDuration').disabled=timer.running;
+    $('focusMode').classList.toggle('active',timer.mode==='focus');
+    $('breakMode').classList.toggle('active',timer.mode==='break');
+    $('timerStart').textContent=timer.running?'Running…':(timer.elapsedMs>0?(timer.mode==='focus'?'▶ Resume focus':'▶ Resume break'):(timer.mode==='focus'?'▶ Start focus':'▶ Start break'));
+    $('timerStart').disabled=timer.running;
+    $('timerPause').hidden=!timer.running;
+    $('timerFinish').hidden=!(timer.running||timer.elapsedMs>0);
+    const status=$('timerStatus');
+    if(timer.running)status.textContent=timer.mode==='focus'?'Focus in progress — you’ve got this.':'Break in progress. Rest your mind.';
+    else if(!status.dataset.message)status.textContent=timer.elapsedMs>0?'Paused. Resume whenever you’re ready.':'Ready when you are.';
+    const todayKey=dateKey(new Date());
+    const todayMinutes=entries.filter(e=>e.date===todayKey&&e.source==='pomodoro').reduce((sum,e)=>sum+e.minutes,0);
+    $('todayTimerTime').textContent=todayMinutes+'m';
+    $('sessionTimerTime').textContent=timer.mode==='focus'?timerMinutes(elapsed)+'m':'—';
+  }
+  function timerTick(){
+    if(!timer.running)return;
+    const elapsed=timerElapsed();
+    let changed=false;
+    if(timer.mode==='focus'){
+      const due=Math.min(focusDurationMinutes,timerMinutes(elapsed));
+      if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;changed=true;}
+    }
+    if(elapsed>=timerDuration()){
+      if(timer.mode==='focus'){
+        const due=focusDurationMinutes;
+        if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
+        timer.mode='break';timer.elapsedMs=0;timer.startedAt=null;timer.running=false;timer.entryId=null;timer.sessionDate=null;timer.creditedMinutes=0;
+        $('timerStatus').dataset.message='focus-complete';
+        $('timerStatus').textContent='Focus complete! Take a short break.';
+      }else{
+        timer.elapsedMs=0;timer.startedAt=null;timer.running=false;
+        $('timerStatus').dataset.message='break-complete';
+        $('timerStatus').textContent='Break complete. Ready for another focus session?';
+      }
+      saveTimer();renderTimer();render();return;
+    }
+    timer.elapsedMs=elapsed;timer.startedAt=Date.now();saveTimer();
+    renderTimer();
+    if(changed)renderTimer();
+  }
+  function makeTimerTicks(){
+    const holder=$('timerTicks');
+    for(let i=0;i<60;i++){
+      const tick=document.createElement('i');tick.className='timer-tick'+(i%5===0?' major':'');
+      tick.style.transform='rotate('+(i*6)+'deg) translateY(-'+(holder.clientWidth*.43)+'px)';
+      holder.appendChild(tick);
+    }
+  }
+  function setTimerMode(mode){
+    if(timer.running){alert('Pause or finish the current timer before changing modes.');return;}
+    timer={mode,elapsedMs:0,startedAt:null,running:false,entryId:null,sessionDate:null,creditedMinutes:0};
+    $('timerStatus').dataset.message='';
+    saveTimer();renderTimer();
+  }
+
+  $('saveFocusDuration').addEventListener('click',()=>{
+    if(timer.running){$('focusDurationHint').textContent='Pause the timer before changing duration.';return;}
+    const input=Number($('focusDurationInput').value);
+    if(!Number.isInteger(input)||input<1||input>180){
+      $('focusDurationHint').textContent='Enter a whole number from 1 to 180.';
+      $('focusDurationInput').focus();return;
+    }
+    focusDurationMinutes=input;
+    try{localStorage.setItem('study-week-focus-duration',String(input));}catch(e){console.warn('Could not save focus duration.',e);}
+    if(timer.mode==='focus'){
+      timer.elapsedMs=0;timer.startedAt=null;timer.running=false;timer.entryId=null;timer.sessionDate=null;timer.creditedMinutes=0;
+    }
+    $('focusDurationHint').textContent='Focus length set to '+input+' minutes.';
+    $('timerStatus').dataset.message='';
+    saveTimer();renderTimer();
+  });
+
+  $('focusMode').addEventListener('click',()=>setTimerMode('focus'));
+  $('breakMode').addEventListener('click',()=>setTimerMode('break'));
+  $('timerStart').addEventListener('click',()=>{
+    if(timer.running)return;
+    if(timer.mode==='focus'&&!timer.sessionDate)timer.sessionDate=dateKey(new Date());
+    timer.startedAt=Date.now();timer.running=true;$('timerStatus').dataset.message='';saveTimer();renderTimer();
+  });
+  $('timerPause').addEventListener('click',()=>{
+    if(!timer.running)return;
+    timer.elapsedMs=timerElapsed();timer.startedAt=null;timer.running=false;
+    if(timer.mode==='focus'){
+      const due=Math.min(focusDurationMinutes,timerMinutes(timer.elapsedMs));
+      if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
+    }
+    saveTimer();renderTimer();render();
+  });
+  $('timerFinish').addEventListener('click',()=>{
+    const elapsed=timerElapsed();
+    if(timer.mode==='focus'){
+      const due=Math.min(focusDurationMinutes,timerMinutes(elapsed));
+      if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
+    }
+    timer.elapsedMs=0;timer.startedAt=null;timer.running=false;timer.entryId=null;timer.sessionDate=null;timer.creditedMinutes=0;
+    $('timerStatus').dataset.message='finished';
+    $('timerStatus').textContent='Session saved. Take a breath before the next one.';
+    saveTimer();renderTimer();render();
+  });
+  // Tick marks positioned around the dial.
+  makeTimerTicks();
+  // Catch up elapsed time after reload, crediting only completed focus minutes.
+  if(timer.running){
+    const elapsed=timerElapsed();
+    if(timer.mode==='focus'){
+      const due=Math.min(focusDurationMinutes,timerMinutes(Math.min(elapsed,focusDurationMs())));
+      if(due>timer.creditedMinutes){creditTimerMinutes(due-timer.creditedMinutes);timer.creditedMinutes=due;}
+    }
+    if(elapsed>=timerDuration()){
+      timer.elapsedMs=timerDuration();timer.startedAt=Date.now();
+      // timerTick will transition to the next mode on its first interval.
+    }else{
+      timer.elapsedMs=elapsed;timer.startedAt=Date.now();
+    }
+    saveTimer();
+  }
+  setInterval(timerTick,1000);
+  renderTimer();
+
+
+  const TIMETABLE_KEY='study-week-timetable-v1';
+  const PASTELS=['#FADADD','#F8C8DC','#E6D6F5','#D9D2FF','#CFE2FF','#C9F0F0','#CDEFD6','#E4F0C8','#FFF1B8','#FFE0C2','#F5D5C8','#DDE1E8','#FFFFFF','#555555'];
+  const legacyTimetable=read(TIMETABLE_KEY,{});let timetableByDate=read(TIMETABLE_KEY+'-by-date',{});if(!Object.keys(timetableByDate).length&&Object.keys(legacyTimetable).length){timetableByDate[activeDateKey]=legacyTimetable;try{localStorage.setItem(TIMETABLE_KEY+'-by-date',JSON.stringify(timetableByDate));}catch(e){}}
+  let timetableColors=timetableByDate[activeDateKey]||{}, selectedPastel=PASTELS[0];
+  function saveTimetable(){try{timetableByDate[activeDateKey]=timetableColors;localStorage.setItem(TIMETABLE_KEY+'-by-date',JSON.stringify(timetableByDate));}catch(e){console.warn('Could not save timetable.',e);}}
+  let timetablePainting=false;
+  let lastPaintedTimetableKey=null;
+  function paintTimetableCell(key,btn){
+    if(!btn||lastPaintedTimetableKey===key)return;
+    lastPaintedTimetableKey=key;
+    timetableColors[key]=selectedPastel;
+    btn.style.backgroundColor=selectedPastel;
+    btn.setAttribute('aria-label',btn.title+'; colored');
+    saveTimetable();
+  }
+  function timetableCellFromPoint(x,y){
+    const el=document.elementFromPoint(x,y);
+    const btn=el&&el.closest('#timetableBody button[data-timetable-key]');
+    return btn&&$('timetableBody').contains(btn)?btn:null;
+  }
+  function stopTimetablePainting(){timetablePainting=false;lastPaintedTimetableKey=null;}
+  const timetableBody=$('timetableBody');
+  timetableBody.addEventListener('pointerdown',ev=>{
+    const btn=ev.target.closest('button[data-timetable-key]');
+    if(!btn|| (ev.button!==undefined&&ev.button!==0))return;
+    ev.preventDefault();
+    timetablePainting=true;
+    lastPaintedTimetableKey=null;
+    paintTimetableCell(btn.dataset.timetableKey,btn);
+  });
+  document.addEventListener('pointermove',ev=>{
+    if(!timetablePainting)return;
+    const btn=timetableCellFromPoint(ev.clientX,ev.clientY);
+    if(btn)paintTimetableCell(btn.dataset.timetableKey,btn);
+  });
+  window.addEventListener('pointerup',stopTimetablePainting);
+  window.addEventListener('pointercancel',stopTimetablePainting);
+  function renderTimetable(){
+    const palette=$('timetablePalette');palette.innerHTML='';palette.style.setProperty('display','grid','important');palette.style.setProperty('grid-template-columns','repeat(7, 22px)','important');palette.style.setProperty('grid-template-rows','repeat(2, 22px)','important');palette.style.setProperty('grid-auto-flow','row','important');palette.style.setProperty('width','max-content','important');palette.style.setProperty('max-width','none','important');palette.style.setProperty('gap','6px','important');palette.style.setProperty('justify-content','start','important');
+    PASTELS.forEach(color=>{const btn=document.createElement('button');btn.type='button';btn.className='palette-color'+(selectedPastel===color?' selected':'');btn.style.background=color;btn.title=color;btn.setAttribute('aria-label','Select pastel color '+color);btn.setAttribute('aria-pressed',String(selectedPastel===color));btn.addEventListener('click',()=>{selectedPastel=color;renderTimetable();});palette.appendChild(btn);});
+    const body=$('timetableBody');body.innerHTML='';
+    for(let hour=5;hour<29;hour++){const rowIndex=hour-5;const hourSequence=[4,5,6,7,8,9,10,11,12,1,2,3];const displayHour=hourSequence[rowIndex%12];const tr=document.createElement('tr'),th=document.createElement('th');th.className='time-label';th.scope='row';th.textContent=String(displayHour);tr.appendChild(th);
+      for(let col=0;col<6;col++){const td=document.createElement('td');td.className='timetable-cell';const key=String(hour%24)+'-'+col;const btn=document.createElement('button');btn.type='button';btn.dataset.timetableKey=key;btn.style.backgroundColor=timetableColors[key]||'#ffffff';btn.title='Hour '+displayHour+', block '+(col+1);btn.setAttribute('aria-label',btn.title+'; '+(timetableColors[key]?'colored':'empty'));
+        btn.addEventListener('click',ev=>{if(ev.detail===0){if(timetableColors[key]===selectedPastel)delete timetableColors[key];else timetableColors[key]=selectedPastel;saveTimetable();renderTimetable();}});
+        td.appendChild(btn);tr.appendChild(td);}body.appendChild(tr);}
+  }
+
+  // Habit tracker data is stored separately from study-time entries.
+  let habits=read('study-week-habits',[]);
+  let habitChecks=read('study-week-habit-checks',{});
+  if(!Array.isArray(habits))habits=[];
+  if(!habitChecks||typeof habitChecks!=='object')habitChecks={};
+  function saveHabits(){
+    try{
+      localStorage.setItem('study-week-habits',JSON.stringify(habits));
+      localStorage.setItem('study-week-habit-checks',JSON.stringify(habitChecks));
+    }catch(e){console.warn('Could not save habit tracker data in this browser.',e);}
+  }
+  function isHabitDone(habitId,date){return !!(habitChecks[date]&&habitChecks[date][habitId]);}
+  function setHabitDone(habitId,date,checked){
+    if(!habitChecks[date])habitChecks[date]={};
+    habitChecks[date][habitId]=checked;
+    saveHabits();
+    renderHabits();
+  }
+  function renderHabits(){
+    const todayKey=activeDateKey;
+    const doneToday=habits.filter(h=>isHabitDone(h.id,todayKey)).length;
+    $('habitTodaySummary').textContent=doneToday+' / '+habits.length+' done today';
+    $('habitTodayList').innerHTML='';
+    if(!habits.length){
+      const empty=document.createElement('div');empty.className='habit-empty';empty.textContent='No habits yet. Add your first habit above.';$('habitTodayList').appendChild(empty);
+    }else{
+      habits.forEach(h=>{
+        const row=document.createElement('div');row.className='habit-today-row';row.dataset.habitId=String(h.id);if(h.color)row.style.backgroundColor=h.color;
+        const dragHandle=document.createElement('span');dragHandle.className='habit-drag-handle';dragHandle.textContent='⠿';dragHandle.title='Hold and drag to reorder';dragHandle.setAttribute('aria-label','Hold and drag to reorder habit');dragHandle.setAttribute('role','button');dragHandle.tabIndex=0;
+        dragHandle.addEventListener('pointerdown',ev=>{
+          if(ev.button!==undefined&&ev.button!==0)return;
+          ev.preventDefault();ev.stopPropagation();
+          const startY=ev.clientY;let moved=false;let targetRow=row;
+          row.classList.add('dragging');
+          const move=moveEv=>{
+            moveEv.preventDefault();
+            const under=document.elementFromPoint(moveEv.clientX,moveEv.clientY);
+            const candidate=under&&under.closest('.habit-today-row');
+            if(candidate&&candidate.parentElement===row.parentElement){
+              document.querySelectorAll('.habit-today-row.drag-over').forEach(el=>el.classList.remove('drag-over'));
+              targetRow=candidate;targetRow.classList.add('drag-over');moved=true;
+            }
+          };
+          const finish=()=>{
+            document.removeEventListener('pointermove',move);
+            document.removeEventListener('pointerup',finish);
+            document.removeEventListener('pointercancel',finish);
+            document.querySelectorAll('.habit-today-row.dragging,.habit-today-row.drag-over').forEach(el=>el.classList.remove('dragging','drag-over'));
+            if(!moved||targetRow===row)return;
+            const from=habits.findIndex(item=>String(item.id)===String(h.id));
+            const targetId=targetRow.dataset.habitId;
+            const to=habits.findIndex(item=>String(item.id)===String(targetId));
+            if(from<0||to<0||from===to)return;
+            const movedHabit=habits.splice(from,1)[0];habits.splice(to,0,movedHabit);saveHabits();renderHabits();
+          };
+          row.dataset.habitId=String(h.id);
+          document.addEventListener('pointermove',move,{passive:false});
+          document.addEventListener('pointerup',finish);
+          document.addEventListener('pointercancel',finish);
+        });
+        const check=document.createElement('input');check.type='checkbox';check.className='habit-check';check.checked=isHabitDone(h.id,todayKey);check.setAttribute('aria-label','Mark '+h.name+' complete today');check.addEventListener('change',()=>setHabitDone(h.id,todayKey,check.checked));
+        const name=document.createElement('div');name.className='habit-name'+(check.checked?' done':'');name.textContent=h.name;
+        const actions=document.createElement('div');actions.className='habit-actions';
+        let swipeStartX=0,swipeStartY=0,swipePointerId=null;
+        row.addEventListener('pointerdown',ev=>{
+          if(ev.target.closest('button,input,textarea,select,.habit-drag-handle'))return;
+          swipeStartX=ev.clientX;swipeStartY=ev.clientY;swipePointerId=ev.pointerId;
+          row.dataset.swipeStartX=String(ev.clientX);row.dataset.swipeStartY=String(ev.clientY);
+        });
+        row.addEventListener('pointerup',ev=>{
+          if(swipePointerId!==ev.pointerId)return;
+          const dx=ev.clientX-swipeStartX,dy=ev.clientY-swipeStartY;
+          if(Math.abs(dx)>30&&Math.abs(dx)>Math.abs(dy)*1.15){
+            if(dx<0)row.classList.add('actions-revealed');
+            else row.classList.remove('actions-revealed');
+            ev.preventDefault();
+          }
+          swipePointerId=null;delete row.dataset.swipeStartX;delete row.dataset.swipeStartY;
+        });
+        row.addEventListener('pointercancel',()=>{swipePointerId=null;delete row.dataset.swipeStartX;delete row.dataset.swipeStartY;});
+
+        const colorBtn=document.createElement('button');colorBtn.type='button';colorBtn.className='habit-action color';colorBtn.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.4-3.4 1.8 1.8 0 0 1 1.3-3.1H18a3 3 0 0 0 3-3c0-4.7-4-8.5-9-8.5Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="10" cy="6.8" r="1"/><circle cx="15" cy="7.5" r="1"/></svg>';colorBtn.title='Change color';colorBtn.setAttribute('aria-label','Change color');colorBtn.style.borderColor=h.color||'var(--line)';colorBtn.addEventListener('click',()=>{h.color=selectedPastel;saveHabits();renderHabits();});
+        const edit=document.createElement('button');edit.type='button';edit.className='habit-action';edit.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg>';edit.title='Edit habit';edit.setAttribute('aria-label','Edit habit');edit.addEventListener('click',()=>{
+          const next=prompt('Edit habit name:',h.name);
+          if(next===null)return;
+          const trimmed=next.trim();if(!trimmed){alert('Habit name cannot be empty.');return;}
+          h.name=trimmed.slice(0,80);saveHabits();renderHabits();
+        });
+        const del=document.createElement('button');del.type='button';del.className='habit-action delete';del.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 14H6L5 6"/><path d="M10 10v6M14 10v6"/></svg>';del.title='Delete habit';del.setAttribute('aria-label','Delete habit');del.addEventListener('click',()=>{
+          if(confirm('Delete “'+h.name+'” and its completion history?')){habits=habits.filter(x=>x.id!==h.id);Object.keys(habitChecks).forEach(date=>{if(habitChecks[date])delete habitChecks[date][h.id];});saveHabits();renderHabits();}
+        });
+        actions.append(colorBtn,edit,del);row.append(dragHandle,check,name,actions);$('habitTodayList').appendChild(row);
+      });
+    }
+    const base=parseDate(activeDateKey);const dates=Array.from({length:30},(_,i)=>addDays(base,i));
+    $('habitWeekHead').innerHTML='';$('habitWeekBody').innerHTML='';
+    const headRow=document.createElement('tr');const habitTh=document.createElement('th');habitTh.textContent='Habit';headRow.appendChild(habitTh);
+    dates.forEach(d=>{const th=document.createElement('th');th.className='month-day-label';const label=document.createElement('span');label.className='month-day-label-text';label.textContent=(d.getMonth()+1)+'/'+d.getDate();th.appendChild(label);if(dateKey(d)===todayKey)th.className+=' month-today';headRow.appendChild(th);});
+    const totalTh=document.createElement('th');totalTh.textContent='Done';headRow.appendChild(totalTh);$('habitWeekHead').appendChild(headRow);
+    let possible=0,completed=0;
+    habits.forEach(h=>{const tr=document.createElement('tr');const nameTd=document.createElement('td');nameTd.textContent=h.name;tr.appendChild(nameTd);let count=0;
+      dates.forEach(d=>{const key=dateKey(d),td=document.createElement('td');if(key===todayKey)td.className='month-today';const done=isHabitDone(h.id,key),mark=document.createElement('button');mark.type='button';mark.className='month-color-mark'+(done?' done':'');mark.setAttribute('aria-label',h.name+' on '+key+(done?' completed':' not completed'));mark.title=done?'Completed':'Not completed';mark.addEventListener('click',()=>setHabitDone(h.id,key,!isHabitDone(h.id,key)));if(done){count++;completed++;}possible++;td.appendChild(mark);tr.appendChild(td);});
+      const totalTd=document.createElement('td');totalTd.textContent=count+' / 30';tr.appendChild(totalTd);$('habitWeekBody').appendChild(tr);});
+    if(!habits.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=32;td.textContent='Add a habit to start tracking your 30 days.';td.style.textAlign='center';td.style.color='var(--muted)';tr.appendChild(td);$('habitWeekBody').appendChild(tr);}
+    const pct=possible?Math.round(completed/possible*100):0;$('habitWeekSummary').textContent=pct+'% complete';$('habitWeekRange').textContent=fmtShort(dates[0])+' – '+fmtShort(dates[29]);
+  }
+  $('habitAddForm').addEventListener('submit',ev=>{
+    ev.preventDefault();
+    const input=$('habitNewName'),name=input.value.trim();
+    if(!name)return;
+    habits.push({id:'habit-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7),name:name.slice(0,80),created:Date.now()});
+    input.value='';saveHabits();renderHabits();input.focus();
+  });
+
+  render();
+
+  // Store each day's memo separately; migrate the previous memo to today.
+  const dailyMemo=$('dailyMemo'), DAILY_MEMO_KEY='study-week-daily-memos-v1';
+  let dailyMemos=read(DAILY_MEMO_KEY,{});
+  if(!Object.keys(dailyMemos).length){const previousMemo=localStorage.getItem('study-week-daily-memo');if(previousMemo)dailyMemos[dateKey(today)]=previousMemo;}
+  if(dailyMemo)dailyMemo.addEventListener('input',()=>{dailyMemos[activeDateKey]=dailyMemo.value;try{localStorage.setItem(DAILY_MEMO_KEY,JSON.stringify(dailyMemos));}catch(e){}});
+  renderTimetable();
+  renderHabits();
+
+  // Save meal notes separately for each calendar day in this browser.
+  const mealFields={breakfast:$('mealBreakfast'),lunch:$('mealLunch'),dinner:$('mealDinner'),snacks:$('mealSnacks')};
+  const MEAL_LOG_KEY='study-week-meal-log-v1';
+  let mealLog={};
+  try{mealLog=JSON.parse(localStorage.getItem(MEAL_LOG_KEY)||'{}')||{};}catch(e){mealLog={};}
+  let mealToday=activeDateKey;
+  if($('mealLogDate'))$('mealLogDate').textContent=mealToday;
+  const todaysMeals=mealLog[mealToday]||{};
+  Object.keys(mealFields).forEach(key=>{
+    const field=mealFields[key];
+    if(!field)return;
+    field.value=todaysMeals[key]||'';
+    field.addEventListener('input',()=>{
+      if(!mealLog[mealToday])mealLog[mealToday]={};
+      Object.keys(mealFields).forEach(k=>{if(mealFields[k])mealLog[mealToday][k]=mealFields[k].value;});
+      saveMealLog();
+    });
+  });
+  function saveMealLog(){
+    try{localStorage.setItem(MEAL_LOG_KEY,JSON.stringify(mealLog));if($('mealSaveStatus'))$('mealSaveStatus').textContent='Saved automatically.';}
+    catch(e){if($('mealSaveStatus'))$('mealSaveStatus').textContent='Could not save. Check browser storage settings.';}
+  }
+  const waterCircles=$('waterCircles');
+  function renderWater(){
+    if(!waterCircles)return;
+    waterCircles.innerHTML='';
+    const count=Number((mealLog[mealToday]||{}).water||0);
+    for(let i=1;i<=8;i++){
+      const button=document.createElement('button');
+      button.type='button';button.className='water-circle'+(i<=count?' is-filled':'');
+      button.setAttribute('aria-label',`Glass ${i}`);button.setAttribute('aria-pressed',String(i<=count));
+      button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l-1 18H8L7 3Z"/><path d="M8 12h8"/></svg>';
+      button.addEventListener('click',()=>{
+        if(!mealLog[mealToday])mealLog[mealToday]={};
+        mealLog[mealToday].water=(i===count?i-1:i);
+        saveMealLog();renderWater();
+      });
+      waterCircles.appendChild(button);
+    }
+    const current=Number((mealLog[mealToday]||{}).water||0);
+    if($('waterCount'))$('waterCount').textContent=`${current} / 8 glasses`;
+  }
+  renderWater();
+  function renderDrinkTracker(kind,label,icon,unit){
+    const container=$(kind+'Circles');if(!container)return;
+    container.innerHTML='';
+    const count=Number((mealLog[mealToday]||{})[kind]||0);
+    for(let i=1;i<=8;i++){
+      const button=document.createElement('button');
+      button.type='button';button.className='water-circle'+(i<=count?' is-filled':'');
+      button.setAttribute('aria-label',label+' '+i);button.setAttribute('aria-pressed',String(i<=count));
+      button.innerHTML=icon;
+      button.addEventListener('click',()=>{
+        if(!mealLog[mealToday])mealLog[mealToday]={};
+        mealLog[mealToday][kind]=(i===Number((mealLog[mealToday]||{})[kind]||0)?i-1:i);
+        saveMealLog();renderDrinkTracker(kind,label,icon,unit);
+      });
+      container.appendChild(button);
+    }
+    const current=Number((mealLog[mealToday]||{})[kind]||0);
+    if($(kind+'Count'))$(kind+'Count').textContent=current+' / 8 '+unit;
+  }
+  const coffeeIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13v7a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4Z"/><path d="M17 10h2a2 2 0 0 1 0 4h-2M7 3v2M11 3v2M15 3v2"/></svg>';
+  const beerIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11l-1 16H6Z"/><path d="M16 8h2a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M5 7h11"/></svg>';
+  const wineIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l-1 6a5 5 0 0 1-10 0Z"/><path d="M12 14v6M8 21h8"/></svg>';
+  renderDrinkTracker('coffee','Coffee cup',coffeeIcon,'cups');
+  renderDrinkTracker('beer','Beer glass',beerIcon,'glasses');
+  renderDrinkTracker('wine','Wine glass',wineIcon,'glasses');
+
+  const CALENDAR_EVENTS_KEY='study-week-calendar-events-v1';
+  const CALENDAR_WEATHER_KEY='study-week-calendar-weather-v1';
+  const WEATHER_ICONS={sun:'☀',cloud:'☁',rain:'☂',snow:'❄',wind:'≋'};
+  let calendarEvents=read(CALENDAR_EVENTS_KEY,{});
+  let calendarWeather=read(CALENDAR_WEATHER_KEY,{});
+  let selectedWeather=calendarWeather[activeDateKey]||'';
+  const calendarEventText=$('calendarEventText');
+  function refreshWeatherPicker(){const picker=$('calendarWeatherPicker');if(picker)picker.querySelectorAll('button[data-weather]').forEach(b=>{const active=b.dataset.weather===selectedWeather;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});}
+  const calendarWeatherPicker=$('calendarWeatherPicker');
+  if(calendarWeatherPicker)calendarWeatherPicker.addEventListener('click',e=>{const b=e.target.closest('button[data-weather]');if(!b)return;selectedWeather=b.dataset.weather||'';refreshWeatherPicker();if($('calendarEventStatus'))$('calendarEventStatus').textContent='Unsaved changes — click Save.';});
+  if(calendarEventText)calendarEventText.addEventListener('input',()=>{if($('calendarEventStatus'))$('calendarEventStatus').textContent='Unsaved changes — click Save.';const selected=$('calendarGrid').querySelector('.calendar-day.selected');if(selected){let label=selected.querySelector('.calendar-event-label');const value=String(calendarEventText.value||'').trim();if(value&&!label){label=document.createElement('span');label.className='calendar-event-label';selected.appendChild(label);}if(label){label.textContent=value;if(!value)label.remove();}if(value)selected.classList.add('has-record');selected.setAttribute('aria-label',activeDateKey+(value?', important schedule: '+value:''));}});
+  const calendarEventSave=$('calendarEventSave');
+  if(calendarEventSave)calendarEventSave.addEventListener('click',()=>{calendarEvents[activeDateKey]=calendarEventText?calendarEventText.value:'';calendarWeather[activeDateKey]=selectedWeather;try{localStorage.setItem(CALENDAR_EVENTS_KEY,JSON.stringify(calendarEvents));localStorage.setItem(CALENDAR_WEATHER_KEY,JSON.stringify(calendarWeather));if($('calendarEventStatus'))$('calendarEventStatus').textContent='Saved.';renderCalendar();}catch(e){if($('calendarEventStatus'))$('calendarEventStatus').textContent='Could not save. Check browser storage settings.';}});
+
+  // Reading list — saved locally in this browser.
+  const READING_LIST_KEY='study-week-reading-list-v1';
+  let readingBooks=read(READING_LIST_KEY,[]);
+  function saveReadingBooks(){
+    try{localStorage.setItem(READING_LIST_KEY,JSON.stringify(readingBooks));if($('readingListStatus'))$('readingListStatus').textContent='Saved in this browser.';}
+    catch(e){if($('readingListStatus'))$('readingListStatus').textContent='Could not save. Check browser storage settings.';}
+  }
+  function renderReadingList(){
+    const list=$('readingListItems');if(!list)return;list.innerHTML='';
+    const count=$('readingListCount');if(count)count.textContent=readingBooks.length+' '+(readingBooks.length===1?'book':'books');
+    if(!readingBooks.length){const empty=document.createElement('div');empty.className='reading-empty';empty.textContent='Your reading list is empty. Add a book to get started.';list.appendChild(empty);return;}
+    const fmtDate=value=>value?new Date(value+'T12:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'Not set';
+    readingBooks.forEach(book=>{
+      const row=document.createElement('div');row.className='reading-book'+(book.done?' is-read':'');
+      const check=document.createElement('input');check.type='checkbox';check.checked=!!book.done;check.setAttribute('aria-label','Mark '+book.title+' as read');
+      check.addEventListener('change',()=>{book.done=check.checked;saveReadingBooks();renderReadingList();});
+      const info=document.createElement('div');info.className='reading-book-info';
+      const title=document.createElement('div');title.className='reading-book-title';title.textContent=book.title;info.appendChild(title);
+      const author=document.createElement('div');author.className='reading-book-author';author.textContent=book.author||'—';info.appendChild(author);
+      const dates=document.createElement('div');dates.className='reading-book-dates';dates.textContent=(book.startDate?fmtDate(book.startDate):'Start date not set')+' – '+(book.endDate?fmtDate(book.endDate):'Finish date not set');info.appendChild(dates);
+      const actions=document.createElement('div');actions.className='reading-book-actions';
+      const edit=document.createElement('button');edit.type='button';edit.className='reading-book-edit';edit.textContent='Edit';edit.setAttribute('aria-label','Edit '+book.title);edit.addEventListener('click',()=>{
+        row.innerHTML='';
+        const editor=document.createElement('form');editor.className='reading-book-editor';
+        const fields=[{key:'title',type:'text',placeholder:'Book title',value:book.title,required:true},{key:'author',type:'text',placeholder:'Author',value:book.author||''},{key:'startDate',type:'date',placeholder:'Start date',value:book.startDate||''},{key:'endDate',type:'date',placeholder:'Finish date',value:book.endDate||''}];
+        const inputs={};
+        fields.forEach(field=>{const input=document.createElement('input');input.type=field.type;if(field.type==='date'){input.lang='en';input.style.color='#888';}input.value=field.value;input.placeholder=field.placeholder;input.setAttribute('aria-label',field.placeholder);if(field.required)input.required=true;inputs[field.key]=input;editor.appendChild(input);});
+        const save=document.createElement('button');save.type='submit';save.className='reading-edit-save';save.textContent='Save';
+        const cancel=document.createElement('button');cancel.type='button';cancel.className='reading-edit-cancel';cancel.textContent='Cancel';cancel.addEventListener('click',renderReadingList);
+        editor.append(save,cancel);
+        editor.addEventListener('submit',event=>{event.preventDefault();const titleValue=inputs.title.value.trim();if(!titleValue)return;const startValue=inputs.startDate.value,endValue=inputs.endDate.value;if(startValue&&endValue&&endValue<startValue){if($('readingListStatus'))$('readingListStatus').textContent='Finish date must be on or after the start date.';return;}book.title=titleValue;book.author=inputs.author.value.trim();book.startDate=startValue;book.endDate=endValue;saveReadingBooks();renderReadingList();});
+        row.appendChild(editor);inputs.title.focus();
+      });
+      const del=document.createElement('button');del.type='button';del.className='reading-book-delete';del.textContent='×';del.setAttribute('aria-label','Remove '+book.title);del.title='Remove book';
+      del.addEventListener('click',()=>{readingBooks=readingBooks.filter(item=>item.id!==book.id);saveReadingBooks();renderReadingList();});
+      actions.append(edit,del);row.append(check,info,actions);list.appendChild(row);
+    });
+  }
+  const readingListForm=$('readingListForm');
+  if(readingListForm)readingListForm.addEventListener('submit',event=>{
+    event.preventDefault();
+    const title=$('readingBookTitle').value.trim(),author=$('readingBookAuthor').value.trim(),startDate=$('readingStartDate').value,endDate=$('readingEndDate').value;
+    if(!title)return;
+    if(startDate&&endDate&&endDate<startDate){$('readingListStatus').textContent='Finish date must be on or after the start date.';return;}
+    readingBooks.push({id:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),title,author,startDate,endDate,done:false});
+    saveReadingBooks();renderReadingList();readingListForm.reset();$('readingBookTitle').focus();
+  });
+  renderReadingList();
+
+
+  // Local MP3/MP4 player — files stay in this browser session.
+  (function initMp3Player(){
+    const input=$('mp3FileInput'),audio=$('mp3Audio'),video=$('mp4Video'),playlist=$('mp3Playlist');
+    if(!input||!audio||!video||!playlist)return;
+    let tracks=[],current=-1,activeMedia=audio;
+    const fmtSize=bytes=>bytes<1024*1024?(bytes/1024).toFixed(0)+' KB':(bytes/1024/1024).toFixed(1)+' MB';
+    const isVideo=track=>track&&track.kind==='video';
+    function switchMedia(track){
+      audio.pause();video.pause();
+      if(isVideo(track)){audio.hidden=true;video.hidden=false;activeMedia=video;}
+      else{video.hidden=true;audio.hidden=false;activeMedia=audio;}
+      audio.removeAttribute('src');audio.load();video.removeAttribute('src');video.load();
+      activeMedia.src=track.url;activeMedia.load();
+    }
+    function render(){
+      playlist.innerHTML='';
+      $('mp3TrackCount').textContent=tracks.length+' '+(tracks.length===1?'track':'tracks');
+      $('mp3Prev').disabled=tracks.length<2;$('mp3Next').disabled=tracks.length<2;$('mp3Clear').disabled=!tracks.length;
+      if(!tracks.length){playlist.innerHTML='<div class="reading-empty">Your playlist is empty. Add MP3 or MP4 files to get started.</div>';$('mp3CurrentTitle').textContent='No track selected';$('mp3CurrentMeta').textContent='Add MP3 or MP4 files to begin.';return;}
+      tracks.forEach((track,index)=>{
+        const row=document.createElement('div');row.className='mp3-playlist-row'+(index===current?' active':'');
+        const play=document.createElement('button');play.type='button';play.className='mp3-play-track';play.setAttribute('aria-label','Play '+track.name);
+        const title=document.createElement('strong');title.textContent=(index===current?'▶ ':'')+(isVideo(track)?'▣ ':'♫ ')+track.name;
+        const meta=document.createElement('small');meta.textContent=(isVideo(track)?'MP4 video':'Audio')+' · '+fmtSize(track.size);
+        play.append(title,meta);play.addEventListener('click',()=>playTrack(index,true));
+        const remove=document.createElement('button');remove.type='button';remove.className='mp3-track-remove';remove.textContent='×';remove.setAttribute('aria-label','Remove '+track.name);remove.addEventListener('click',()=>removeTrack(index));
+        row.append(play,remove);playlist.appendChild(row);
+      });
+      if(current>=0&&tracks[current]){$('mp3CurrentTitle').textContent=tracks[current].name;$('mp3CurrentMeta').textContent=(isVideo(tracks[current])?'MP4 video':'Audio')+' · Track '+(current+1)+' of '+tracks.length+' · '+fmtSize(tracks[current].size);}
+    }
+    function playTrack(index,autoplay){
+      if(!tracks.length)return;
+      current=(index+tracks.length)%tracks.length;
+      switchMedia(tracks[current]);render();
+      if(autoplay)activeMedia.play().catch(()=>{$('mp3PlayerStatus').textContent='Press Play on the player controls to start playback.';});
+    }
+    function removeTrack(index){
+      const removed=tracks[index];if(!removed)return;
+      const wasCurrent=index===current;URL.revokeObjectURL(removed.url);tracks.splice(index,1);
+      if(!tracks.length){audio.pause();video.pause();audio.removeAttribute('src');video.removeAttribute('src');audio.load();video.load();audio.hidden=false;video.hidden=true;activeMedia=audio;current=-1;}
+      else if(wasCurrent){current=Math.min(index,tracks.length-1);playTrack(current,false);}
+      else if(index<current)current--;
+      render();
+    }
+    input.addEventListener('change',()=>{
+      const files=Array.from(input.files||[]).filter(file=>file.type.startsWith('audio/')||file.type.startsWith('video/')||/\.(mp3|mp4|m4a|wav|ogg|webm)$/i.test(file.name));
+      files.forEach(file=>tracks.push({name:file.name,size:file.size,url:URL.createObjectURL(file),kind:(file.type.startsWith('video/')||/\.mp4$/i.test(file.name))?'video':'audio'}));
+      input.value='';
+      if(files.length){if(current<0)playTrack(0,false);else render();$('mp3PlayerStatus').textContent='Files play locally and are not uploaded. Refreshing the page clears this temporary playlist.';}
+      else $('mp3PlayerStatus').textContent='No supported audio or video files were selected.';
+    });
+    $('mp3Prev').addEventListener('click',()=>playTrack(current-1,true));
+    $('mp3Next').addEventListener('click',()=>playTrack(current+1,true));
+    $('mp3Clear').addEventListener('click',()=>{tracks.forEach(t=>URL.revokeObjectURL(t.url));tracks=[];current=-1;audio.pause();video.pause();audio.removeAttribute('src');video.removeAttribute('src');audio.load();video.load();audio.hidden=false;video.hidden=true;activeMedia=audio;render();});
+    [audio,video].forEach(media=>media.addEventListener('ended',()=>{if(media===activeMedia&&$('mp3AutoNext').checked&&tracks.length>1)playTrack(current+1,true);}));
+    [audio,video].forEach(media=>media.addEventListener('error',()=>{if(media===activeMedia&&current>=0)$('mp3PlayerStatus').textContent='This file could not be played by your browser. Try another file or format.';}));
+    window.addEventListener('beforeunload',()=>tracks.forEach(t=>URL.revokeObjectURL(t.url)));
+    render();
+  })();
+
+    function createMediaTracker(config){
+    const storageKey="study-week-"+config.key+"-v1";
+    let items=read(storageKey,[]);
+    const save=()=>{try{localStorage.setItem(storageKey,JSON.stringify(items));$(config.status).textContent="Saved in this browser.";}catch(e){$(config.status).textContent="Could not save. Check browser storage settings.";}};
+    const render=()=>{
+      const list=$(config.list);list.innerHTML="";
+      $(config.count).textContent=items.length+" "+(items.length===1?config.singular:config.plural);
+      if(!items.length){const empty=document.createElement("div");empty.className="reading-empty";empty.textContent="Your "+config.singular+" list is empty. Add one to get started.";list.appendChild(empty);return;}
+      items.forEach(item=>{
+        const row=document.createElement("div");row.className="reading-book"+(item.done?" is-read":"");
+        const check=document.createElement("input");check.type="checkbox";check.checked=!!item.done;check.setAttribute("aria-label","Mark "+item.title+" as completed");check.addEventListener("change",()=>{item.done=check.checked;save();render();});
+        const info=document.createElement("div");info.className="reading-book-info";
+        const title=document.createElement("div");title.className="reading-book-title";title.textContent=item.title;
+        const creator=document.createElement("div");creator.className="reading-book-author";creator.textContent=item.creator||"—";
+        const date=document.createElement("div");date.className="reading-book-dates";if(config.genre){date.textContent=item.genre||"Genre not set";}else{date.textContent=item.date?new Date(item.date+"T12:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}):"Date not set";}info.append(title,creator,date);
+        const actions=document.createElement("div");actions.className="reading-book-actions";
+        const edit=document.createElement("button");edit.type="button";edit.className="reading-book-edit";edit.textContent="Edit";
+        edit.addEventListener("click",()=>{row.innerHTML="";const form=document.createElement("form");form.className="reading-book-editor";const ti=document.createElement("input");ti.required=true;ti.value=item.title;ti.placeholder=config.titlePlaceholder;ti.setAttribute("aria-label",config.titlePlaceholder);const ci=document.createElement("input");ci.value=item.creator||"";ci.placeholder=config.creatorPlaceholder;ci.setAttribute("aria-label",config.creatorPlaceholder);const di=document.createElement("input");if(config.genre){di.type="text";di.maxLength=100;di.value=item.genre||"";di.placeholder="Genre";di.setAttribute("aria-label","Genre");}else{di.type="date";di.lang="en";di.style.color="#888";di.value=item.date||"";di.setAttribute("aria-label",config.dateLabel);}const sb=document.createElement("button");sb.type="submit";sb.className="reading-edit-save";sb.textContent="Save";const cb=document.createElement("button");cb.type="button";cb.className="reading-edit-cancel";cb.textContent="Cancel";cb.addEventListener("click",render);form.append(ti,ci,di,sb,cb);form.addEventListener("submit",ev=>{ev.preventDefault();if(!ti.value.trim())return;item.title=ti.value.trim();item.creator=ci.value.trim();if(config.genre)item.genre=di.value.trim();else item.date=di.value;save();render();});row.appendChild(form);ti.focus();});
+        const del=document.createElement("button");del.type="button";del.className="reading-book-delete";del.textContent="×";del.setAttribute("aria-label","Remove "+item.title);del.addEventListener("click",()=>{items=items.filter(x=>x.id!==item.id);save();render();});
+        actions.append(edit,del);row.append(check,info,actions);list.appendChild(row);
+      });
+    };
+    const form=$(config.form);form.addEventListener("submit",ev=>{ev.preventDefault();const title=$(config.title).value.trim();if(!title)return;items.push({id:Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8),title,creator:$(config.creator).value.trim(),...(config.genre?{genre:$(config.genre).value.trim()}:{date:$(config.date).value}),done:false});save();render();form.reset();$(config.title).focus();});
+    render();
+  }
+  createMediaTracker({key:"movie-list",form:"movieListForm",title:"movieTitle",creator:"movieCreator",date:"movieDate",list:"movieListItems",count:"movieListCount",status:"movieListStatus",singular:"movie",plural:"movies",titlePlaceholder:"Movie title",creatorPlaceholder:"Director",dateLabel:"Watch date"});
+  createMediaTracker({key:"album-list",form:"albumListForm",title:"albumTitle",creator:"albumCreator",genre:true,list:"albumListItems",count:"albumListCount",status:"albumListStatus",singular:"album",plural:"albums",titlePlaceholder:"Album title",creatorPlaceholder:"Artist"});
+
+  let calendarMonth=new Date(today.getFullYear(),today.getMonth(),1,12);
+  function dayHasRecords(key){
+    const m=mealLog[key]||{};
+    return entries.some(e=>e.date===key)||!!(habitChecks[key]&&Object.values(habitChecks[key]).some(Boolean))||!!String(dailyMemos[key]||'').trim()||!!String(calendarEvents[key]||'').trim()||!!calendarWeather[key]||!!(timetableByDate[key]&&Object.values(timetableByDate[key]).some(c=>c&&c!=='#ffffff'))||Object.keys(m).some(k=>k==='water'?Number(m[k])>0:String(m[k]||'').trim());
+  }
+  function renderCalendar(){
+    $('calendarMonth').textContent=calendarMonth.toLocaleDateString('en-US',{month:'long',year:'numeric'});$('calendarGrid').innerHTML='';
+    const first=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),1,12),start=addDays(first,-((first.getDay()+6)%7));
+    for(let i=0;i<42;i++){const d=addDays(start,i),key=dateKey(d),b=document.createElement('button');b.type='button';b.className='calendar-day';if(d.getMonth()!==calendarMonth.getMonth())b.classList.add('outside');if(key===dateKey(today))b.classList.add('today');if(key===activeDateKey)b.classList.add('selected');if(dayHasRecords(key))b.classList.add('has-record');const number=document.createElement('span');number.className='calendar-day-number';number.textContent=d.getDate();b.appendChild(number);const weather=calendarWeather[key];if(weather&&WEATHER_ICONS[weather]){const weatherIcon=document.createElement('span');weatherIcon.className='calendar-weather-icon';weatherIcon.textContent=WEATHER_ICONS[weather];weatherIcon.setAttribute('aria-label',weather+' weather');b.appendChild(weatherIcon);}const eventText=String(calendarEvents[key]||'').trim();if(eventText){const label=document.createElement('span');label.className='calendar-event-label';label.textContent=eventText;b.appendChild(label);}b.setAttribute('aria-label',key+(eventText?', important schedule: '+eventText:dayHasRecords(key)?', has saved records':''));b.addEventListener('click',()=>selectCalendarDate(key));$('calendarGrid').appendChild(b);}
+    $('calendarSelectedDate').textContent=activeDateKey;if($('calendarEventText'))$('calendarEventText').value=calendarEvents[activeDateKey]||'';selectedWeather=calendarWeather[activeDateKey]||'';refreshWeatherPicker();
+  }
+  function selectCalendarDate(key){
+    if(dailyMemo){dailyMemos[activeDateKey]=dailyMemo.value;try{localStorage.setItem(DAILY_MEMO_KEY,JSON.stringify(dailyMemos));}catch(e){}}
+    if(calendarEventText){calendarEvents[activeDateKey]=calendarEventText.value;try{localStorage.setItem(CALENDAR_EVENTS_KEY,JSON.stringify(calendarEvents));}catch(e){}}
+    if(!mealLog[mealToday])mealLog[mealToday]={};Object.keys(mealFields).forEach(k=>{if(mealFields[k])mealLog[mealToday][k]=mealFields[k].value;});saveMealLog();saveTimetable();
+    activeDateKey=key;mealToday=key;selectedWeather=calendarWeather[activeDateKey]||'';const d=parseDate(key);calendarMonth=new Date(d.getFullYear(),d.getMonth(),1,12);
+    if(dailyMemo)dailyMemo.value=dailyMemos[key]||'';
+    const m=mealLog[key]||{};Object.keys(mealFields).forEach(k=>{if(mealFields[k])mealFields[k].value=m[k]||'';});
+    if($('mealLogDate'))$('mealLogDate').textContent=key;if($('mealSaveStatus'))$('mealSaveStatus').textContent='Saved automatically in this browser.';
+    timetableColors=timetableByDate[key]||{};renderTimetable();renderHabits();renderWater();renderCalendar();
+  }
+  $('calendarPrev').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1,12);renderCalendar();});
+  $('calendarNext').addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1,12);renderCalendar();});
+  $('calendarToday').addEventListener('click',()=>selectCalendarDate(dateKey(today)));
+  renderCalendar();
+})();
+</script>
+
+<script id="diary-book-tab-controller">
+(() => {
+  const app=document.querySelector('.app');
+  if(!app || app.dataset.diaryReady) return;
+  app.dataset.diaryReady='1';
+  app.classList.add('diary-app');
+  const header=app.querySelector('header');
+  const nav=document.createElement('nav');
+  nav.className='book-tabs';nav.id='diaryBookTabs';nav.setAttribute('aria-label','Diary Book sections');
+  const tabs=[['study','Study'],['day','Day'],['habits','Habits'],['library','Library']];
+  tabs.forEach(([id,label],i)=>{
+    const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.tab=id;
+    b.setAttribute('aria-pressed',i===0?'true':'false');b.addEventListener('click',()=>activate(id));
+    nav.appendChild(b);
+  });
+  const pages=document.createElement('div');pages.className='book-pages';pages.id='diaryBookPages';
+  const panels={};
+  tabs.forEach(([id,label])=>{
+    const p=document.createElement('section');p.className='book-panel'+(id==='study'?' active':'');p.dataset.panel=id;
+    p.setAttribute('aria-label',label);panels[id]=p;pages.appendChild(p);
+  });
+  header.insertAdjacentElement('afterend',nav);
+  nav.insertAdjacentElement('afterend',pages);
+
+  const move=(selector,panel)=>{const el=app.querySelector(selector);if(el)panels[panel].appendChild(el);return el;};
+  move('.overview','study');
+  move('.pomodoro-card','study');
+  move('.main-grid','study');
+  move('.footer','study');
+
+  move('.calendar-card','day');
+  move('.planner-memo','day');
+
+  move('.habit-head','habits');
+  move('.planner-checklist','habits');
+  const timetable=app.querySelector('.daily-planner > .card');
+  if(timetable)panels.habits.appendChild(timetable);
+  move('.chart-head.habit-history-head','habits');
+  move('.habit-month-wrap','habits');
+  move('.habit-week-footer','habits');
+
+  move('#readingListSection','library');
+  move('#movieListSection','library');
+  move('#albumListSection','library');
+  move('#mp3PlayerSection','library');
+
+  const oldPlanner=app.querySelector('.daily-planner');if(oldPlanner)oldPlanner.remove();
+  const oldHabit=app.querySelector('.habit-section');if(oldHabit)oldHabit.remove();
+
+  function activate(id){
+    Object.entries(panels).forEach(([key,p])=>p.classList.toggle('active',key===id));
+    nav.querySelectorAll('button[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab===id?'true':'false'));
+    try{history.replaceState(null,'','#'+id);}catch{}
+    window.scrollTo({top:0,behavior:'auto'});
+  }
+  const requested=location.hash.replace('#','');
+  if(panels[requested])activate(requested);
+})();
+</script>
+</body>
+</html>
