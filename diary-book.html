@@ -705,7 +705,12 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
     if(!sorted.length){const e=document.createElement('div');e.className='empty';e.textContent='No study time logged this week yet. Start with your first session.';$('historyList').appendChild(e);}
     sorted.forEach(e=>{
       const item=document.createElement('div');item.className='history-item';
-      const info=document.createElement('div');const dt=document.createElement('div');dt.className='history-date';dt.textContent=parseDate(e.date).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});const dur=document.createElement('div');dur.className='history-duration';dur.textContent=fmtMinutes(e.minutes);info.append(dt,dur);
+      const info=document.createElement('div');info.className='history-entry-content';
+      const dt=document.createElement('div');dt.className='history-date';dt.textContent=parseDate(e.date).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+      const dur=document.createElement('div');dur.className='history-duration';dur.textContent=fmtMinutes(e.minutes);
+      const note=document.createElement('textarea');note.className='history-entry-note';note.rows=2;note.placeholder='Add a note about this study session…';note.setAttribute('aria-label','Notes for '+dt.textContent);note.value=e.note||'';
+      note.addEventListener('change',()=>{const target=entries.find(x=>x.id===e.id);if(target){target.note=note.value;persist();}});
+      info.append(dt,dur,note);
       const del=document.createElement('button');del.className='delete-btn';del.type='button';del.textContent='×';del.setAttribute('aria-label','Delete entry');del.title='Delete this entry';del.addEventListener('click',()=>{if(confirm('Delete this study entry?')){entries=entries.filter(x=>x.id!==e.id);persist();render();}});
       item.append(info,del);$('historyList').appendChild(item);
     });
@@ -1491,6 +1496,21 @@ html{background:var(--desk)}body{background:var(--desk);color:var(--ink);font-fa
  .diary-app .book-panel[data-panel="timer"] .pomodoro-card,.diary-app .book-panel[data-panel="records"] .main-grid{grid-template-columns:minmax(0,1fr)}
  .diary-app .book-panel .overview,.diary-app .book-panel .pomodoro-card,.diary-app .book-panel .main-grid,.diary-app .book-panel .habit-head,.diary-app .book-panel .habit-history-head,.diary-app .book-panel .habit-month-wrap,.diary-app .book-panel .habit-week-footer,.diary-app .book-panel .mp3-player-section{grid-column:1}
 }
+</style>
+
+
+<style id="history-entry-notes">
+/* Give each study entry room for its own editable note. */
+.diary-app .history-list{gap:12px;max-height:420px}
+.diary-app .history-item{align-items:flex-start;padding:14px 16px;gap:12px;border:1px solid var(--line);border-radius:4px;background:rgba(255,255,255,.55)}
+.diary-app .history-entry-content{flex:1;min-width:0}
+.diary-app .history-date{font-family:Georgia,"Times New Roman",serif;font-size:14px;font-weight:600;color:var(--ink)}
+.diary-app .history-duration{font-size:12px;margin:3px 0 10px;color:var(--muted)}
+.diary-app .history-entry-note{display:block;width:100%;min-height:54px;resize:vertical;padding:9px 10px;border:1px solid var(--line);border-radius:2px;background:#fffefa;color:var(--ink);font:12px/1.5 inherit;outline:none}
+.diary-app .history-entry-note:focus{border-color:#8c8c82;box-shadow:0 0 0 2px #00000008}
+.diary-app .history-entry-note::placeholder{color:#a1a19a}
+.diary-app .history-item .delete-btn{flex:0 0 auto}
+@media(max-width:760px){.diary-app .history-item{padding:12px}.diary-app .history-entry-note{font-size:13px}}
 </style>
 
 </body>
