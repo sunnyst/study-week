@@ -1335,21 +1335,28 @@ body{margin:0;background:var(--desk);color:var(--ink);font-family:"Avenir Next",
   move('.calendar-card','day');
   move('.planner-memo','day');
 
-  // Put the daily memo beside the weather picker in one compact row.
+  // Put Weather and Important schedule side by side, with Memo on a full-width row below.
   const calendarEditor=app.querySelector('.calendar-event-editor');
-  const weatherLabel=calendarEditor?.querySelector('label');
+  const weatherLabel=calendarEditor?.querySelector('label:not([for])');
   const weatherPicker=app.querySelector('#calendarWeatherPicker');
+  const scheduleLabel=calendarEditor?.querySelector('label[for="calendarEventText"]');
+  const scheduleInput=app.querySelector('.calendar-event-input-row');
+  const scheduleStatus=app.querySelector('#calendarEventStatus');
   const memo=app.querySelector('#dailyMemo');
   const memoHeading=memo?.previousElementSibling;
-  if(calendarEditor && weatherLabel && weatherPicker && memo && memoHeading){
-    const weatherMemoRow=document.createElement('div');
-    weatherMemoRow.className='weather-memo-row';
+  if(calendarEditor && weatherLabel && weatherPicker && scheduleLabel && scheduleInput && memo && memoHeading){
+    const weatherScheduleRow=document.createElement('div');
+    weatherScheduleRow.className='weather-schedule-row';
     const weatherGroup=document.createElement('div');weatherGroup.className='weather-inline-group';
-    const memoGroup=document.createElement('div');memoGroup.className='memo-inline-group';
+    const scheduleGroup=document.createElement('div');scheduleGroup.className='schedule-inline-group';
+    const memoGroup=document.createElement('div');memoGroup.className='memo-full-row';
     weatherGroup.append(weatherLabel,weatherPicker);
+    scheduleGroup.append(scheduleLabel,scheduleInput);
+    if(scheduleStatus)scheduleGroup.append(scheduleStatus);
     memoGroup.append(memoHeading,memo);
-    weatherMemoRow.append(weatherGroup,memoGroup);
-    calendarEditor.insertBefore(weatherMemoRow,calendarEditor.firstChild);
+    weatherScheduleRow.append(weatherGroup,scheduleGroup);
+    calendarEditor.insertBefore(weatherScheduleRow,calendarEditor.firstChild);
+    calendarEditor.insertBefore(memoGroup,weatherScheduleRow.nextSibling);
   }
 
   move('.habit-head','habits');
@@ -1532,12 +1539,15 @@ html{background:var(--desk)}body{background:var(--desk);color:var(--ink);font-fa
 
 
 <style id="day-layout-adjustments">
-/* Day page: weather and memo share a row; meals and drink tracking sit side by side. */
-.diary-app .weather-memo-row{display:grid;grid-template-columns:minmax(150px,.75fr) minmax(0,1.25fr);gap:18px;align-items:start;margin-bottom:8px}
-.diary-app .weather-inline-group,.diary-app .memo-inline-group{display:flex;flex-direction:column;gap:7px;min-width:0}
-.diary-app .weather-inline-group>label,.diary-app .memo-inline-group h2{margin:0!important;font-size:12px!important;font-weight:700;line-height:1.4}
+/* Day page: weather and important schedule share the first row; memo spans the full row below. */
+.diary-app .weather-schedule-row{display:grid;grid-template-columns:minmax(150px,.8fr) minmax(0,1.2fr);gap:18px;align-items:start;margin-bottom:10px}
+.diary-app .weather-inline-group,.diary-app .schedule-inline-group,.diary-app .memo-full-row{display:flex;flex-direction:column;gap:7px;min-width:0}
+.diary-app .weather-inline-group>label,.diary-app .schedule-inline-group>label,.diary-app .memo-full-row h2{margin:0!important;font-size:12px!important;font-weight:700;line-height:1.4}
 .diary-app .weather-inline-group .calendar-weather-picker{align-items:center}
-.diary-app .memo-inline-group .daily-memo-input{width:100%;min-height:74px;resize:vertical;padding:9px 10px;border:1px solid var(--line);border-radius:2px;background:var(--paper);color:var(--ink);font:12px/1.5 inherit}
+.diary-app .schedule-inline-group .calendar-event-input-row{width:100%}
+.diary-app .schedule-inline-group .calendar-event-input-row textarea{min-height:74px}
+.diary-app .memo-full-row{width:100%;margin:0 0 14px}
+.diary-app .memo-full-row .daily-memo-input{width:100%;min-height:100px;resize:vertical;padding:9px 10px;border:1px solid var(--line);border-radius:2px;background:var(--paper);color:var(--ink);font:12px/1.5 inherit}
 .diary-app .calendar-event-editor{gap:8px}
 .diary-app .planner-memo>#dailyMemo{display:none}
 .diary-app .planner-memo>h2:first-child{display:none}
@@ -1554,7 +1564,7 @@ html{background:var(--desk)}body{background:var(--desk);color:var(--ink);font-fa
 .diary-app .meal-log .water-tracker-head{margin-bottom:6px}
 .diary-app .meal-log .meal-save-status{grid-row:6}
 @media(max-width:760px){
- .diary-app .weather-memo-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+ .diary-app .weather-schedule-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
  .diary-app .weather-inline-group .calendar-weather-picker{gap:4px}
  .diary-app .weather-inline-group .calendar-weather-picker button{width:28px;height:28px}
  .diary-app .meal-log{grid-template-columns:minmax(0,1fr);gap:10px}
